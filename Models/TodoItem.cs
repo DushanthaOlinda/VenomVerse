@@ -1,6 +1,6 @@
-namespace TodoApi.Models;
+namespace VenomVerseApi.Models;
 
-public class TodoItem
+public class VenomVerseItem
 {
     public long Id { get; set; }
     public string? Name { get; set; }

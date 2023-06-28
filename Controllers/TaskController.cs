@@ -5,17 +5,17 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using TodoApi.Models;
+using VenomVerseApi.Models;
 
-namespace TodoApi.Controllers
+namespace VenomVerseApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     public class TaskController : ControllerBase
     {
-        private readonly TodoContext _context;
+        private readonly VenomVerseContext _context;
 
-        public TaskController(TodoContext context)
+        public TaskController(VenomVerseContext context)
         {
             _context = context;
         }
@@ -87,7 +87,7 @@ namespace TodoApi.Controllers
         {
           if (_context.TaskItem == null)
           {
-              return Problem("Entity set 'TodoContext.TaskItem'  is null.");
+              return Problem("Entity set 'VenomVerseContext.TaskItem'  is null.");
           }
             _context.TaskItem.Add(taskItem);
             await _context.SaveChangesAsync();

@@ -1,30 +1,30 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using TodoApi.Models;
+using VenomVerseApi.Models;
 
-namespace TodoApi.Controllers;
+namespace VenomVerseApi.Controllers;
 
 [ApiController]
 
 [Route("[controller]")]
 
 public class testController : ControllerBase{
-    private TodoContext _context;
+    private VenomVerseContext _context;
 
-    public testController(TodoContext context)
+    public testController(VenomVerseContext context)
         {
             _context = context;
         }
 
-        // GET: api/TodoItems
+        // GET: api/VenomVerseItems
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<TodoItem>>> GetTodoItems()
+        public async Task<ActionResult<IEnumerable<VenomVerseItem>>> GetVenomVerseItems()
         {
-          if (_context.TodoItems == null)
+          if (_context.VenomVerseItems == null)
           {
               return NotFound();
           }
-            return await _context.TodoItems.ToListAsync();
+            return await _context.VenomVerseItems.ToListAsync();
         }
 
 }

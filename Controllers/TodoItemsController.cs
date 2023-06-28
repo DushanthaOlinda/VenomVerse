@@ -5,41 +5,41 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using TodoApi.Models;
+using VenomVerseApi.Models;
 
-namespace TodoApi.Controllers
+namespace VenomVerseApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class TodoItemsController : ControllerBase
+    public class VenomVerseItemsController : ControllerBase
     {
-        private readonly TodoContext _context;
+        private readonly VenomVerseContext _context;
 
-        public TodoItemsController(TodoContext context)
+        public VenomVerseItemsController(VenomVerseContext context)
         {
             _context = context;
         }
 
-        // GET: api/TodoItems
+        // GET: api/VenomVerseItems
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<TodoItem>>> GetTodoItems()
+        public async Task<ActionResult<IEnumerable<VenomVerseItem>>> GetVenomVerseItems()
         {
-            if (_context.TodoItems == null)
+            if (_context.VenomVerseItems == null)
             {
                 return NotFound();
             }
-            return await _context.TodoItems.ToListAsync();
+            return await _context.VenomVerseItems.ToListAsync();
         }
 
-        // GET: api/TodoItems/5
+        // GET: api/VenomVerseItems/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<TodoItem>> GetTodoItem(long id)
+        public async Task<ActionResult<VenomVerseItem>> GetVenomVerseItem(long id)
         {
-            if (_context.TodoItems == null)
+            if (_context.VenomVerseItems == null)
             {
                 return NotFound();
             }
-            var todoItem = await _context.TodoItems.FindAsync(id);
+            var todoItem = await _context.VenomVerseItems.FindAsync(id);
 
             if (todoItem == null)
             {
@@ -49,10 +49,10 @@ namespace TodoApi.Controllers
             return todoItem;
         }
 
-        // PUT: api/TodoItems/5
+        // PUT: api/VenomVerseItems/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutTodoItem(long id, TodoItem todoItem)
+        public async Task<IActionResult> PutVenomVerseItem(long id, VenomVerseItem todoItem)
         {
             if (id != todoItem.Id)
             {
@@ -67,7 +67,7 @@ namespace TodoApi.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!TodoItemExists(id))
+                if (!VenomVerseItemExists(id))
                 {
                     return NotFound();
                 }
@@ -80,45 +80,45 @@ namespace TodoApi.Controllers
             return NoContent();
         }
 
-        // POST: api/TodoItems
+        // POST: api/VenomVerseItems
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<TodoItem>> PostTodoItem(TodoItem todoItem)
+        public async Task<ActionResult<VenomVerseItem>> PostVenomVerseItem(VenomVerseItem todoItem)
         {
-            if (_context.TodoItems == null)
+            if (_context.VenomVerseItems == null)
             {
-                return Problem("Entity set 'TodoContext.TodoItems'  is null.");
+                return Problem("Entity set 'VenomVerseContext.VenomVerseItems'  is null.");
             }
-            _context.TodoItems.Add(todoItem);
+            _context.VenomVerseItems.Add(todoItem);
             await _context.SaveChangesAsync();
 
-            //    return CreatedAtAction("GetTodoItem", new { id = todoItem.Id }, todoItem);
-            return CreatedAtAction(nameof(GetTodoItem), new { id = todoItem.Id }, todoItem);
+            //    return CreatedAtAction("GetVenomVerseItem", new { id = todoItem.Id }, todoItem);
+            return CreatedAtAction(nameof(GetVenomVerseItem), new { id = todoItem.Id }, todoItem);
         }
 
-        // DELETE: api/TodoItems/5
+        // DELETE: api/VenomVerseItems/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteTodoItem(long id)
+        public async Task<IActionResult> DeleteVenomVerseItem(long id)
         {
-            if (_context.TodoItems == null)
+            if (_context.VenomVerseItems == null)
             {
                 return NotFound();
             }
-            var todoItem = await _context.TodoItems.FindAsync(id);
+            var todoItem = await _context.VenomVerseItems.FindAsync(id);
             if (todoItem == null)
             {
                 return NotFound();
             }
 
-            _context.TodoItems.Remove(todoItem);
+            _context.VenomVerseItems.Remove(todoItem);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool TodoItemExists(long id)
+        private bool VenomVerseItemExists(long id)
         {
-            return (_context.TodoItems?.Any(e => e.Id == id)).GetValueOrDefault();
+            return (_context.VenomVerseItems?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

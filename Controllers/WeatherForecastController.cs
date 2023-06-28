@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace TodoApi.Controllers;
+namespace VenomVerseApi.Controllers;
 
 [ApiController]
 [Route("[controller]")]

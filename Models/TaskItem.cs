@@ -1,4 +1,4 @@
-namespace TodoApi.Models;
+namespace VenomVerseApi.Models;
 
 public class TaskItem{
     public long ID { get; set; }

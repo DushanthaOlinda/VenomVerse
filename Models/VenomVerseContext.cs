@@ -1,17 +1,17 @@
 using Microsoft.EntityFrameworkCore;
-using TodoApi.Models;
+using VenomVerseApi.Models;
 
-namespace TodoApi.Models;
+namespace VenomVerseApi.Models;
 
-public class TodoContext : DbContext
+public class VenomVerseContext : DbContext
 {
-    public TodoContext(DbContextOptions<TodoContext> options)
+    public VenomVerseContext(DbContextOptions<VenomVerseContext> options)
         : base(options)
     {
     }
 protected override void OnModelCreating(ModelBuilder modelBuilder) {
         modelBuilder.UseSerialColumns();
     }
-    public DbSet<TodoItem> TodoItems { get; set; } = null!;
+    public DbSet<VenomVerseItem> VenomVerseItems { get; set; } = null!;
     public DbSet<TaskItem> TaskItem { get; set; } = default!;
 }

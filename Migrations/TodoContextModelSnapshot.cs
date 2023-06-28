@@ -3,14 +3,14 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
-using TodoApi.Models;
+using VenomVerseApi.Models;
 
 #nullable disable
 
-namespace TodoApi.Migrations
+namespace VenomVerseApi.Migrations
 {
-    [DbContext(typeof(TodoContext))]
-    partial class TodoContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(VenomVerseContext))]
+    partial class VenomVerseContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
@@ -21,7 +21,7 @@ namespace TodoApi.Migrations
 
             NpgsqlModelBuilderExtensions.UseSerialColumns(modelBuilder);
 
-            modelBuilder.Entity("TodoApi.Models.TaskItem", b =>
+            modelBuilder.Entity("VenomVerseApi.Models.TaskItem", b =>
                 {
                     b.Property<long>("ID")
                         .ValueGeneratedOnAdd()
@@ -43,7 +43,7 @@ namespace TodoApi.Migrations
                     b.ToTable("TaskItem");
                 });
 
-            modelBuilder.Entity("TodoApi.Models.TodoItem", b =>
+            modelBuilder.Entity("VenomVerseApi.Models.VenomVerseItem", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -59,7 +59,7 @@ namespace TodoApi.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("TodoItems");
+                    b.ToTable("VenomVerseItems");
                 });
 #pragma warning restore 612, 618
         }

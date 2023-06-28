@@ -3,7 +3,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace TodoApi.Migrations
+namespace VenomVerseApi.Migrations
 {
     /// <inheritdoc />
     public partial class InitialCreate : Migration
@@ -12,7 +12,7 @@ namespace TodoApi.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "TodoItems",
+                name: "VenomVerseItems",
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
@@ -22,7 +22,7 @@ namespace TodoApi.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TodoItems", x => x.Id);
+                    table.PrimaryKey("PK_VenomVerseItems", x => x.Id);
                 });
         }
 
@@ -30,7 +30,7 @@ namespace TodoApi.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "TodoItems");
+                name: "VenomVerseItems");
         }
     }
 }

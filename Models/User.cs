@@ -1,4 +1,4 @@
-namespace TodoApi.Models;
+namespace VenomVerseApi.Models;
 
 public class User{
     public long Id { get; set; }
