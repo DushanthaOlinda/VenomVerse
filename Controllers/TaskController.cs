@@ -1,8 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using VenomVerseApi.Models;
@@ -54,7 +49,7 @@ namespace VenomVerseApi.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutTaskItem(long id, TaskItem taskItem)
         {
-            if (id != taskItem.ID)
+            if (id != taskItem.Id)
             {
                 return BadRequest();
             }
@@ -92,7 +87,7 @@ namespace VenomVerseApi.Controllers
             _context.TaskItem.Add(taskItem);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetTaskItem", new { id = taskItem.ID }, taskItem);
+            return CreatedAtAction("GetTaskItem", new { id = taskItem.Id }, taskItem);
         }
 
         // DELETE: api/Task/5
@@ -117,7 +112,7 @@ namespace VenomVerseApi.Controllers
 
         private bool TaskItemExists(long id)
         {
-            return (_context.TaskItem?.Any(e => e.ID == id)).GetValueOrDefault();
+            return (_context.TaskItem?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }
