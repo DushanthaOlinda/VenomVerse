@@ -2,7 +2,7 @@ namespace VenomVerseApi.Models;
 
 public class UserDetail{
     public long Id { get; set; }
-    public required string UserName { get; set; }
-    public required string UserEmail { get; set; }
-    public required string Password { get; set; }
+    public string UserName { get; set; } = null!;
+    public string UserEmail { get; set; } = null!;
+    public string Password { get; set; } = null!;
 }

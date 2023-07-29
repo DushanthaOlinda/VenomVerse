@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using VenomVerseApi.Models;
 
 namespace VenomVerseApi.Models;
 
@@ -19,4 +20,6 @@ protected override void OnModelCreating(ModelBuilder modelBuilder) {
     public DbSet<UserDetail> UserDetail { get; set; } = default!;
 
     public DbSet<RegistrationRequest> RegistrationRequest { get; set; } = default!;
+
+    public DbSet<VenomVerseApi.Models.CommunityPost> CommunityPost { get; set; } = default!;
 }
