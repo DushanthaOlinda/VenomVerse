@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using VenomVerseApi.Models;
@@ -11,9 +12,11 @@ using VenomVerseApi.Models;
 namespace VenomVerseApi.Migrations
 {
     [DbContext(typeof(VenomVerseContext))]
-    partial class VenomVerseContextModelSnapshot : ModelSnapshot
+    [Migration("20230729152436_ZoologistModel4")]
+    partial class ZoologistModel4
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -160,6 +163,24 @@ namespace VenomVerseApi.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseSerialColumn(b.Property<long>("Id"));
 
+                    b.Property<DateOnly?>("ApprovedDateOne")
+                        .HasColumnType("date");
+
+                    b.Property<DateOnly?>("ApprovedDateThree")
+                        .HasColumnType("date");
+
+                    b.Property<DateOnly?>("ApprovedDateTwo")
+                        .HasColumnType("date");
+
+                    b.Property<long?>("ApprovedPersonIdOne")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("ApprovedPersonIdThree")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("ApprovedPersonIdTwo")
+                        .HasColumnType("bigint");
+
                     b.Property<bool>("Availability")
                         .HasColumnType("boolean");
 
@@ -171,9 +192,6 @@ namespace VenomVerseApi.Migrations
 
                     b.Property<DateOnly?>("JoinedDate")
                         .HasColumnType("date");
-
-                    b.Property<long>("RequestId")
-                        .HasColumnType("bigint");
 
                     b.HasKey("Id");
 
@@ -196,102 +214,6 @@ namespace VenomVerseApi.Migrations
                     b.ToTable("CommunityAdmin");
                 });
 
-            modelBuilder.Entity("VenomVerseApi.Models.CommunityArticle", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    NpgsqlPropertyBuilderExtensions.UseSerialColumn(b.Property<long>("Id"));
-
-                    b.Property<long?>("ApprovedUserId")
-                        .HasColumnType("bigint");
-
-                    b.Property<string[]>("ArticleCopyright")
-                        .HasColumnType("text[]");
-
-                    b.Property<string[,]>("ArticleReport")
-                        .HasColumnType("text[]");
-
-                    b.Property<string>("Author")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Category")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string[,]>("Comment")
-                        .HasColumnType("text[]");
-
-                    b.Property<string>("Content")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<DateTime>("DateTime")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string[]>("Media")
-                        .HasColumnType("text[]");
-
-                    b.Property<long[]>("React")
-                        .HasColumnType("bigint[]");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("CommunityArticle");
-                });
-
-            modelBuilder.Entity("VenomVerseApi.Models.CommunityBook", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    NpgsqlPropertyBuilderExtensions.UseSerialColumn(b.Property<long>("Id"));
-
-                    b.Property<long?>("ApprovedUserId")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("Author")
-                        .HasColumnType("text");
-
-                    b.Property<bool>("Availability")
-                        .HasColumnType("boolean");
-
-                    b.Property<string[]>("BookCopyright")
-                        .HasColumnType("text[]");
-
-                    b.Property<string>("Category")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Content")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("text");
-
-                    b.Property<string[]>("Media")
-                        .HasColumnType("text[]");
-
-                    b.Property<DateOnly?>("PublishedDate")
-                        .HasColumnType("date");
-
-                    b.Property<DateOnly>("UploadedDate")
-                        .HasColumnType("date");
-
-                    b.Property<long?>("UploadedUserId")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("CommunityBook");
-                });
-
             modelBuilder.Entity("VenomVerseApi.Models.CommunityPost", b =>
                 {
                     b.Property<long>("Id")
@@ -304,9 +226,6 @@ namespace VenomVerseApi.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string[,]>("Comment")
-                        .HasColumnType("text[]");
-
                     b.Property<DateTime>("DateTime")
                         .HasColumnType("timestamp with time zone");
 
@@ -316,12 +235,6 @@ namespace VenomVerseApi.Migrations
 
                     b.Property<string[]>("Media")
                         .HasColumnType("text[]");
-
-                    b.Property<string[,]>("PostReport")
-                        .HasColumnType("text[]");
-
-                    b.Property<long[]>("React")
-                        .HasColumnType("bigint[]");
 
                     b.HasKey("Id");
 
@@ -351,198 +264,6 @@ namespace VenomVerseApi.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("RegistrationRequest");
-                });
-
-            modelBuilder.Entity("VenomVerseApi.Models.RequestService", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    NpgsqlPropertyBuilderExtensions.UseSerialColumn(b.Property<long>("Id"));
-
-                    b.Property<bool>("AcceptFlag")
-                        .HasColumnType("boolean");
-
-                    b.Property<bool>("CompleteFlag")
-                        .HasColumnType("boolean");
-
-                    b.Property<DateTime>("DateTime")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<long>("ReqUserId")
-                        .HasColumnType("bigint");
-
-                    b.Property<string[]>("ScannedImage")
-                        .HasColumnType("text[]");
-
-                    b.Property<string>("SelectedSerpent")
-                        .HasColumnType("text");
-
-                    b.Property<string[]>("ServiceFeedback")
-                        .HasColumnType("text[]");
-
-                    b.Property<float?>("ServiceRating")
-                        .HasColumnType("real");
-
-                    b.Property<long>("catcherId")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("RequestService");
-                });
-
-            modelBuilder.Entity("VenomVerseApi.Models.RequestToBeCatcher", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    NpgsqlPropertyBuilderExtensions.UseSerialColumn(b.Property<long>("Id"));
-
-                    b.Property<DateOnly?>("ApprovedDateOne")
-                        .HasColumnType("date");
-
-                    b.Property<DateOnly?>("ApprovedDateThree")
-                        .HasColumnType("date");
-
-                    b.Property<DateOnly?>("ApprovedDateTwo")
-                        .HasColumnType("date");
-
-                    b.Property<long?>("ApprovedPersonIdOne")
-                        .HasColumnType("bigint");
-
-                    b.Property<long?>("ApprovedPersonIdThree")
-                        .HasColumnType("bigint");
-
-                    b.Property<long?>("ApprovedPersonIdTwo")
-                        .HasColumnType("bigint");
-
-                    b.Property<string[]>("CatcherEvidence")
-                        .IsRequired()
-                        .HasColumnType("text[]");
-
-                    b.Property<DateTime>("DateTime")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<DateOnly?>("JoinedDate")
-                        .HasColumnType("date");
-
-                    b.Property<string>("SpecialNote")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<long>("UserId")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("RequestToBeCatcher");
-                });
-
-            modelBuilder.Entity("VenomVerseApi.Models.RequestToBeZoologist", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    NpgsqlPropertyBuilderExtensions.UseSerialColumn(b.Property<long>("Id"));
-
-                    b.Property<DateOnly?>("ApprovedDate")
-                        .HasColumnType("date");
-
-                    b.Property<long?>("ApprovedPersonId")
-                        .HasColumnType("bigint");
-
-                    b.Property<DateTime>("DateTime")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("SpecialNote")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<long>("UserId")
-                        .HasColumnType("bigint");
-
-                    b.Property<string[,]>("ZoologistCertification")
-                        .IsRequired()
-                        .HasColumnType("text[]");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("RequestToBeZoologist");
-                });
-
-            modelBuilder.Entity("VenomVerseApi.Models.SystemAdmin", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    NpgsqlPropertyBuilderExtensions.UseSerialColumn(b.Property<long>("Id"));
-
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<DateOnly?>("JoinedDate")
-                        .HasColumnType("date");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Nic")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("UserEmail")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("UserName")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("SystemAdmin");
-                });
-
-            modelBuilder.Entity("VenomVerseApi.Models.SystemReport", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    NpgsqlPropertyBuilderExtensions.UseSerialColumn(b.Property<long>("Id"));
-
-                    b.Property<DateTime>("DateTime")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<long?>("GeneratedUserId")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("type")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("SystemReport");
                 });
 
             modelBuilder.Entity("VenomVerseApi.Models.UserDetail", b =>
@@ -593,21 +314,6 @@ namespace VenomVerseApi.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<long[]>("PurchasedBook")
-                        .HasColumnType("bigint[]");
-
-                    b.Property<long[]>("SavedArticle")
-                        .HasColumnType("bigint[]");
-
-                    b.Property<long[]>("SavedBook")
-                        .HasColumnType("bigint[]");
-
-                    b.Property<long[]>("SavedPost")
-                        .HasColumnType("bigint[]");
-
-                    b.Property<long[]>("SavedResearch")
-                        .HasColumnType("bigint[]");
-
                     b.Property<string>("UserEmail")
                         .IsRequired()
                         .HasColumnType("text");
@@ -639,11 +345,11 @@ namespace VenomVerseApi.Migrations
                     b.Property<DateOnly>("ApprovedDate")
                         .HasColumnType("date");
 
+                    b.Property<long>("ApprovedPersonId")
+                        .HasColumnType("bigint");
+
                     b.Property<string[]>("Certification")
                         .HasColumnType("text[]");
-
-                    b.Property<long>("RequestId")
-                        .HasColumnType("bigint");
 
                     b.HasKey("Id");
 
