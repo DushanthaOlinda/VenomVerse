@@ -17,20 +17,25 @@ public class VenomVerseContext : IdentityUserContext<IdentityUser>
     }
 
 
-    // Define Models to connect with the database  
+    // Define Models to connect with the database 
 
-    public DbSet<UserDetail> UserDetail { get; set; } = default!;
-    public DbSet<RegistrationRequest> RegistrationRequest { get; set; } = default!;
-
-    public DbSet<VenomVerseApi.Models.CommunityPost> CommunityPost { get; set; } = default!;
-    public DbSet<VenomVerseApi.Models.Zoologist> Zoologist { get; set; } = default!;
-    public DbSet<VenomVerseApi.Models.Catcher> Catcher { get; set; } = default!;
-    public DbSet<VenomVerseApi.Models.CommunityAdmin> CommunityAdmin { get; set; } = default!;
-    public DbSet<VenomVerseApi.Models.CommunityArticle> CommunityArticle { get; set; } = default!;
-    public DbSet<VenomVerseApi.Models.CommunityBook> CommunityBook { get; set; } = default!;
-    public DbSet<VenomVerseApi.Models.RequestService> RequestService { get; set; } = default!;
-    public DbSet<VenomVerseApi.Models.RequestToBeCatcher> RequestToBeCatcher { get; set; } = default!;
-    public DbSet<VenomVerseApi.Models.RequestToBeZoologist> RequestToBeZoologist { get; set; } = default!;
-    public DbSet<VenomVerseApi.Models.SystemAdmin> SystemAdmin { get; set; } = default!;
-    public DbSet<VenomVerseApi.Models.SystemReport> SystemReport { get; set; } = default!;
+    public DbSet<Catcher> Catcher { get; set; } = default!;
+    public DbSet<CommunityAdmin> CommunityAdmin { get; set; } = default!;
+    public DbSet<CommunityArticle> CommunityArticle { get; set; } = default!;
+    public DbSet<CommunityBook> CommunityBook { get; set; } = default!;
+    public DbSet<CommunityPost> CommunityPost { get; set; } = default!;
+    public DbSet<EmergencyContact> EmergencyContact { get; set; } = default!;
+    public DbSet<Notification> Notification { get; set; } = default!;
+    public DbSet<Question> Question { get; set; } = default!;
+    public DbSet<Quiz> Quiz { get; set; } = default!;
+    public DbSet<RegistrationRequest> RegistrationRequest { get; set; } = default!; //
+    public DbSet<RequestService> RequestService { get; set; } = default!;
+    public DbSet<RequestToBeCatcher> RequestToBeCatcher { get; set; } = default!;
+    public DbSet<RequestToBeZoologist> RequestToBeZoologist { get; set; } = default!;
+    public DbSet<ScannedImage> ScannedImage { get; set; } = default!;
+    public DbSet<Serpent> Serpent { get; set; } = default!;
+    public DbSet<SystemAdmin> SystemAdmin { get; set; } = default!;
+    public DbSet<SystemReport> SystemReport { get; set; } = default!;
+    public DbSet<UserDetail> UserDetail { get; set; } = default!;   //
+    public DbSet<Zoologist> Zoologist { get; set; } = default!;
 }
