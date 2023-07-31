@@ -1,10 +1,10 @@
 namespace VenomVerseApi.Models
 {
     public class ScannedImage {
-        public long Id { get; set; }
-        public long UploadedUserId { get; set; }
-        public string ScannedImageMedia { get; set; }
-        public DateTime DateTime { get; set; } = DateTime.Now;
+        public required long Id { get; set; }
+        public required long UploadedUserId { get; set; }
+        public required string ScannedImageMedia { get; set; }
+        public required DateTime DateTime { get; set; } = DateTime.Now;
         public long? PredictedSerpentType { get; set; }
         public long? ActualSerpentType { get; set; }
         public string? OtherSerpentType { get; set; }

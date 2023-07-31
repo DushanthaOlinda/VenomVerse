@@ -2,12 +2,12 @@ namespace VenomVerseApi.Models;
 
 public class RequestToBeCatcher{
 
-    public long Id { get; set; }
-    public long UserId { get; set; }
-    public DateTime DateTime { get; set; } = DateTime.Now;
-    public string[] CatcherEvidence { get; set; } = null!;
-    public string Description { get; set; }
-    public string SpecialNote { get; set; }   
+    public required long Id { get; set; }
+    public required long UserId { get; set; }
+    public required DateTime DateTime { get; set; } = DateTime.Now;
+    public required string[] CatcherEvidence { get; set; } = null!;
+    public string? Description { get; set; }
+    public string? SpecialNote { get; set; }   
     // If other necessary details plz mention here
 
     public long? ApprovedPersonIdOne { get; set; }

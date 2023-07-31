@@ -16,13 +16,13 @@ public class RequestToBeZoologist{
         public string ArticleReportContent { get; set; }
     }
 
-    public long Id { get; set; }
-    public long UserId { get; set; }
-    public DateTime DateTime { get; set; } = DateTime.Now;
-    public string Description { get; set; }
-    public string SpecialNote { get; set; }   
+    public required long Id { get; set; }
+    public required long UserId { get; set; }
+    public required DateTime DateTime { get; set; } = DateTime.Now;
+    public string? Description { get; set; }
+    public string? SpecialNote { get; set; }   
 
-    public string[,] ZoologistCertification { get; set; } = null!;
+    public required string[,] ZoologistCertification { get; set; } = null!;
 
     public long? ApprovedPersonId { get; set; }
     public DateOnly? ApprovedDate { get; set; }  

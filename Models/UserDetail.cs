@@ -4,18 +4,18 @@ using System.Diagnostics.CodeAnalysis;
 namespace VenomVerseApi.Models;
 
 public class UserDetail{
-    public long Id { get; set; }
-    public string UserName { get; set; } = null!;       // Generate a unique username automatically
-    public string FirstName { get; set; } = null!;
-    public string LastName { get; set; } = null!;
-    public string UserEmail { get; set; } = null!;
-    public string Nic { get; set; } = null!;
-    [Required] public DateOnly Dob { get; set; }        // Required -> validation
-    public string District { get; set; } = null!;
-    public string Address { get; set; } = null!;
-    public string ContactNo { get; set; } = null!;
-    //public string? LiveLocation { get; set; } = null;   
-    public string WorkingStatus { get; set; } = null!;
+    public required long Id { get; set; }
+    public required string UserName { get; set; } = null!;       // Generate a unique username automatically
+    public required string FirstName { get; set; } = null!;
+    public required string LastName { get; set; } = null!;
+    public required string UserEmail { get; set; } = null!;
+    public required string Nic { get; set; } = null!;
+    public required DateOnly Dob { get; set; }        // Required -> validation
+    public required string District { get; set; } = null!;
+    public required string Address { get; set; } = null!;
+    public required string ContactNo { get; set; } = null!;
+    //public required string? LiveLocation { get; set; } = null;   
+    public required string WorkingStatus { get; set; } = null!;
 
     public long[]? SavedBook { get; set; }
     public long[]? SavedArticle { get; set; }
@@ -23,9 +23,9 @@ public class UserDetail{
     public long[]? SavedResearch { get; set; }
     public long[]? PurchasedBook { get; set; }
 
-    public bool ExpertPrevilege { get; set; }
-    public bool ZoologistPrevilege { get; set; }
-    public bool CatcherPrevilege { get; set; }
-    public bool CommunityAdminPrevilege { get; set; }
-    public string AccountStatus { get; set; } = null!;  // Active, Inactive, Deleted, Suspended etc...
+    public bool ExpertPrevilege { get; set; } = false;
+    public bool ZoologistPrevilege { get; set; } = false;
+    public bool CatcherPrevilege { get; set; } = false;
+    public bool CommunityAdminPrevilege { get; set; } = false;
+    public required string AccountStatus { get; set; } = null!;  // Active, Inactive, Deleted, Suspended etc...
 }

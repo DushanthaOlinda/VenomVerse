@@ -1,10 +1,10 @@
 namespace VenomVerseApi.Models
 {
     public class Notification {
-        public long Id { get; set; }
-        public string type { get; set; } = null!;      
-        public DateTime DateTime { get; set; } = DateTime.Now;
-        public long UserId { get; set;}
+        public required long Id { get; set; }
+        public required long UserId { get; set;}
+        public required string type { get; set; } = null!;      
+        public required DateTime DateTime { get; set; } = DateTime.Now;
         
         //content? -> can have many types, use seperate tables
     }

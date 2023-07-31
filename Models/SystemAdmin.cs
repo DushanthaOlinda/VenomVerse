@@ -1,13 +1,13 @@
 namespace VenomVerseApi.Models
 {
     public class SystemAdmin {
-        public long Id { get; set; }
-        public string UserName { get; set; } = null!;       // Generate a unique username automatically
-        public DateOnly? JoinedDate { get; set; }
-        public string FirstName { get; set; } = null!;
-        public string LastName { get; set; } = null!;
-        public string UserEmail { get; set; } = null!;
-        public string Password { get; set; } = null!;
-        public string Nic { get; set; } = null!;
+        public required long Id { get; set; }
+        public required string UserName { get; set; } = null!;       // Generate a unique username automatically
+        public required DateOnly? JoinedDate { get; set; }
+        public required string FirstName { get; set; } = null!;
+        public required string LastName { get; set; } = null!;
+        public required string UserEmail { get; set; } = null!;
+        public required string Password { get; set; } = null!;
+        public required string Nic { get; set; } = null!;
     }
 }

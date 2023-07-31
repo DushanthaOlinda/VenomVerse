@@ -1,7 +1,7 @@
 ﻿namespace VenomVerseApi.Models
 {
     public class CommunityAdmin {
-        public long Id { get; set; }
-        public DateOnly? JoinedDate { get; set; }
+        public required long Id { get; set; }
+        public required DateOnly? JoinedDate { get; set; }
     }
 }

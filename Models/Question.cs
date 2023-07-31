@@ -7,17 +7,17 @@ namespace VenomVerseApi.Models
     }
 
     public class Question {     // For MCQ type
-        public long Id { get; set; }
-        public string QuestionString { get; set; }
+        public required long Id { get; set; }
+        public required string QuestionString { get; set; }
         public string[]? QuestionMedia { get; set; }
-        public string Difficulty { get; set; }
+        public required string Difficulty { get; set; }
         public string? Description { get; set; }
-        public string Type { get; set; }
-        public float Marks { get; set; }
-        public long WriterId { get; set; }
+        public required string Type { get; set; }
+        public required float Marks { get; set; }
+        public required long WriterId { get; set; }
         public long? ApprovedUserId { get; set; }
-        public DateTime DateTime { get; set; } = DateTime.Now;
-        public string[,] AnswerList { get; set; }
+        public required DateTime DateTime { get; set; } = DateTime.Now;
+        public required string[,] AnswerList { get; set; }
         public bool Published { get; set; } = false;
     }
 }

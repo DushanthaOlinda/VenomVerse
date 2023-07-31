@@ -17,19 +17,19 @@ namespace VenomVerseApi.Models
     }
 
     public class Serpent {
-        public long Id { get; set; }
-        public string ScientificName { get; set; }
-        public string EnglishName { get; set; }
-        public string SinhalaName { get; set; }
+        public required long Id { get; set; }
+        public required string ScientificName { get; set; }
+        public required string EnglishName { get; set; }
+        public required string SinhalaName { get; set; }
 
-        public int Venomous { get; set; }   // 0 ==> non-venomous,  1 ==> high-venomous,  2 ==> middle-venomous
+        public required float Venomous { get; set; }   // 0 ==> non-venomous,   0.1~0.9 ==> middle-venomous-range,  1 ==> high-venomous
 
-        public string Family { get; set; }
-        public string SubFamily { get; set; }
-        public string Genus { get; set; }
+        public required string Family { get; set; }
+        public required string SubFamily { get; set; }
+        public required string Genus { get; set; }
 
         public string? SpecialNote { get; set; }
-        public string Description { get; set; }
+        public required string Description { get; set; }
 
         public string[,]? SerpentMedia { get; set; }
         public string[,]? SerpentSafetyInstruction { get; set; }
