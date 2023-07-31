@@ -30,8 +30,8 @@ public class VenomVerseContext : IdentityUserContext<IdentityUser>
     public DbSet<Quiz> Quiz { get; set; } = default!;
     public DbSet<RegistrationRequest> RegistrationRequest { get; set; } = default!; //
     public DbSet<RequestService> RequestService { get; set; } = default!;
-    public DbSet<RequestToBeCatcher> RequestToBeCatcher { get; set; } = default!;
-    public DbSet<RequestToBeZoologist> RequestToBeZoologist { get; set; } = default!;
+    // public DbSet<RequestToBeCatcher> RequestToBeCatcher { get; set; } = default!;
+    // public DbSet<RequestToBeZoologist> RequestToBeZoologist { get; set; } = default!;
     public DbSet<ScannedImage> ScannedImage { get; set; } = default!;
     public DbSet<Serpent> Serpent { get; set; } = default!;
     public DbSet<SystemAdmin> SystemAdmin { get; set; } = default!;
