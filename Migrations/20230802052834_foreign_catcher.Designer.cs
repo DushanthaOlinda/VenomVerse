@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using VenomVerseApi.Models;
@@ -11,9 +12,11 @@ using VenomVerseApi.Models;
 namespace VenomVerseApi.Migrations
 {
     [DbContext(typeof(VenomVerseContext))]
-    partial class VenomVerseContextModelSnapshot : ModelSnapshot
+    [Migration("20230802052834_foreign_catcher")]
+    partial class foreigncatcher
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -865,18 +868,12 @@ namespace VenomVerseApi.Migrations
             modelBuilder.Entity("VenomVerseApi.Models.Catcher", b =>
                 {
                     b.HasOne("VenomVerseApi.Models.UserDetail", "User")
-                        .WithOne("Catcher")
-                        .HasForeignKey("VenomVerseApi.Models.Catcher", "CatcherId")
+                        .WithMany()
+                        .HasForeignKey("CatcherId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("VenomVerseApi.Models.UserDetail", b =>
-                {
-                    b.Navigation("Catcher")
-                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

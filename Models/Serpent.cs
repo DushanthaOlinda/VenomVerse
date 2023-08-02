@@ -17,7 +17,7 @@ namespace VenomVerseApi.Models
     }
 
     public class Serpent {
-        public required long Id { get; set; }
+        public required long SerpentId { get; set; }
         public required string ScientificName { get; set; }
         public required string EnglishName { get; set; }
         public required string SinhalaName { get; set; }

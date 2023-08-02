@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using VenomVerseApi.Models;
@@ -11,9 +12,11 @@ using VenomVerseApi.Models;
 namespace VenomVerseApi.Migrations
 {
     [DbContext(typeof(VenomVerseContext))]
-    partial class VenomVerseContextModelSnapshot : ModelSnapshot
+    [Migration("20230802043405_id_renamed")]
+    partial class idrenamed
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -155,7 +158,10 @@ namespace VenomVerseApi.Migrations
             modelBuilder.Entity("VenomVerseApi.Models.Catcher", b =>
                 {
                     b.Property<long>("CatcherId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseSerialColumn(b.Property<long>("CatcherId"));
 
                     b.Property<DateOnly?>("ApprovedDateOne")
                         .HasColumnType("date");
@@ -859,23 +865,6 @@ namespace VenomVerseApi.Migrations
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("VenomVerseApi.Models.Catcher", b =>
-                {
-                    b.HasOne("VenomVerseApi.Models.UserDetail", "User")
-                        .WithOne("Catcher")
-                        .HasForeignKey("VenomVerseApi.Models.Catcher", "CatcherId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("VenomVerseApi.Models.UserDetail", b =>
-                {
-                    b.Navigation("Catcher")
                         .IsRequired();
                 });
 #pragma warning restore 612, 618

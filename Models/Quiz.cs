@@ -1,7 +1,7 @@
 namespace VenomVerseApi.Models
 {
     public class Quiz {
-        public required long Id { get; set; }
+        public required long QuizId { get; set; }
         public required long UserId { get; set; }
         public required string QuizType { get; set; }
         public float? TotalMarks { get; set; }

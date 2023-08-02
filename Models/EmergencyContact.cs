@@ -1,7 +1,7 @@
 namespace VenomVerseApi.Models
 {
     public class EmergencyContact {
-        public required long Id { get; set; }
+        public required long EmergencyContactId { get; set; }
         public required string EmergencyContactNumber { get; set; }
         public string? HospitalName { get; set; }
         public string? PerssonName { get; set; }

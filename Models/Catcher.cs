@@ -1,4 +1,5 @@
-﻿namespace VenomVerseApi.Models
+﻿using System.ComponentModel.DataAnnotations.Schema;
+namespace VenomVerseApi.Models
 {
     public struct RatingStruct {        //Try to way to map with catcherRating
         public required long UserId { get; set; }
@@ -7,11 +8,13 @@
     }
 
     public class Catcher {
-        public required long Id { get; set; }
+
+        [ForeignKey("User")]
+        public required long CatcherId { get; set; }
+
         public required bool Availability { get; set; } = false;
         public float? ChargingFee { get; set; } = 0;
         public string[,]? CatcherRating { get; set; }       // size equals to 3 for inner element array -> user_id, rate, comment
-        
         
         public required DateTime RequestedDateTime { get; set; } = DateTime.Now;
         //public string? LiveLocation { get; set; } = null;   
@@ -27,6 +30,10 @@
         public DateOnly? ApprovedDateThree { get; set; }     
         public required DateOnly? JoinedDate { get; set; }
         public bool ApprovedFlag { get; set; } = false;
+
+
+        // Foreign Key References
+        public UserDetail User { get; set; } = null!;
         
     }
 }

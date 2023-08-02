@@ -7,7 +7,7 @@ namespace VenomVerseApi.Models
     }
 
     public class Question {     // For MCQ type
-        public required long Id { get; set; }
+        public required long QuestionId { get; set; }
         public required string QuestionString { get; set; }
         public string[]? QuestionMedia { get; set; }
         public required string Difficulty { get; set; }

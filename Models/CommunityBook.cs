@@ -2,7 +2,7 @@ namespace VenomVerseApi.Models;
 
 public class CommunityBook{
 
-    public required long Id { get; set; }
+    public required long CommunityBookId { get; set; }
     public required string Category { get; set; } = null!;
     public required string Description { get; set; } = null!;
     public required string Content { get; set; } = null!;

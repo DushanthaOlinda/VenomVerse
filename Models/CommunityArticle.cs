@@ -14,7 +14,7 @@ public class CommunityArticle{
         public required string ArticleReportContent { get; set; }
     }
 
-    public required long Id { get; set; }
+    public required long CommunityArticleId { get; set; }
     public required long UserId { get; set; }       // Uploaded Expert Id
     public required string Category { get; set; } = null!;
     public string? Description { get; set; }

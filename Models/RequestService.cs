@@ -15,7 +15,7 @@ namespace VenomVerseApi.Models
     }
 
     public class RequestService {
-        public required long Id { get; set; }
+        public required long RequestServiceId { get; set; }
         public required long ReqUserId { get; set; }
         public long? CatcherId { get; set; }
         public required DateTime DateTime { get; set; } = DateTime.Now;

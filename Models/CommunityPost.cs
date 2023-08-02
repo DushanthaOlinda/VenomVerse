@@ -14,7 +14,7 @@ public class CommunityPost{
         public required string PostReportContent { get; set; }
     }
 
-    public required long Id { get; set; }
+    public required long CommunityPostId { get; set; }
     public required string Category { get; set; } = null!;
     public required string Description { get; set; } = null!;
     public required DateTime DateTime { get; set; } = DateTime.Now;

@@ -49,7 +49,7 @@ namespace VenomVerseApi.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutCommunityPost(long id, CommunityPost communityPost)
         {
-            if (id != communityPost.Id)
+            if (id != communityPost.CommunityPostId)
             {
                 return BadRequest();
             }
@@ -87,7 +87,7 @@ namespace VenomVerseApi.Controllers
             _context.CommunityPost.Add(communityPost);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetCommunityPost", new { id = communityPost.Id }, communityPost);
+            return CreatedAtAction("GetCommunityPost", new { id = communityPost.CommunityPostId }, communityPost);
         }
 
         // DELETE: api/CommunityPost/5
@@ -112,7 +112,7 @@ namespace VenomVerseApi.Controllers
 
         private bool CommunityPostExists(long id)
         {
-            return (_context.CommunityPost?.Any(e => e.Id == id)).GetValueOrDefault();
+            return (_context.CommunityPost?.Any(e => e.CommunityPostId == id)).GetValueOrDefault();
         }
     }
 }

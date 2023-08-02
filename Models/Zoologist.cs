@@ -9,7 +9,7 @@
     }
 
     public class Zoologist {
-        public required long Id { get; set; }
+        public required long ZoologistId { get; set; }
         public string? Description { get; set; }
         public string? SpecialNote { get; set; }   
         public required string[,] Certification { get; set; }

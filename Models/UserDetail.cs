@@ -4,7 +4,7 @@ using System.Diagnostics.CodeAnalysis;
 namespace VenomVerseApi.Models;
 
 public class UserDetail{
-    public required long Id { get; set; }
+    public required long UserDetailId { get; set; }
     public required string UserName { get; set; } = null!;       // Generate a unique username automatically
     public required string FirstName { get; set; } = null!;
     public required string LastName { get; set; } = null!;
@@ -28,4 +28,9 @@ public class UserDetail{
     public bool CatcherPrevilege { get; set; } = false;
     public bool CommunityAdminPrevilege { get; set; } = false;
     public required string AccountStatus { get; set; } = null!;  // Active, Inactive, Deleted, Suspended etc...
+
+
+    
+    // Foreign Key References
+    public Catcher Catcher { get; set; } = null!;
 }

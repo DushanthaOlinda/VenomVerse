@@ -54,7 +54,7 @@ namespace VenomVerseApi.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutUserDetail(long id, UserDetail userDetail)
         {
-            if (id != userDetail.Id)
+            if (id != userDetail.UserDetailId)
             {
                 return BadRequest();
             }
@@ -92,7 +92,7 @@ namespace VenomVerseApi.Controllers
             _context.UserDetail.Add(userDetail);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetUserDetail", new { id = userDetail.Id }, userDetail);
+            return CreatedAtAction("GetUserDetail", new { id = userDetail.UserDetailId }, userDetail);
         }
 
         // DELETE: api/User/5
@@ -117,7 +117,7 @@ namespace VenomVerseApi.Controllers
 
         private bool UserDetailExists(long id)
         {
-            return (_context.UserDetail?.Any(e => e.Id == id)).GetValueOrDefault();
+            return (_context.UserDetail?.Any(e => e.UserDetailId == id)).GetValueOrDefault();
         }
     }
 }

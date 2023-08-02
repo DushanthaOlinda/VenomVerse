@@ -1,7 +1,7 @@
 namespace VenomVerseApi.Models
 {
     public class ScannedImage {
-        public required long Id { get; set; }
+        public required long ScannedImageId { get; set; }
         public required long UploadedUserId { get; set; }
         public required string ScannedImageMedia { get; set; }
         public required DateTime DateTime { get; set; } = DateTime.Now;
