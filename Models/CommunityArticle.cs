@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations.Schema;
 namespace VenomVerseApi.Models;
 
 public class CommunityArticle{
@@ -15,16 +16,21 @@ public class CommunityArticle{
     }
 
     public required long CommunityArticleId { get; set; }
-    public required long UserId { get; set; }       // Uploaded Expert Id
+    [ForeignKey("User")] public required long UserId { get; set; }       // Uploaded Expert Id - validate from backend whether user has the expert privilleges
     public required string Category { get; set; } = null!;
     public string? Description { get; set; }
     public required string Content { get; set; } = null!;
     public required DateTime DateTime { get; set; } = DateTime.Now;
     public string[]? Media { get; set;}
     public string? Author { get; set;}
-    public long? ApprovedUserId { get; set;}
+    [ForeignKey("CommunityAdmin")] public long? ApprovedUserId { get; set;}     // Community admins approves the articles
     public long[]? React { get; set; }
     public string[,]? Comment { get; set; }
     public string[,]? ArticleReport { get; set; }
     public string[]? ArticleCopyright { get; set; }
+
+
+            // Foreign Key References
+            public UserDetail User { get; set; } = null!;
+            public CommunityAdmin CommunityAdmin { get; set; } = null!;
 }

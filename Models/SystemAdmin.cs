@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations.Schema;
 namespace VenomVerseApi.Models
 {
     public class SystemAdmin {
@@ -9,5 +10,9 @@ namespace VenomVerseApi.Models
         public required string UserEmail { get; set; } = null!;
         public required string Password { get; set; } = null!;
         public required string Nic { get; set; } = null!;
+
+
+        // Foreign Key References
+        public SystemReport SystemReport { get; set; } = null!;
     }
 }

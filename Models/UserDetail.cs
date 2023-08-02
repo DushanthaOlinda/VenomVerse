@@ -9,6 +9,10 @@ public class UserDetail{
     public required string FirstName { get; set; } = null!;
     public required string LastName { get; set; } = null!;
     public required string UserEmail { get; set; } = null!;
+
+    public required float CurrentMarks { get; set; } = 0;
+    public const float MyConstantValue = 1000;
+
     public required string Nic { get; set; } = null!;
     public required DateOnly Dob { get; set; }        // Required -> validation
     public required string District { get; set; } = null!;
@@ -33,4 +37,14 @@ public class UserDetail{
     
     // Foreign Key References
     public Catcher Catcher { get; set; } = null!;
+    public CommunityAdmin CommunityAdmin { get; set; } = null!;
+    public CommunityArticle CommunityArticle { get; set; } = null!;
+    public CommunityBook CommunityBook { get; set; } = null!;
+    public CommunityPost CommunityPost { get; set; } = null!;
+    public Notification Notification { get; set; } = null!;
+    public Question Question { get; set; } = null!;
+    public Quiz Quiz { get; set; } = null!;
+    public RequestService RequestService { get; set; } = null!;
+    public ScannedImage ScannedImage { get; set; } = null!;
+    public Zoologist Zoologist { get; set; } = null!;
 }

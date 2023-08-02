@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations.Schema;
 namespace VenomVerseApi.Models
 {
     public struct SerpentMediaStruct {        //Try to way to map with catcherRating
@@ -33,5 +34,10 @@ namespace VenomVerseApi.Models
 
         public string[,]? SerpentMedia { get; set; }
         public string[,]? SerpentSafetyInstruction { get; set; }
+
+
+
+        // Foreign Key References
+        public RequestService RequestService { get; set; } = null!;
     }
 }

@@ -1,10 +1,15 @@
+using System.ComponentModel.DataAnnotations.Schema;
 namespace VenomVerseApi.Models
 {
     public class Notification {
         public required long NotificationId { get; set; }
-        public required long UserId { get; set;}
+        [ForeignKey("User")] public required long UserId { get; set;}
         public required string Type { get; set; } = null!;      
         public required DateTime DateTime { get; set; } = DateTime.Now;
+
+
+        // Foreign Key References
+        public UserDetail User { get; set; } = null!;
         
         //content? -> can have many types, use seperate tables
         

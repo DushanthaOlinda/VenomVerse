@@ -12,8 +12,8 @@ using VenomVerseApi.Models;
 namespace VenomVerseApi.Migrations
 {
     [DbContext(typeof(VenomVerseContext))]
-    [Migration("20230802043405_id_renamed")]
-    partial class idrenamed
+    [Migration("20230802053702_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -158,10 +158,7 @@ namespace VenomVerseApi.Migrations
             modelBuilder.Entity("VenomVerseApi.Models.Catcher", b =>
                 {
                     b.Property<long>("CatcherId")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
-
-                    NpgsqlPropertyBuilderExtensions.UseSerialColumn(b.Property<long>("CatcherId"));
 
                     b.Property<DateOnly?>("ApprovedDateOne")
                         .HasColumnType("date");
@@ -865,6 +862,23 @@ namespace VenomVerseApi.Migrations
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("VenomVerseApi.Models.Catcher", b =>
+                {
+                    b.HasOne("VenomVerseApi.Models.UserDetail", "User")
+                        .WithOne("Catcher")
+                        .HasForeignKey("VenomVerseApi.Models.Catcher", "CatcherId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("VenomVerseApi.Models.UserDetail", b =>
+                {
+                    b.Navigation("Catcher")
                         .IsRequired();
                 });
 #pragma warning restore 612, 618

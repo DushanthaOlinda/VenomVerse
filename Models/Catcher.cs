@@ -9,8 +9,7 @@ namespace VenomVerseApi.Models
 
     public class Catcher {
 
-        [ForeignKey("User")]
-        public required long CatcherId { get; set; }
+        [ForeignKey("User")] public required long CatcherId { get; set; }
 
         public required bool Availability { get; set; } = false;
         public float? ChargingFee { get; set; } = 0;
@@ -32,8 +31,9 @@ namespace VenomVerseApi.Models
         public bool ApprovedFlag { get; set; } = false;
 
 
-        // Foreign Key References
-        public UserDetail User { get; set; } = null!;
+                // Foreign Key References
+                public UserDetail User { get; set; } = null!;
+                public RequestService RequestService { get; set; } = null!;
         
     }
 }
