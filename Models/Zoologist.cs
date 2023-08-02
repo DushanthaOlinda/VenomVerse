@@ -24,5 +24,7 @@ namespace VenomVerseApi.Models
         // Foreign Key References
         public UserDetail User { get; set; } = null!;
         public Question Question { get; set; } = null!;
+
+        public CommunityBook? CommunityBook { get; set; } = null!;
     }
 }

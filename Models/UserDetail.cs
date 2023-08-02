@@ -1,4 +1,5 @@
 using Microsoft.Build.Framework;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
 
 namespace VenomVerseApi.Models;
@@ -21,6 +22,7 @@ public class UserDetail{
     //public required string? LiveLocation { get; set; } = null;   
     public required string WorkingStatus { get; set; } = null!;
 
+
     public long[]? SavedBook { get; set; }
     public long[]? SavedArticle { get; set; }
     public long[]? SavedPost { get; set; }
@@ -39,7 +41,8 @@ public class UserDetail{
     public Catcher Catcher { get; set; } = null!;
     public CommunityAdmin CommunityAdmin { get; set; } = null!;
     public CommunityArticle CommunityArticle { get; set; } = null!;
-    public CommunityBook CommunityBook { get; set; } = null!;
+    [ForeignKey("SavedBook")]
+    public List<CommunityBook> CommunityBook { get; set; } = null!;
     public CommunityPost CommunityPost { get; set; } = null!;
     public Notification Notification { get; set; } = null!;
     public Question Question { get; set; } = null!;

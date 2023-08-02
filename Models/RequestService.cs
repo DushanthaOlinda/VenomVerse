@@ -22,8 +22,8 @@ namespace VenomVerseApi.Models
         public required DateTime DateTime { get; set; } = DateTime.Now;
         //public string? LiveLocation { get; set; } = null; 
 
-        [ForeignKey("ScannedImg")] public string? ScannedImage { get; set; }             // '1', '2', '3', '4'
-        [ForeignKey("Serpent")] public string? SelectedSerpent { get; set; }
+        public long? ScannedImageId { get; set; }             // '1', '2', '3', '4'
+        [ForeignKey("Serpent")] public long? SelectedSerpent { get; set; }
 
         public bool AcceptFlag { get; set; } = false;
         public bool CompleteFlag { get; set; } = false;
@@ -36,6 +36,7 @@ namespace VenomVerseApi.Models
         public UserDetail User { get; set; } = null!;
         public Catcher Catcher { get; set; } = null!;
         public Serpent Serpent { get; set; } = null!;
-        public ScannedImage ScannedImg { get; set; } = null!;
+        [ForeignKey("ScannedImgId")]
+        public List<ScannedImage> ScannedImg { get; set; } = null!;
     }
 }
