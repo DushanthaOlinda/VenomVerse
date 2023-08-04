@@ -16,6 +16,7 @@ public class CommunityPost{
 
 
             // Foreign Key References
-            [ForeignKey("React")] public List<UserDetail> UserReact { get; set; } = null!;
-            [ForeignKey("UserId")] public UserDetail User { get; set; } = null!;
+            [ForeignKey("React")] public List<UserDetail> UserPostReact { get; set; } = null!;
+            [ForeignKey("UserId")] public UserDetail PostUser { get; set; } = null!;
+            [InverseProperty("UserSavedPost")] public List<UserDetail> UserSavedPost { get; set; } = null!;
 }

@@ -21,7 +21,8 @@ namespace VenomVerseApi.Models
 
                 // Foreign Key References
                 public RequestService RequestService { get; set; } = null!;
-                public ScannedImage ScannedImage { get; set; } = null!;
+                [InverseProperty("PredictedSerpent")] public ScannedImage ScannedImagePred { get; set; } = null!;
+                [InverseProperty("ActualSerpent")] public ScannedImage ScannedImageAct { get; set; } = null!;
                 public SerpentInstruction SerpentInstruction { get; set; } = null!;
     }
 }

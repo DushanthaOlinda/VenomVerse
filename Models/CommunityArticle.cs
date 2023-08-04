@@ -21,7 +21,8 @@ public class CommunityArticle{
 
 
             // Foreign Key References
-            [ForeignKey("React, UserId")] public UserDetail User { get; set; } = null!;
-            public UserDetail User2 { get; set; } = null!;
+            [ForeignKey("React")] public List<UserDetail> UserReact { get; set; } = null!;
+            [ForeignKey("UserId")] public UserDetail User { get; set; } = null!;
+            [InverseProperty("UserSavedArticle")] public List<UserDetail> UserSavedArticle { get; set; } = null!;
             [ForeignKey("ApprovedUserId")] public CommunityAdmin CommunityAdmin { get; set; } = null!;
 }

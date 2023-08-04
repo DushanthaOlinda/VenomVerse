@@ -8,7 +8,7 @@ namespace VenomVerseApi.Models
         //public string? LiveLocation { get; set; } = null; 
 
         public long? ScannedImage { get; set; }            
-        public string? SelectedSerpent { get; set; }
+        public long? SelectedSerpent { get; set; }
 
         public bool AcceptFlag { get; set; } = false;
         public bool CompleteFlag { get; set; } = false;

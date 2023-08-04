@@ -24,5 +24,6 @@ public class CommunityBook{
             // public UserDetail User { get; set; } = null!;
             // public CommunityAdmin CommunityAdmin { get; set; } = null!;
             [ForeignKey("UploadedUserId")] public Zoologist Zoologist { get; set; } = null!;
-
+            [InverseProperty("CommunityBookSaved")] public List<UserDetail> ScannedImagePred { get; set; } = null!;
+            [InverseProperty("CommunityBookPurchased")] public List<UserDetail> ScannedImageAct { get; set; } = null!;
 }

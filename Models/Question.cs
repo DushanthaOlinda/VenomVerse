@@ -35,6 +35,7 @@ namespace VenomVerseApi.Models
 
 
                 // Foreign Key References
-                [ForeignKey("ApprovedUserId, WriterId")] public Zoologist Zoologist { get; set; } = null!;
+                [ForeignKey("ApprovedUserId")] public Zoologist ZoologistApprove { get; set; } = null!;
+                [ForeignKey("WriterId")] public Zoologist ZoologistWrite { get; set; } = null!;
     }
 }

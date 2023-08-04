@@ -39,9 +39,14 @@ public class UserDetail{
     // Foreign Key References
     public Catcher Catcher { get; set; } = null!;
     public CommunityAdmin CommunityAdmin { get; set; } = null!;
-    [ForeignKey("SavedArticle")] public List<CommunityArticle> CommunityArticle { get; set; } = null!;
-    [ForeignKey("SavedBook, PurchasedBook")] public List<CommunityBook> CommunityBook { get; set; } = null!;
-    [ForeignKey("SavedPost")] public List<CommunityPost> CommunityPost { get; set; } = null!;
+    [ForeignKey("SavedArticle")] public List<CommunityArticle> UserSavedArticle { get; set; } = null!;
+    [InverseProperty("UserReact")] public List<CommunityArticle> UserReactArticle { get; set; } = null!;
+    [InverseProperty("User")] public CommunityArticle UserArticle { get; set; } = null!;
+    [ForeignKey("SavedPost")] public List<CommunityPost> UserSavedPost { get; set; } = null!;
+    [InverseProperty("UserPostReact")] public List<CommunityPost> UserReactPost { get; set; } = null!;
+    [InverseProperty("PostUser")] public CommunityPost UserPost { get; set; } = null!;
+    [ForeignKey("SavedBook")] public List<CommunityBook> CommunityBookSaved { get; set; } = null!;
+    [ForeignKey("PurchasedBook")] public List<CommunityBook> CommunityBookPurchased { get; set; } = null!;
     [ForeignKey("SavedResearch")] public List<CommunityResearch> CommunityResearch { get; set; } = null!;
     public Notification Notification { get; set; } = null!;
     public Question Question { get; set; } = null!;
@@ -49,4 +54,6 @@ public class UserDetail{
     public RequestService RequestService { get; set; } = null!;
     public ScannedImage ScannedImage { get; set; } = null!;
     public Zoologist Zoologist { get; set; } = null!;
+    [InverseProperty("UserPos")] public SerpentInstruction SerpentInstructionPos { get; set; } = null!;
+    [InverseProperty("UserNeg")] public SerpentInstruction SerpentInstructionNeg { get; set; } = null!;
 }

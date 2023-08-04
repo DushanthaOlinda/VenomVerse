@@ -15,7 +15,8 @@ namespace VenomVerseApi.Models
 
                 // Foreign Key References
                 [ForeignKey("UploadedUserId")] public UserDetail User { get; set; } = null!;
-                [ForeignKey("PredictedSerpentType, ActualSerpentType")] public Serpent Serpent { get; set; } = null!;
+                [ForeignKey("PredictedSerpentType")] public Serpent PredictedSerpent { get; set; } = null!;
+                [ForeignKey("ActualSerpentType")] public Serpent ActualSerpent { get; set; } = null!;
                 public RequestService RequestService { get; set; } = null!;
     }
 }
