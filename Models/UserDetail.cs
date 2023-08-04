@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.Build.Framework;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
 
 namespace VenomVerseApi.Models;
@@ -21,6 +22,7 @@ public class UserDetail{
     public required string ContactNo { get; set; } = null!;
     //public required string? LiveLocation { get; set; } = null;   
     public required string WorkingStatus { get; set; } = null!;         // student, officer
+
 
     public long[]? SavedBook { get; set; }
     public long[]? SavedArticle { get; set; } 

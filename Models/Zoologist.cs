@@ -25,5 +25,7 @@ namespace VenomVerseApi.Models
                 [ForeignKey("ZoologistId")] public UserDetail User { get; set; } = null!;
                 public Question Question { get; set; } = null!;
                 public CommunityResearch CommunityResearch { get; set; } = null!;
+                public CommunityBook? CommunityBook { get; set; } = null!;
+
     }
 }

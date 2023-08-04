@@ -19,9 +19,13 @@ namespace VenomVerseApi.Models
         public required string DescriptionSinhala { get; set; }
 
 
-                // Foreign Key References
-                public RequestService RequestService { get; set; } = null!;
-                public ScannedImage ScannedImage { get; set; } = null!;
-                public SerpentInstruction SerpentInstruction { get; set; } = null!;
+        // Foreign Key References
+        public RequestService RequestService { get; set; } = null!;
+
+        [InverseProperty("ActualSerpent")]
+        public List<ScannedImage>? ScannedImageActualResult { get; set; } = null;
+        [InverseProperty("PredictedSerpent")]
+        public List<ScannedImage>? ScannedImagePredictedResult { get; set; } = null;
+
     }
 }
