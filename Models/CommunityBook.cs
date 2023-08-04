@@ -21,8 +21,9 @@ public class CommunityBook{
 
 
             // Foreign Key References
-            public UserDetail User { get; set; } = null!;
-            public CommunityAdmin CommunityAdmin { get; set; } = null!;
+            // public UserDetail User { get; set; } = null!;
+            // public CommunityAdmin CommunityAdmin { get; set; } = null!;
             public Zoologist Zoologist { get; set; } = null!;
+            public UserDetail User { get; set; } = null!;
 
 }

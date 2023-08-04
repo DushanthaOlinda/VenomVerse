@@ -16,7 +16,7 @@ public class CommunityArticle{
     }
 
     public required long CommunityArticleId { get; set; }
-    [ForeignKey("User")] public required long UserId { get; set; }       // Uploaded Expert Id - validate from backend whether user has the expert privilleges
+    [ForeignKey("User")] public required long UserId { get; set; }       // Uploaded Expert Id - validate from backend whether user has the expert privilleges AND Zoologists
     public required string Category { get; set; } = null!;
     public string? Description { get; set; }
     public required string Content { get; set; } = null!;

@@ -8,8 +8,8 @@ namespace VenomVerseApi.Models
         public required DateTime DateTime { get; set; } = DateTime.Now;
 
 
-        // Foreign Key References
-        public UserDetail User { get; set; } = null!;
+                // Foreign Key References
+                public UserDetail User { get; set; } = null!;
         
         //content? -> can have many types, use seperate tables
         

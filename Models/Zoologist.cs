@@ -21,8 +21,9 @@ namespace VenomVerseApi.Models
         public long? ApprovedPersonId { get; set; }
         public DateOnly? ApprovedDate { get; set; }  
 
-        // Foreign Key References
-        public UserDetail User { get; set; } = null!;
-        public Question Question { get; set; } = null!;
+                // Foreign Key References
+                public UserDetail User { get; set; } = null!;
+                public Question Question { get; set; } = null!;
+                public CommunityResearch CommunityResearch { get; set; } = null!;
     }
 }

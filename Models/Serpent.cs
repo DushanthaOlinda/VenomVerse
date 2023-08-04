@@ -37,7 +37,8 @@ namespace VenomVerseApi.Models
 
 
 
-        // Foreign Key References
-        public RequestService RequestService { get; set; } = null!;
+                // Foreign Key References
+                public RequestService RequestService { get; set; } = null!;
+                public ScannedImage ScannedImage { get; set; } = null!;
     }
 }

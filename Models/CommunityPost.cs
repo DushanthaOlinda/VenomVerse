@@ -26,6 +26,6 @@ public class CommunityPost{
     public string[,]? PostReport { get; set; }
 
 
-    // Foreign Key References
-    public UserDetail User { get; set; } = null!;
+            // Foreign Key References
+            public UserDetail User { get; set; } = null!;
 }

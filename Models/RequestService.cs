@@ -32,10 +32,10 @@ namespace VenomVerseApi.Models
         public string[]? ServiceFeedback { get; set; }
         public float? ServiceRating { get; set; } = null;
 
-        // Foreign Key References
-        public UserDetail User { get; set; } = null!;
-        public Catcher Catcher { get; set; } = null!;
-        public Serpent Serpent { get; set; } = null!;
-        public ScannedImage ScannedImg { get; set; } = null!;
+                // Foreign Key References
+                public UserDetail User { get; set; } = null!;
+                public Catcher Catcher { get; set; } = null!;
+                public Serpent Serpent { get; set; } = null!;
+                public ScannedImage ScannedImg { get; set; } = null!;
     }
 }

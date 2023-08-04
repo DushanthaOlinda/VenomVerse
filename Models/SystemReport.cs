@@ -8,8 +8,8 @@ namespace VenomVerseApi.Models
         public required long? GeneratedUserId { get; set;}
 
 
-        // Foreign Key References
-        public SystemAdmin SystemAdmin { get; set; } = null!;
+                // Foreign Key References
+                public SystemAdmin SystemAdmin { get; set; } = null!;
         
         //content? -> can have many types, use seperate tables
 

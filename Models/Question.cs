@@ -21,7 +21,7 @@ namespace VenomVerseApi.Models
         public required string[,] AnswerList { get; set; }
         public bool Published { get; set; } = false;
 
-        // Foreign Key References
-        public Zoologist Zoologist { get; set; } = null!;
+                // Foreign Key References
+                public Zoologist Zoologist { get; set; } = null!;
     }
 }

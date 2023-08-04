@@ -10,8 +10,8 @@ namespace VenomVerseApi.Models
         public float? PassMark { get; set; }
 
 
-        // Foreign Key References
-        public UserDetail User { get; set; } = null!;
+                // Foreign Key References
+                public UserDetail User { get; set; } = null!;
 
         //Answer details - for mcq types
         //Answer details - for structured types ?
