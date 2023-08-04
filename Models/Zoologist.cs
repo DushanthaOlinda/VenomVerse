@@ -11,7 +11,7 @@ namespace VenomVerseApi.Models
 
     public class Zoologist {
 
-        [ForeignKey("User")] public required long ZoologistId { get; set; }
+        public required long ZoologistId { get; set; }
         
         public string? Description { get; set; }
         public string? SpecialNote { get; set; }   
@@ -22,7 +22,7 @@ namespace VenomVerseApi.Models
         public DateOnly? ApprovedDate { get; set; }  
 
                 // Foreign Key References
-                public UserDetail User { get; set; } = null!;
+                [ForeignKey("ZoologistId")] public UserDetail User { get; set; } = null!;
                 public Question Question { get; set; } = null!;
                 public CommunityResearch CommunityResearch { get; set; } = null!;
     }

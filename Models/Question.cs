@@ -14,14 +14,27 @@ namespace VenomVerseApi.Models
         public required string Difficulty { get; set; }
         public string? Description { get; set; }
         public required string Type { get; set; }
+        public required bool MultipleAnswers { get; set; } = false;
         public required float Marks { get; set; }
         public required long WriterId { get; set; }       // Zoologists create questions
-        [ForeignKey("Zoologist")] public long? ApprovedUserId { get; set; }         // Zoologists approve questions
+        public long? ApprovedUserId { get; set; }         // Zoologists approve questions
         public required DateTime DateTime { get; set; } = DateTime.Now;
-        public required string[,] AnswerList { get; set; }
-        public bool Published { get; set; } = false;
+        public bool Published { get; set; } = false;    // option to publish the quiz
+
+        // Answers
+        public required string Answer01 { get; set; } 
+        public required bool Correctness01 { get; set; } = false;
+        public required string Answer02 { get; set; }
+        public required bool Correctness02 { get; set; } = false;
+        public required string Answer03 { get; set; }
+        public required bool Correctness03 { get; set; } = false;
+        public required string Answer04 { get; set; }
+        public required bool Correctness04 { get; set; } = false;
+        public string? Answer05 { get; set; }
+        public bool? Correctness05 { get; set; } = false;
+
 
                 // Foreign Key References
-                public Zoologist Zoologist { get; set; } = null!;
+                [ForeignKey("ApprovedUserId, WriterId")] public Zoologist Zoologist { get; set; } = null!;
     }
 }

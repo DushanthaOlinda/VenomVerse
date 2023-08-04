@@ -4,7 +4,7 @@ namespace VenomVerseApi.Models;
 public class CommunityResearch{
 
     public required long CommunityResearchId { get; set; }
-    [ForeignKey("Zoologist")] public required long UserId { get; set; }       // Uploaded Expert Id - validate from backend whether user has the expert privilleges
+    public required long UserId { get; set; }       // Uploaded Expert Id - validate from backend whether user has the expert privilleges
     public required string Category { get; set; } = null!;
     public string? Description { get; set; }
     public required string Content { get; set; } = null!;
@@ -12,8 +12,8 @@ public class CommunityResearch{
     public string[]? Media { get; set;}
     public string? Author { get; set;}
     public DateOnly? PublishedDate { get; set;}    // Research should have been published before upload as a learning material in the application
-
+    public string[]? PostCopyright { get; set; }
 
             // Foreign Key References
-            public Zoologist Zoologist { get; set; } = null!;
+            [ForeignKey("UserId")] public Zoologist Zoologist { get; set; } = null!;
 }

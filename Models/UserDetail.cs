@@ -23,10 +23,10 @@ public class UserDetail{
     public required string WorkingStatus { get; set; } = null!;         // student, officer
 
     public long[]? SavedBook { get; set; }
-    [ForeignKey("CommunityArticle")] public long[]? SavedArticle { get; set; } 
-    [ForeignKey("CommunityPost")] public long[]? SavedPost { get; set; }
-    [ForeignKey("CommunityResearch")] public long[]? SavedResearch { get; set; }
-    public long[]? PurchasedBook { get; set; }
+    public long[]? SavedArticle { get; set; } 
+    public long[]? SavedPost { get; set; }
+    public long[]? SavedResearch { get; set; }
+    public long[]? PurchasedBook { get; set; }          //  [ user, book, price, date time, paymentid -> payment ]
 
     public bool ExpertPrevilege { get; set; } = false;
     public bool ZoologistPrevilege { get; set; } = false;
@@ -39,10 +39,10 @@ public class UserDetail{
     // Foreign Key References
     public Catcher Catcher { get; set; } = null!;
     public CommunityAdmin CommunityAdmin { get; set; } = null!;
-    public CommunityArticle CommunityArticle { get; set; } = null!;
-    [ForeignKey("SavedBook, PurchasedBook")] public CommunityBook CommunityBook { get; set; } = null!;
-    public CommunityPost CommunityPost { get; set; } = null!;
-    public CommunityResearch CommunityResearch { get; set; } = null!;
+    [ForeignKey("SavedArticle")] public List<CommunityArticle> CommunityArticle { get; set; } = null!;
+    [ForeignKey("SavedBook, PurchasedBook")] public List<CommunityBook> CommunityBook { get; set; } = null!;
+    [ForeignKey("SavedPost")] public List<CommunityPost> CommunityPost { get; set; } = null!;
+    [ForeignKey("SavedResearch")] public List<CommunityResearch> CommunityResearch { get; set; } = null!;
     public Notification Notification { get; set; } = null!;
     public Question Question { get; set; } = null!;
     public Quiz Quiz { get; set; } = null!;
