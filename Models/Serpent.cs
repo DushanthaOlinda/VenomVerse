@@ -23,6 +23,8 @@ namespace VenomVerseApi.Models
                 public RequestService RequestService { get; set; } = null!;
                 [InverseProperty("PredictedSerpent")] public ScannedImage ScannedImagePred { get; set; } = null!;
                 [InverseProperty("ActualSerpent")] public ScannedImage ScannedImageAct { get; set; } = null!;
+                [InverseProperty("SerpentPredict")] public ScannedImageReview SerpentPredict { get; set; } = null!;
+                [InverseProperty("SerpentActual")] public ScannedImageReview SerpentActual { get; set; } = null!;
                 public SerpentInstruction SerpentInstruction { get; set; } = null!;
     }
 }

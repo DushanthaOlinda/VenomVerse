@@ -12,8 +12,8 @@ using VenomVerseApi.Models;
 namespace VenomVerseApi.Migrations
 {
     [DbContext(typeof(VenomVerseContext))]
-    [Migration("20230804180156_foreign_keyss_19")]
-    partial class foreignkeyss19
+    [Migration("20230804184707_relationship_fixed_9")]
+    partial class relationshipfixed9
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -298,6 +298,41 @@ namespace VenomVerseApi.Migrations
                     b.ToTable("Catcher");
                 });
 
+            modelBuilder.Entity("VenomVerseApi.Models.CatcherRating", b =>
+                {
+                    b.Property<long>("CatcherRatingId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseSerialColumn(b.Property<long>("CatcherRatingId"));
+
+                    b.Property<long>("CatcherId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("DateTime")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime?>("LastUpdatedTime")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("Rate")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("RatingComment")
+                        .HasColumnType("text");
+
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("CatcherRatingId");
+
+                    b.HasIndex("CatcherId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("CatcherRating");
+                });
+
             modelBuilder.Entity("VenomVerseApi.Models.CommunityAdmin", b =>
                 {
                     b.Property<long>("CommunityAdminId")
@@ -368,6 +403,36 @@ namespace VenomVerseApi.Migrations
                         .IsUnique();
 
                     b.ToTable("CommunityArticle");
+                });
+
+            modelBuilder.Entity("VenomVerseApi.Models.CommunityArticleComment", b =>
+                {
+                    b.Property<long>("CommunityArticleCommentId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseSerialColumn(b.Property<long>("CommunityArticleCommentId"));
+
+                    b.Property<string>("Comment")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<long>("CommunityArticleId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("DateTime")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("CommunityArticleCommentId");
+
+                    b.HasIndex("CommunityArticleId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("CommunityArticleComment");
                 });
 
             modelBuilder.Entity("VenomVerseApi.Models.CommunityBook", b =>
@@ -456,6 +521,72 @@ namespace VenomVerseApi.Migrations
                         .IsUnique();
 
                     b.ToTable("CommunityPost");
+                });
+
+            modelBuilder.Entity("VenomVerseApi.Models.CommunityPostComment", b =>
+                {
+                    b.Property<long>("CommunityPostCommentId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseSerialColumn(b.Property<long>("CommunityPostCommentId"));
+
+                    b.Property<string>("Comment")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<long>("CommunityPostId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("DateTime")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("CommunityPostCommentId");
+
+                    b.HasIndex("CommunityPostId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("CommunityPostComment");
+                });
+
+            modelBuilder.Entity("VenomVerseApi.Models.CommunityPostReport", b =>
+                {
+                    b.Property<long>("CommunityPostReportId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseSerialColumn(b.Property<long>("CommunityPostReportId"));
+
+                    b.Property<long?>("ComAdminId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("CommunityPostId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("DateTime")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Response")
+                        .HasColumnType("text");
+
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("CommunityPostReportId");
+
+                    b.HasIndex("CommunityPostId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("CommunityPostReport");
                 });
 
             modelBuilder.Entity("VenomVerseApi.Models.CommunityResearch", b =>
@@ -690,6 +821,51 @@ namespace VenomVerseApi.Migrations
                     b.ToTable("Quiz");
                 });
 
+            modelBuilder.Entity("VenomVerseApi.Models.QuizUserAnswer", b =>
+                {
+                    b.Property<long>("QuizId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("QuestionId")
+                        .HasColumnType("bigint");
+
+                    b.Property<bool>("Correctness01")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("Correctness02")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("Correctness03")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("Correctness04")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool?>("Correctness05")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("Select01")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("Select02")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("Select03")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("Select04")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool?>("Select05")
+                        .HasColumnType("boolean");
+
+                    b.HasKey("QuizId", "QuestionId");
+
+                    b.HasIndex("QuestionId");
+
+                    b.ToTable("QuizUserAnswer");
+                });
+
             modelBuilder.Entity("VenomVerseApi.Models.RegistrationRequest", b =>
                 {
                     b.Property<long>("RegistrationRequestId")
@@ -821,6 +997,53 @@ namespace VenomVerseApi.Migrations
                     b.ToTable("ScannedImage");
                 });
 
+            modelBuilder.Entity("VenomVerseApi.Models.ScannedImageReview", b =>
+                {
+                    b.Property<long>("ScannedImageReviewId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseSerialColumn(b.Property<long>("ScannedImageReviewId"));
+
+                    b.Property<long?>("ActualSerpentType")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("DateTime")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<long>("PredictedSerpentType")
+                        .HasColumnType("bigint");
+
+                    b.Property<bool?>("PredictionSuccess")
+                        .HasColumnType("boolean");
+
+                    b.Property<long>("RequestServiceId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("ReviewedUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("ScannedImageId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("ScannedImageReviewId");
+
+                    b.HasIndex("ActualSerpentType")
+                        .IsUnique();
+
+                    b.HasIndex("PredictedSerpentType")
+                        .IsUnique();
+
+                    b.HasIndex("RequestServiceId");
+
+                    b.HasIndex("ReviewedUserId");
+
+                    b.HasIndex("ScannedImageId")
+                        .IsUnique();
+
+                    b.ToTable("ScannedImageReview");
+                });
+
             modelBuilder.Entity("VenomVerseApi.Models.Serpent", b =>
                 {
                     b.Property<long>("SerpentId")
@@ -907,6 +1130,33 @@ namespace VenomVerseApi.Migrations
                     b.HasIndex("WittenUser");
 
                     b.ToTable("SerpentInstruction");
+                });
+
+            modelBuilder.Entity("VenomVerseApi.Models.SerpentMedia", b =>
+                {
+                    b.Property<long>("SerpentMediaId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseSerialColumn(b.Property<long>("SerpentMediaId"));
+
+                    b.Property<long>("SerpentId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("SerpentMediaAltText")
+                        .HasColumnType("text");
+
+                    b.Property<string>("SerpentMediaDescription")
+                        .HasColumnType("text");
+
+                    b.Property<string>("SerpentMediaSource")
+                        .HasColumnType("text");
+
+                    b.HasKey("SerpentMediaId");
+
+                    b.HasIndex("SerpentId");
+
+                    b.ToTable("SerpentMedia");
                 });
 
             modelBuilder.Entity("VenomVerseApi.Models.SystemAdmin", b =>
@@ -1233,6 +1483,25 @@ namespace VenomVerseApi.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("VenomVerseApi.Models.CatcherRating", b =>
+                {
+                    b.HasOne("VenomVerseApi.Models.Catcher", "Catcher")
+                        .WithMany()
+                        .HasForeignKey("CatcherId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("VenomVerseApi.Models.UserDetail", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Catcher");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("VenomVerseApi.Models.CommunityAdmin", b =>
                 {
                     b.HasOne("VenomVerseApi.Models.UserDetail", "User")
@@ -1269,6 +1538,25 @@ namespace VenomVerseApi.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("VenomVerseApi.Models.CommunityArticleComment", b =>
+                {
+                    b.HasOne("VenomVerseApi.Models.CommunityArticle", "CommunityArticle")
+                        .WithMany()
+                        .HasForeignKey("CommunityArticleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("VenomVerseApi.Models.UserDetail", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("CommunityArticle");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("VenomVerseApi.Models.CommunityBook", b =>
                 {
                     b.HasOne("VenomVerseApi.Models.Zoologist", "Zoologist")
@@ -1289,6 +1577,44 @@ namespace VenomVerseApi.Migrations
                         .IsRequired();
 
                     b.Navigation("PostUser");
+                });
+
+            modelBuilder.Entity("VenomVerseApi.Models.CommunityPostComment", b =>
+                {
+                    b.HasOne("VenomVerseApi.Models.CommunityPost", "CommunityArticle")
+                        .WithMany()
+                        .HasForeignKey("CommunityPostId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("VenomVerseApi.Models.UserDetail", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("CommunityArticle");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("VenomVerseApi.Models.CommunityPostReport", b =>
+                {
+                    b.HasOne("VenomVerseApi.Models.CommunityPost", "CommunityPost")
+                        .WithMany()
+                        .HasForeignKey("CommunityPostId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("VenomVerseApi.Models.UserDetail", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("CommunityPost");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("VenomVerseApi.Models.CommunityResearch", b =>
@@ -1345,6 +1671,25 @@ namespace VenomVerseApi.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("VenomVerseApi.Models.QuizUserAnswer", b =>
+                {
+                    b.HasOne("VenomVerseApi.Models.Question", "Question")
+                        .WithMany()
+                        .HasForeignKey("QuestionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("VenomVerseApi.Models.Quiz", "Quiz")
+                        .WithMany()
+                        .HasForeignKey("QuizId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Question");
+
+                    b.Navigation("Quiz");
+                });
+
             modelBuilder.Entity("VenomVerseApi.Models.RequestService", b =>
                 {
                     b.HasOne("VenomVerseApi.Models.Catcher", "Catcher")
@@ -1399,6 +1744,47 @@ namespace VenomVerseApi.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("VenomVerseApi.Models.ScannedImageReview", b =>
+                {
+                    b.HasOne("VenomVerseApi.Models.Serpent", "SerpentActual")
+                        .WithOne("SerpentActual")
+                        .HasForeignKey("VenomVerseApi.Models.ScannedImageReview", "ActualSerpentType");
+
+                    b.HasOne("VenomVerseApi.Models.Serpent", "SerpentPredict")
+                        .WithOne("SerpentPredict")
+                        .HasForeignKey("VenomVerseApi.Models.ScannedImageReview", "PredictedSerpentType")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("VenomVerseApi.Models.RequestService", "RequestService")
+                        .WithMany()
+                        .HasForeignKey("RequestServiceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("VenomVerseApi.Models.UserDetail", "User")
+                        .WithMany()
+                        .HasForeignKey("ReviewedUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("VenomVerseApi.Models.ScannedImage", "ScannedImage")
+                        .WithOne("ScannedImageReview")
+                        .HasForeignKey("VenomVerseApi.Models.ScannedImageReview", "ScannedImageId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("RequestService");
+
+                    b.Navigation("ScannedImage");
+
+                    b.Navigation("SerpentActual");
+
+                    b.Navigation("SerpentPredict");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("VenomVerseApi.Models.SerpentInstruction", b =>
                 {
                     b.HasOne("VenomVerseApi.Models.Serpent", "Serpent")
@@ -1416,6 +1802,17 @@ namespace VenomVerseApi.Migrations
                     b.Navigation("Serpent");
 
                     b.Navigation("WrittenUser");
+                });
+
+            modelBuilder.Entity("VenomVerseApi.Models.SerpentMedia", b =>
+                {
+                    b.HasOne("VenomVerseApi.Models.Serpent", "Serpent")
+                        .WithMany()
+                        .HasForeignKey("SerpentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Serpent");
                 });
 
             modelBuilder.Entity("VenomVerseApi.Models.SystemReport", b =>
@@ -1481,6 +1878,9 @@ namespace VenomVerseApi.Migrations
                 {
                     b.Navigation("RequestService")
                         .IsRequired();
+
+                    b.Navigation("ScannedImageReview")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("VenomVerseApi.Models.Serpent", b =>
@@ -1494,7 +1894,13 @@ namespace VenomVerseApi.Migrations
                     b.Navigation("ScannedImagePred")
                         .IsRequired();
 
+                    b.Navigation("SerpentActual")
+                        .IsRequired();
+
                     b.Navigation("SerpentInstruction")
+                        .IsRequired();
+
+                    b.Navigation("SerpentPredict")
                         .IsRequired();
                 });
 

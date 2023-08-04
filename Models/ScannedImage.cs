@@ -18,5 +18,6 @@ namespace VenomVerseApi.Models
                 [ForeignKey("PredictedSerpentType")] public Serpent PredictedSerpent { get; set; } = null!;
                 [ForeignKey("ActualSerpentType")] public Serpent ActualSerpent { get; set; } = null!;
                 public RequestService RequestService { get; set; } = null!;
+                public ScannedImageReview ScannedImageReview { get; set; } = null!; 
     }
 }
