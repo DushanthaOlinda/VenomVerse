@@ -11,8 +11,8 @@ public class UserDetail{
     public required string LastName { get; set; } = null!;
     public required string UserEmail { get; set; } = null!;
 
-    public required float CurrentMarks { get; set; } = 0;
-    public const float ExpertMinMarks = 1000;
+    public required float CurrentMarks { get; set; } = 0;          // Total marks from all quizes
+    public const float ExpertMinMarks = 1000;                       // Min marks to achive expert privileges
 
     public required string Nic { get; set; } = null!;
     public required DateOnly Dob { get; set; }        // Required -> validation
@@ -20,7 +20,7 @@ public class UserDetail{
     public required string Address { get; set; } = null!;
     public required string ContactNo { get; set; } = null!;
     //public required string? LiveLocation { get; set; } = null;   
-    public required string WorkingStatus { get; set; } = null!;
+    public required string WorkingStatus { get; set; } = null!;         // student, officer
 
     public long[]? SavedBook { get; set; }
     [ForeignKey("CommunityArticle")] public long[]? SavedArticle { get; set; } 
