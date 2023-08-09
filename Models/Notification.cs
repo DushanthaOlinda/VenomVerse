@@ -7,21 +7,29 @@ namespace VenomVerseApi.Models
         public required string Type { get; set; } = null!;      
         public required DateTime DateTime { get; set; } = DateTime.Now;
 
+        // public string? NotificationString { get; set; }
+
+        // Isuru heshan commented on your post on snakes
+        // string = {name} commented on your post on { post id/ description }
+
 
                 // Foreign Key References
                 [ForeignKey("UserId")] public UserDetail User { get; set; } = null!;
         
         //content? -> can have many types, use seperate tables
         
-        // Notification types
-            //Like to a post - user
-            //Comment to a post - user
-            //Reported post approvals - user
-            //Reported account warning - user
-            //service request - catchers
-            //service request cancellation - catchers
-            //New book publication ?
-            //to be catcher approval - catcher
-            //to be zoologist - zoologist
+
+        // NotificationBroadcast - NotificationBroadcastId, Type, DateTime
+            //NotiNewBookPublication - NotificationId, BookId
+
+        // Notification User types
+            //NotiLikePost - NotificationId, PostId, LikedUserId,
+            //NotiCommentPost - NotificationId, PostId, PostCommentId
+            //NotiPostReportApprovals - NotificationId, PostId
+            //NotiPostReportWarning - NotificationId, PostId
+            //NotiCatcherServiceRequest - NotificationId, ReqServiceId, Status => None, Approved, Declined
+
+            //NotiToBeCatcher - NotificationId, ReqId, Status => None, Approved, Declined
+            //NotiToBeZoologist - NotificationId, ReqId, Status => None, Approved, Declined
     }
 }
