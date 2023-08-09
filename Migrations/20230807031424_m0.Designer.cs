@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using VenomVerseApi.Models;
@@ -11,9 +12,11 @@ using VenomVerseApi.Models;
 namespace VenomVerseApi.Migrations
 {
     [DbContext(typeof(VenomVerseContext))]
-    partial class VenomVerseContextModelSnapshot : ModelSnapshot
+    [Migration("20230807031424_m0")]
+    partial class m0
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1269,20 +1272,20 @@ namespace VenomVerseApi.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<long?>("NegativeVote")
+                    b.Property<long>("NegativeVote")
                         .HasColumnType("bigint");
 
                     b.Property<string>("Nic")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<long?>("PositiveVote")
+                    b.Property<long>("PositiveVote")
                         .HasColumnType("bigint");
 
                     b.Property<long[]>("PurchasedBook")
                         .HasColumnType("bigint[]");
 
-                    b.Property<long?>("QuestionId")
+                    b.Property<long>("QuestionId")
                         .HasColumnType("bigint");
 
                     b.Property<long[]>("SavedArticle")
@@ -1825,15 +1828,21 @@ namespace VenomVerseApi.Migrations
                 {
                     b.HasOne("VenomVerseApi.Models.SerpentInstruction", "SerpentInstructionNeg")
                         .WithMany("UserNeg")
-                        .HasForeignKey("NegativeVote");
+                        .HasForeignKey("NegativeVote")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("VenomVerseApi.Models.SerpentInstruction", "SerpentInstructionPos")
                         .WithMany("UserPos")
-                        .HasForeignKey("PositiveVote");
+                        .HasForeignKey("PositiveVote")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("VenomVerseApi.Models.Question", "Question")
                         .WithMany()
-                        .HasForeignKey("QuestionId");
+                        .HasForeignKey("QuestionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Question");
 
@@ -1917,13 +1926,17 @@ namespace VenomVerseApi.Migrations
 
                     b.Navigation("CommunityResearch");
 
-                    b.Navigation("Notification");
+                    b.Navigation("Notification")
+                        .IsRequired();
 
-                    b.Navigation("Quiz");
+                    b.Navigation("Quiz")
+                        .IsRequired();
 
-                    b.Navigation("RequestService");
+                    b.Navigation("RequestService")
+                        .IsRequired();
 
-                    b.Navigation("ScannedImage");
+                    b.Navigation("ScannedImage")
+                        .IsRequired();
 
                     b.Navigation("UserArticle")
                         .IsRequired();
@@ -1931,7 +1944,8 @@ namespace VenomVerseApi.Migrations
                     b.Navigation("UserPost")
                         .IsRequired();
 
-                    b.Navigation("Zoologist");
+                    b.Navigation("Zoologist")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("VenomVerseApi.Models.Zoologist", b =>

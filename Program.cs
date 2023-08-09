@@ -54,4 +54,16 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+
+
+// Migrate latest database changes during startup
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider
+        .GetRequiredService<VenomVerseContext>();
+    
+    // Here is the migration executed
+    dbContext.Database.Migrate();
+}
+
 app.Run();

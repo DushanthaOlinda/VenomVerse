@@ -11,8 +11,8 @@ public class UserDetail{
     public required string LastName { get; set; } = null!;
     public required string UserEmail { get; set; } = null!;
 
-    public required float CurrentMarks { get; set; } = 0;          // Total marks from all quizes
-    public const float ExpertMinMarks = 1000;                       // Min marks to achive expert privileges
+    public required float CurrentMarks { get; set; } = 0;          // Total marks from all quizzes
+    public const float ExpertMinMarks = 1000;                       // Min marks to achieve expert privileges
 
     public required string Nic { get; set; } = null!;
     public required DateOnly Dob { get; set; }        // Required -> validation
@@ -28,16 +28,16 @@ public class UserDetail{
     public long[]? SavedResearch { get; set; }
     public long[]? PurchasedBook { get; set; }          //  [ user, book, price, date time, paymentid -> payment ]
 
-    public bool ExpertPrevilege { get; set; } = false;
-    public bool ZoologistPrevilege { get; set; } = false;
-    public bool CatcherPrevilege { get; set; } = false;
-    public bool CommunityAdminPrevilege { get; set; } = false;
+    public bool ExpertPrivilege { get; set; } = false;
+    public bool ZoologistPrivilege { get; set; } = false;
+    public bool CatcherPrivilege { get; set; } = false;
+    public bool CommunityAdminPrivilege { get; set; } = false;
     public required string AccountStatus { get; set; } = null!;  // Active, Inactive, Deleted, Suspended etc...
 
 
     
     // Foreign Key References
-    public Catcher Catcher { get; set; } = null!;
+    public Catcher? Catcher { get; set; } = null;
     public CommunityAdmin CommunityAdmin { get; set; } = null!;
     [ForeignKey("SavedArticle")] public List<CommunityArticle> UserSavedArticle { get; set; } = null!;
     [InverseProperty("UserReact")] public List<CommunityArticle> UserReactArticle { get; set; } = null!;
@@ -48,12 +48,12 @@ public class UserDetail{
     [ForeignKey("SavedBook")] public List<CommunityBook> CommunityBookSaved { get; set; } = null!;
     [ForeignKey("PurchasedBook")] public List<CommunityBook> CommunityBookPurchased { get; set; } = null!;
     [ForeignKey("SavedResearch")] public List<CommunityResearch> CommunityResearch { get; set; } = null!;
-    public Notification Notification { get; set; } = null!;
-    public Question Question { get; set; } = null!;
-    public Quiz Quiz { get; set; } = null!;
-    public RequestService RequestService { get; set; } = null!;
-    public ScannedImage ScannedImage { get; set; } = null!;
-    public Zoologist Zoologist { get; set; } = null!;
-    [InverseProperty("UserPos")] public SerpentInstruction SerpentInstructionPos { get; set; } = null!;
-    [InverseProperty("UserNeg")] public SerpentInstruction SerpentInstructionNeg { get; set; } = null!;
+    public Notification? Notification { get; set; } = null;
+    public Question? Question { get; set; } = null;
+    public Quiz? Quiz { get; set; } = null;
+    public RequestService? RequestService { get; set; } = null;
+    public ScannedImage? ScannedImage { get; set; } = null;
+    public Zoologist? Zoologist { get; set; } = null;
+    [InverseProperty("UserPos")] public SerpentInstruction? SerpentInstructionPos { get; set; } = null!;
+    [InverseProperty("UserNeg")] public SerpentInstruction? SerpentInstructionNeg { get; set; } = null!;
 }

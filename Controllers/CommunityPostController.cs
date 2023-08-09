@@ -23,7 +23,7 @@ namespace VenomVerseApi.Controllers
           {
               return NotFound();
           }
-            return await _context.CommunityPost.ToListAsync();
+          return await _context.CommunityPost.ToListAsync();
         }
 
         // GET: api/CommunityPost/5
@@ -34,14 +34,14 @@ namespace VenomVerseApi.Controllers
           {
               return NotFound();
           }
-            var communityPost = await _context.CommunityPost.FindAsync(id);
+          var communityPost = await _context.CommunityPost.FindAsync(id);
 
-            if (communityPost == null)
-            {
-                return NotFound();
-            }
+          if (communityPost == null)
+          {
+              return NotFound();
+          }
 
-            return communityPost;
+          return communityPost;
         }
 
         // PUT: api/CommunityPost/5
@@ -84,10 +84,10 @@ namespace VenomVerseApi.Controllers
           {
               return Problem("Entity set 'VenomVerseContext.CommunityPost'  is null.");
           }
-            _context.CommunityPost.Add(communityPost);
-            await _context.SaveChangesAsync();
+          _context.CommunityPost.Add(communityPost);
+          await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetCommunityPost", new { id = communityPost.CommunityPostId }, communityPost);
+          return CreatedAtAction("GetCommunityPost", new { id = communityPost.CommunityPostId }, communityPost);
         }
 
         // DELETE: api/CommunityPost/5
