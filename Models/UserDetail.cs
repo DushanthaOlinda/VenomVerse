@@ -1,6 +1,4 @@
 using System.ComponentModel.DataAnnotations.Schema;
-using Microsoft.Build.Framework;
-using System.Diagnostics.CodeAnalysis;
 
 namespace VenomVerseApi.Models;
 
