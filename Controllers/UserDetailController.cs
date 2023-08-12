@@ -38,7 +38,9 @@ public class UserDetailController : ControllerBase
     [HttpPut("{id}")]
     public async Task<IActionResult> EditUserDetails(long id, UserDto userDto) {
         if (id != userDto.UserId) return BadRequest();
-        var userDetail = UserDtoToUserDetail(userDto); 
+        var userDetail = await _context.UserDetail.FindAsync(id);
+        if (userDetail == null) return NotFound();
+        userDetail = UserDtoToUserDetail(userDto, userDetail); 
         _context.Entry(userDetail).State = EntityState.Modified;
         try  {
             await _context.SaveChangesAsync();
@@ -113,4 +115,20 @@ public class UserDetailController : ControllerBase
         AccountStatus = userDto.AccountStatus!,
     };
     
+    private static UserDetail UserDtoToUserDetail(UserDto userDto, UserDetail userDetail) {
+        userDetail.UserDetailId = (long)userDto.UserId!;
+        userDetail.FirstName = userDto.FirstName!;
+        userDetail.LastName = userDto.LastName!;
+        userDetail.UserEmail = userDto.UserEmail!;
+        userDetail.CurrentMarks = (float)userDto.CurrentMarks!;
+        userDetail.UserName = userDto.UserName!;
+        userDetail.Nic = userDto.Nic!;
+        userDetail.Dob = (DateOnly)userDto.Dob!;
+        userDetail.District = userDto.Dob.ToString()!;
+        userDetail.Address = userDto.Address!;
+        userDetail.ContactNo = userDto.ContactNo!;
+        userDetail.WorkingStatus = userDto.WorkingStatus!;
+        userDetail.AccountStatus = userDto.AccountStatus!;
+        return userDetail;
+    }
 }

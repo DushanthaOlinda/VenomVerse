@@ -2,7 +2,7 @@ namespace VenomVerseApi.DTO;
 
 public class CommunityArticleDto
 {
-        public required long CommunityArticleId { get; set; }
+    public required long CommunityArticleId { get; set; }
     public required long UserId { get; set; }       // Uploaded Expert Id - validate from backend whether user has the expert privilleges AND Zoologists
     public required string Category { get; set; } = null!;
     public string? Description { get; set; }

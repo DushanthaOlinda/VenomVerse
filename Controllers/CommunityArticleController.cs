@@ -97,6 +97,31 @@ namespace VenomVerseApi.Controllers
             return (_context.CommunityArticle?.Any(e => e.CommunityArticleId == id)).GetValueOrDefault();
         }
 
+        // ============================================================================
+        // ============================ DTO CONVERSION ================================
+        // ============================================================================
+
+        private static CommunityArticleDto ArticleDtoToArticle(CommunityArticle communityArticle) => new CommunityArticleDto {
+            CommunityArticleId = communityArticle.CommunityArticleId,
+            UserId = communityArticle.UserId,
+            Category = communityArticle.Category,
+            Description = communityArticle.Description,
+            Content = communityArticle.Content,
+            DateTime = communityArticle.DateTime,
+            Media = communityArticle.Media,
+            Author = communityArticle.Author,
+            ArticleStatus = communityArticle.ArticleStatus,
+            ArticleCopyright = communityArticle.ArticleCopyright,
+            ApprovedUserId = communityArticle.ApprovedUserId
+        };
+
+        // private static CommunityArticle ArticleToArticleDto(CommunityArticleDto communityArticleDto) => new CommunityArticle {
+
+        // };
+
+
+
+
 
     }
 }
