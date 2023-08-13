@@ -92,29 +92,38 @@ public class CommunityPostController : ControllerBase
         DateTime = communityPost.DateTime,
         Media = communityPost.Media,
         React = communityPost.React,
+        PostEdited = communityPost.PostEdited,
         PostStatus = communityPost.PostStatus
     };
 
     private static CommunityPost CommunityPostDtoToCommunityPost ( CommunityPostDto communityPost ) => new CommunityPost {
-        CommunityPostId = communityPost.CommunityPostId,
-        UserId = communityPost.UserId,
-        Category = communityPost.Category,
-        Description = communityPost.Description,
+        CommunityPostId = (long)communityPost.CommunityPostId!,
+        UserId = (long)communityPost.UserId!,
+        Category = communityPost.Category!,
+        Description = communityPost.Description!,
         DateTime = communityPost.DateTime,
         Media = communityPost.Media,
         React = communityPost.React,
+        PostEdited = communityPost.PostEdited,
         PostStatus = communityPost.PostStatus
     };
 
     private static CommunityPost CommunityPostDtoToCommunityPost ( CommunityPostDto communityPostDto, CommunityPost communityPost ) {
         // communityPost.CommunityPostId = communityPostDto.CommunityPostId!;
-        communityPost.UserId = communityPostDto.UserId!;
-        communityPost.Category = communityPostDto.Category!;
-        communityPost.Description = communityPostDto.Description!;
+        // communityPost.UserId = communityPostDto.UserId!;
         communityPost.DateTime = communityPostDto.DateTime!;
-        communityPost.Media = communityPostDto.Media!;
-        communityPost.React = communityPostDto.React!;
-        communityPost.PostStatus = communityPostDto.PostStatus!;
+        if ( communityPostDto.Category != null ) {
+            communityPost.Category = communityPostDto.Category!;
+        }
+        if ( communityPostDto.Description != null ) {
+            communityPost.Description = communityPostDto.Description!;
+        }
+        if ( communityPostDto.Media != null ) {
+            communityPost.Media = communityPostDto.Media!;
+        }
+        if ( communityPostDto.PostEdited ) {
+            communityPost.PostEdited = communityPostDto.PostEdited!;
+        }
         return communityPost;
     }
 }

@@ -103,6 +103,7 @@ public class UserDetailController : ControllerBase
 
     private static UserDetail UserDtoToUserDetail(UserDto userDto) => new UserDetail {
         UserDetailId = (long)userDto.UserId!,
+        UserProfilePicture = userDto.UserProfilePicture!,
         UserName = userDto.UserName!,
         FirstName = userDto.FirstName!,
         LastName = userDto.LastName!,
@@ -118,19 +119,59 @@ public class UserDetailController : ControllerBase
     };
     
     private static UserDetail UserDtoToUserDetail(UserDto userDto, UserDetail userDetail) {
-        // userDetail.UserDetailId = (long)userDto.UserId!;
-        userDetail.UserName = userDto.UserName!;
-        userDetail.FirstName = userDto.FirstName!;
-        userDetail.LastName = userDto.LastName!;
-        userDetail.UserEmail = userDto.UserEmail!;
-        userDetail.CurrentMarks = (float)userDto.CurrentMarks!;
-        userDetail.Nic = userDto.Nic!;
-        userDetail.Dob = (DateOnly)userDto.Dob!;
-        userDetail.District = userDto.Dob.ToString()!;
-        userDetail.Address = userDto.Address!;
-        userDetail.ContactNo = userDto.ContactNo!;
-        userDetail.WorkingStatus = userDto.WorkingStatus!;
-        userDetail.AccountStatus = userDto.AccountStatus!;
+        if (userDto.UserName != null){
+            userDetail.UserName = userDto.UserName!;
+        }
+        if (userDto.UserProfilePicture != null){
+            userDetail.UserProfilePicture = userDto.UserProfilePicture!;
+        }
+        if (userDto.FirstName != null){
+            userDetail.FirstName = userDto.FirstName!;
+        }
+        if (userDto.LastName != null){
+            userDetail.LastName = userDto.LastName!;
+        }
+        if (userDto.UserEmail != null){
+            userDetail.UserEmail = userDto.UserEmail!;  
+        }
+        if (userDto.CurrentMarks != null){
+            userDetail.CurrentMarks = (float)userDto.CurrentMarks!;
+        }
+        if (userDto.Nic != null){
+            userDetail.Nic = userDto.Nic!;     
+        }
+        if (userDto.Dob != null){
+            userDetail.Dob = (DateOnly)userDto.Dob!;
+        }
+        if (userDto.District != null){
+            userDetail.District = userDto.Dob.ToString()!;
+        }
+        if (userDto.Address != null){
+            userDetail.Address = userDto.Address!;
+        }
+        if (userDto.ContactNo != null){
+            userDetail.ContactNo = userDto.ContactNo!;
+        }
+        if (userDto.WorkingStatus != null){
+            userDetail.WorkingStatus = userDto.WorkingStatus!;
+        }
+        if (userDto.AccountStatus != null){
+            userDetail.AccountStatus = userDto.AccountStatus!; 
+        }
         return userDetail;
+        // userDetail.UserDetailId = (long)userDto.UserId!;
+        // userDetail.UserName = userDto.UserName!;
+        // userDetail.FirstName = userDto.FirstName!;
+        // userDetail.LastName = userDto.LastName!;
+        // userDetail.UserEmail = userDto.UserEmail!;
+        // userDetail.CurrentMarks = (float)userDto.CurrentMarks!;
+        // userDetail.Nic = userDto.Nic!;
+        // userDetail.Dob = (DateOnly)userDto.Dob!;
+        // userDetail.District = userDto.Dob.ToString()!;
+        // userDetail.Address = userDto.Address!;
+        // userDetail.ContactNo = userDto.ContactNo!;
+        // userDetail.WorkingStatus = userDto.WorkingStatus!;
+        // userDetail.AccountStatus = userDto.AccountStatus!;
+        // return userDetail;
     }
 }

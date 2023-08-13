@@ -6,6 +6,7 @@ namespace VenomVerseApi.Models;
 
 public class UserDetail{
     public required long UserDetailId { get; set; }
+    public required byte[] UserProfilePicture { get; set; } = new byte[0]; // New property for profile picture
     public required string UserName { get; set; } = null!;       // Generate a unique username automatically
     public required string FirstName { get; set; } = null!;
     public required string LastName { get; set; } = null!;

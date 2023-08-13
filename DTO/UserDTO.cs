@@ -3,6 +3,7 @@ namespace VenomVerseApi.DTO;
 public class UserDto
 {
     public long? UserId { get; set; }
+    public byte[]? UserProfilePicture { get; set; }
     public string? UserName { get; set; }
     public string? FirstName { get; set; }
     public string? LastName { get; set; }

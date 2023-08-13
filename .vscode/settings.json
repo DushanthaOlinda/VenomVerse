@@ -1,3 +1,15 @@
 {
-    "dotnet.defaultSolution": "VenomVerseApi.sln"
+    "dotnet.defaultSolution": "VenomVerseApi.sln",
+    "sqltools.connections": [
+        {
+            "previewLimit": 50,
+            "server": "localhost",
+            "port": 5432,
+            "driver": "PostgreSQL",
+            "name": "Kimuthu",
+            "group": "VenomVerse",
+            "database": "testdb",
+            "username": "postgres"
+        }
+    ]
 }

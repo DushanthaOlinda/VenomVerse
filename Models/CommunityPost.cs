@@ -4,11 +4,12 @@ namespace VenomVerseApi.Models;
 public class CommunityPost{
     public required long CommunityPostId { get; set; }
     public required long UserId { get; set; }
-    public required string Category { get; set; } = null!;
+    public required string Category { get; set; } = null!; //remove
     public required string Description { get; set; } = null!;
     public required DateTime DateTime { get; set; } = DateTime.Now;
     public string[]? Media { get; set;}
     public long[]? React { get; set; }
+    public required bool PostEdited { get; set; } = false;
     public required int PostStatus {get; set; } = 1;
     // 0 - hidden
     // 1 - posted

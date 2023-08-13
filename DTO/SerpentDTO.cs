@@ -3,6 +3,7 @@ namespace VenomVerseApi.DTO;
 public class SerpentDto
 {
         public required long SerpentId { get; set; }
+        public required byte[] SerpentImage { get; set; }
         public required string ScientificName { get; set; }
         public required string EnglishName { get; set; }
         public required string SinhalaName { get; set; }
