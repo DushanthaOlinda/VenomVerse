@@ -38,6 +38,7 @@ public class UserDetailController : ControllerBase
     [HttpPut("{id}")]
     public async Task<IActionResult> EditUserDetails(long id, UserDto userDto) {
         if (id != userDto.UserId) return BadRequest();
+        if (_context.UserDetail == null) return NotFound();
         var userDetail = await _context.UserDetail.FindAsync(id);
         if (userDetail == null) return NotFound();
         userDetail = UserDtoToUserDetail(userDto, userDetail); 
@@ -55,7 +56,7 @@ public class UserDetailController : ControllerBase
     // POST: UserDetail  => Add new user details
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
     [HttpPost]
-    public async Task<ActionResult<UserDto>> PostCommunityPost(UserDto userDto) {
+    public async Task<ActionResult<UserDto>> PostUserDetails(UserDto userDto) {
         if (_context.UserDetail == null) return Problem("Entity set 'VenomVerseContext.UserDetails'  is null.");
         var userDetail = UserDtoToUserDetail(userDto);
         _context.UserDetail.Add(userDetail);
@@ -85,10 +86,10 @@ public class UserDetailController : ControllerBase
     // ============================================================================
 
     private static UserDto UserToUserDto(UserDetail user) => new UserDto {
+        UserId = user.UserDetailId,
+        UserName = user.UserName,
         FirstName = user.FirstName,
         LastName = user.LastName,
-        UserName = user.UserName,
-        UserId = user.UserDetailId,
         UserEmail = user.UserEmail,
         CurrentMarks = user.CurrentMarks,
         Nic = user.Nic,
@@ -97,15 +98,16 @@ public class UserDetailController : ControllerBase
         Address = user.Address,
         ContactNo = user.ContactNo,
         WorkingStatus = user.WorkingStatus,
+        AccountStatus = user.AccountStatus
     };
 
     private static UserDetail UserDtoToUserDetail(UserDto userDto) => new UserDetail {
         UserDetailId = (long)userDto.UserId!,
+        UserName = userDto.UserName!,
         FirstName = userDto.FirstName!,
         LastName = userDto.LastName!,
         UserEmail = userDto.UserEmail!,
         CurrentMarks = (float)userDto.CurrentMarks!,
-        UserName = userDto.UserName!,
         Nic = userDto.Nic!,
         Dob = (DateOnly)userDto.Dob!,
         District = userDto.Dob.ToString()!,
@@ -116,12 +118,12 @@ public class UserDetailController : ControllerBase
     };
     
     private static UserDetail UserDtoToUserDetail(UserDto userDto, UserDetail userDetail) {
-        userDetail.UserDetailId = (long)userDto.UserId!;
+        // userDetail.UserDetailId = (long)userDto.UserId!;
+        userDetail.UserName = userDto.UserName!;
         userDetail.FirstName = userDto.FirstName!;
         userDetail.LastName = userDto.LastName!;
         userDetail.UserEmail = userDto.UserEmail!;
         userDetail.CurrentMarks = (float)userDto.CurrentMarks!;
-        userDetail.UserName = userDto.UserName!;
         userDetail.Nic = userDto.Nic!;
         userDetail.Dob = (DateOnly)userDto.Dob!;
         userDetail.District = userDto.Dob.ToString()!;

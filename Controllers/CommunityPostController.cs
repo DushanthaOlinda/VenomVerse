@@ -35,15 +35,17 @@ public class CommunityPostController : ControllerBase
     // PUT: api/CommunityPost/5
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
     [HttpPut("{id}")]
-    public async Task<IActionResult> PutCommunityPost(long id, CommunityPostDto communityPostDto) {
-        if (id != communityPostDto.CommunityPostId) return BadRequest();
-        var communityPost = CommunityPostDtoToCommunityPost(communityPostDto);
-        _context.Entry(communityPostDto).State = EntityState.Modified;
-
+    public async Task<IActionResult> PutCommunityPost(long id, CommunityPostDto communityPostDto) { // ( user id, post dto)
+        if (id != communityPostDto.UserId) return BadRequest();     // userid != post.userId
+        if (_context.CommunityPost == null) return NotFound();
+        var communityPost = await _context.CommunityPost.FindAsync(communityPostDto.CommunityPostId);
+        if (communityPost == null) return NotFound();
+        communityPost = CommunityPostDtoToCommunityPost(communityPostDto, communityPost);
+        _context.Entry(communityPost).State = EntityState.Modified;
         try {
             await _context.SaveChangesAsync();
         } catch (DbUpdateConcurrencyException) {
-            if (!CommunityPostExists(id)) {
+            if (!CommunityPostExists(communityPost.CommunityPostId)) {
                 return NotFound();
             } else {
                 throw;
@@ -56,9 +58,7 @@ public class CommunityPostController : ControllerBase
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
     [HttpPost]
     public async Task<ActionResult<CommunityPostDto>> PostCommunityPost(CommunityPostDto communityPostDto) {
-        if (_context.CommunityPost == null) {
-            return Problem("Entity set 'VenomVerseContext.CommunityPost'  is null.");
-        }
+        if (_context.CommunityPost == null) return Problem("Entity set 'VenomVerseContext.CommunityPost'  is null.");
         var communityPost = CommunityPostDtoToCommunityPost(communityPostDto);
         _context.CommunityPost.Add(communityPost);
         await _context.SaveChangesAsync();
@@ -76,8 +76,8 @@ public class CommunityPostController : ControllerBase
         return NoContent();
     }
 
-    private bool CommunityPostExists(long id) {
-        return (_context.CommunityPost?.Any(e => e.CommunityPostId == id)).GetValueOrDefault();
+    private bool CommunityPostExists(long CommunityPostId) {
+        return (_context.CommunityPost?.Any(e => e.CommunityPostId == CommunityPostId)).GetValueOrDefault();
     }
 
     // ============================================================================
@@ -90,6 +90,8 @@ public class CommunityPostController : ControllerBase
         Category = communityPost.Category,
         Description = communityPost.Description,
         DateTime = communityPost.DateTime,
+        Media = communityPost.Media,
+        React = communityPost.React,
         PostStatus = communityPost.PostStatus
     };
 
@@ -99,7 +101,21 @@ public class CommunityPostController : ControllerBase
         Category = communityPost.Category,
         Description = communityPost.Description,
         DateTime = communityPost.DateTime,
+        Media = communityPost.Media,
+        React = communityPost.React,
         PostStatus = communityPost.PostStatus
     };
+
+    private static CommunityPost CommunityPostDtoToCommunityPost ( CommunityPostDto communityPostDto, CommunityPost communityPost ) {
+        // communityPost.CommunityPostId = communityPostDto.CommunityPostId!;
+        communityPost.UserId = communityPostDto.UserId!;
+        communityPost.Category = communityPostDto.Category!;
+        communityPost.Description = communityPostDto.Description!;
+        communityPost.DateTime = communityPostDto.DateTime!;
+        communityPost.Media = communityPostDto.Media!;
+        communityPost.React = communityPostDto.React!;
+        communityPost.PostStatus = communityPostDto.PostStatus!;
+        return communityPost;
+    }
 }
 
