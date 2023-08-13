@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using VenomVerseApi.Models;
@@ -11,9 +12,11 @@ using VenomVerseApi.Models;
 namespace VenomVerseApi.Migrations
 {
     [DbContext(typeof(VenomVerseContext))]
-    partial class VenomVerseContextModelSnapshot : ModelSnapshot
+    [Migration("20230813170148_serpentImage")]
+    partial class serpentImage
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1075,6 +1078,10 @@ namespace VenomVerseApi.Migrations
                     b.Property<string>("ScientificName")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<byte[]>("SerpentImage")
+                        .IsRequired()
+                        .HasColumnType("bytea");
 
                     b.Property<string>("SinhalaName")
                         .IsRequired()

@@ -61,7 +61,7 @@ public class SerpentController : ControllerBase
         var serpent = SerpentDtoToSerpent(serpentDto);
         _context.Serpent.Add(serpent);
         await _context.SaveChangesAsync();
-        return CreatedAtAction( "GetSerpent", new { id = serpentDto.SerpentId }, serpentDto );
+        return CreatedAtAction( "GetSerpentDetail", new { id = serpent.SerpentId }, serpent );
     }
 
 
@@ -88,7 +88,7 @@ public class SerpentController : ControllerBase
 
     private static SerpentDto SerpentToSerpentDto (Serpent serpent) => new SerpentDto {
         SerpentId = serpent.SerpentId,
-        SerpentImage = serpent.SerpentImage,
+        // SerpentImage = serpent.SerpentImage,
         ScientificName = serpent.ScientificName,
         EnglishName = serpent.EnglishName,
         SinhalaName = serpent.SinhalaName,
@@ -103,25 +103,25 @@ public class SerpentController : ControllerBase
     };
 
     private static Serpent SerpentDtoToSerpent (SerpentDto serpent) => new Serpent {
-        SerpentId = serpent.SerpentId,
-        SerpentImage = serpent.SerpentImage,
-        ScientificName = serpent.ScientificName,
-        EnglishName = serpent.EnglishName,
-        SinhalaName = serpent.SinhalaName,
+        SerpentId = (long)serpent.SerpentId!,
+        // SerpentImage = serpent.SerpentImage!,
+        ScientificName = serpent.ScientificName!,
+        EnglishName = serpent.EnglishName!,
+        SinhalaName = serpent.SinhalaName!,
         Venomous = serpent.Venomous,
-        Family = serpent.Family,
-        SubFamily = serpent.SubFamily,
-        Genus = serpent.Genus,
+        Family = serpent.Family!,
+        SubFamily = serpent.SubFamily!,
+        Genus = serpent.Genus!,
         SpecialNote = serpent.SpecialNote,
         SpecialNoteSinhala = serpent.SpecialNoteSinhala,
-        Description = serpent.Description,
-        DescriptionSinhala = serpent.DescriptionSinhala
+        Description = serpent.Description!,
+        DescriptionSinhala = serpent.DescriptionSinhala!
     };
 
     public static Serpent SerpentDtoToSerpent ( SerpentDto serpentDto, Serpent serpent ) {
-        if ( serpentDto.SerpentImage != null ) {
-            serpent.SerpentImage = serpentDto.SerpentImage;
-        }
+        // if ( serpentDto.SerpentImage != null ) {
+            // serpent.SerpentImage = serpentDto.SerpentImage;
+        // }
         if ( serpentDto.ScientificName != null ) {
             serpent.ScientificName = serpentDto.ScientificName;
         }
