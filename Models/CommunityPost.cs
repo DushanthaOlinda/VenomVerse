@@ -1,7 +1,25 @@
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
+
 namespace VenomVerseApi.Models;
 
+[Index("UserId",IsUnique =false)]
+
 public class CommunityPost{
+    public CommunityPost()
+    {}
+
+    public CommunityPost(long communityPostId, long userId, string category, string description, string[]? media, long[]? react, int postStatus)
+    {
+        CommunityPostId = communityPostId;
+        UserId = userId;
+        Category = category;
+        Description = description;
+        Media = media;
+        React = react;
+        PostStatus = postStatus;
+    }
+    
     public required long CommunityPostId { get; set; }
     public required long UserId { get; set; }
     public required string Category { get; set; } = null!;

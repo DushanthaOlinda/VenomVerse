@@ -146,7 +146,8 @@ public class UserDetailController : ControllerBase
         };
     private static UserDetail UserDtoToUserDetail(UserDto userDto, UserDetail userDetail)
     {
-        userDetail.UserDetailId = (long)userDto.UserId!;        
+        userDetail.UserDetailId = (long)userDto.UserId!;  
+        // userDetail.FirstName = userDto.FirstName
         return userDetail;
     }
 

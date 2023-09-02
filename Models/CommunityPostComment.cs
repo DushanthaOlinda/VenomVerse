@@ -1,4 +1,6 @@
 using System.ComponentModel.DataAnnotations.Schema;
+using VenomVerseApi.DTO;
+
 namespace VenomVerseApi.Models
 {
     public class CommunityPostComment{
@@ -10,6 +12,28 @@ namespace VenomVerseApi.Models
 
         // Foreign Key References
                 [ForeignKey("UserId")] public UserDetail User { get; set; } = null!; 
-                [ForeignKey("CommunityPostId")] public CommunityPost CommunityArticle { get; set; } = null!; 
+                [ForeignKey("CommunityPostId")] public CommunityPost CommunityArticle { get; set; } = null!;
+
+
+        public static PostCommentDto CommentToCommentDto(CommunityPostComment comment)
+        {
+            return new PostCommentDto(
+                comment.CommunityPostCommentId,
+                comment.CommunityPostId,
+                comment.UserId,
+                comment.Comment
+                );
+        }
+
+        public PostCommentDto CommentToCommentDto()
+        {
+            return new PostCommentDto(
+                this.CommunityPostCommentId,
+                this.CommunityPostId,
+                this.UserId,
+                this.Comment
+            );
+        }
+        
     }
 }
