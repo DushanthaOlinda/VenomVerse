@@ -18,7 +18,7 @@ public class PostDto
     //     Reports = reports;
     // }
 
-    public PostDto(long postId, long userId, string category, string description, DateTime dateTime, string[]? media, long[]? react, int postStatus, List<CommunityPostComment>? comments, List<CommunityPostReport>? reports)
+    public PostDto(long postId, long userId, string category, string description, DateTime dateTime, string[]? media, long[]? react, int postStatus, List<PostCommentDto>? comments, List<ReportDto>? reports)
     {
         PostId = postId;
         UserId = userId;
@@ -41,7 +41,7 @@ public class PostDto
     public string[]? Media { get; set; }
     public long[]? React { get; set; }
     public int PostStatus { get; set; }
-    public List<CommunityPostComment>? Comments { get; set; }
-    public List<CommunityPostReport>? Reports { get; set; }
+    public List<PostCommentDto>? Comments { get; set; }
+    public List<ReportDto>? Reports { get; set; }
 }
     

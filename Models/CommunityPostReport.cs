@@ -1,4 +1,6 @@
 using System.ComponentModel.DataAnnotations.Schema;
+using VenomVerseApi.DTO;
+
 namespace VenomVerseApi.Models
 {
     public class CommunityPostReport{
@@ -13,6 +15,19 @@ namespace VenomVerseApi.Models
         // Foreign Key References
                 [ForeignKey("UserId")] public UserDetail User { get; set; } = null!; 
                 [ForeignKey("CommunityPostId")] public CommunityPost CommunityPost { get; set; } = null!; 
+                
+                
+        public ReportDto ReportToReportDto()
+        {
+            return new ReportDto(
+                this.CommunityPostReportId,
+                this.CommunityPostId,
+                this.UserId,
+                this.Description,
+                this.ComAdminId,
+                this.Response
+                );
+        }   
     }
 }
 
