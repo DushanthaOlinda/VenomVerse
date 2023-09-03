@@ -6,7 +6,7 @@ namespace VenomVerseApi.Models;
 
 public class UserDetail{
     public required long UserDetailId { get; set; }
-    public required byte[] UserProfilePicture { get; set; } = new byte[0]; // New property for profile picture
+    // public required byte[] UserProfilePicture { get; set; } = new byte[0]; // New property for profile picture
     public required string UserName { get; set; } = null!;       // Generate a unique username automatically
     public required string FirstName { get; set; } = null!;
     public required string LastName { get; set; } = null!;
@@ -57,4 +57,5 @@ public class UserDetail{
     public Zoologist? Zoologist { get; set; } = null;
     [InverseProperty("UserPos")] public SerpentInstruction? SerpentInstructionPos { get; set; } = null!;
     [InverseProperty("UserNeg")] public SerpentInstruction? SerpentInstructionNeg { get; set; } = null!;
+    [InverseProperty("VideoUser")] public CommunityVideo? CommunityVideo { get; set; } = null!;
 }

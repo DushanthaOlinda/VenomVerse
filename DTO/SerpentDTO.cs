@@ -3,7 +3,8 @@ namespace VenomVerseApi.DTO;
 public class SerpentDto
 {
         public long? SerpentId { get; set; }
-        // public byte[]? SerpentImage { get; set; }
+        public IFormFile? SerpentImageFile { get; set; }    // Include a property to hold the uploaded profile picture file
+        public byte[]? SerpentImage { get; set; }           // Property to hold the converted profile picture as a byte array
         public string? ScientificName { get; set; }
         public string? EnglishName { get; set; }
         public string? SinhalaName { get; set; }

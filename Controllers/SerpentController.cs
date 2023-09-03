@@ -29,7 +29,12 @@ public class SerpentController : ControllerBase
         if ( _context.Serpent == null ) return NotFound();
         var serpentDetail =  await _context.Serpent.FindAsync(id);
         if ( serpentDetail == null ) return NotFound();
-        return SerpentToSerpentDto(serpentDetail);
+        var serpentImage = File(serpentDetail.SerpentImage, "serpentImage/jpeg");
+        // serpentDetail.SerpentImage = serpentImage;
+        var serpentDto = SerpentToSerpentDto(serpentDetail);
+        // serpentDto.SerpentImageFile = serpentImage;
+        // serpentDto.SerpentImage =
+        return serpentDto;
     }
 
     // PUT: Serpent/{id}
@@ -56,7 +61,13 @@ public class SerpentController : ControllerBase
 
     // POST: Serpent
     [HttpPost]
-    public async Task<ActionResult<SerpentDto>> PostSerpent(SerpentDto serpentDto) {
+    public async Task<ActionResult<SerpentDto>> PostSerpent([FromForm] SerpentDto serpentDto) {
+        if (serpentDto.SerpentImageFile != null) {
+            using (var memoryStream = new MemoryStream()) {
+                await serpentDto.SerpentImageFile.CopyToAsync(memoryStream);
+                serpentDto.SerpentImage = memoryStream.ToArray();
+            }
+        }
         if ( _context.Serpent == null ) return NotFound();
         var serpent = SerpentDtoToSerpent(serpentDto);
         _context.Serpent.Add(serpent);
@@ -88,7 +99,7 @@ public class SerpentController : ControllerBase
 
     private static SerpentDto SerpentToSerpentDto (Serpent serpent) => new SerpentDto {
         SerpentId = serpent.SerpentId,
-        // SerpentImage = serpent.SerpentImage,
+        SerpentImage = serpent.SerpentImage,
         ScientificName = serpent.ScientificName,
         EnglishName = serpent.EnglishName,
         SinhalaName = serpent.SinhalaName,
@@ -99,12 +110,13 @@ public class SerpentController : ControllerBase
         SpecialNote = serpent.SpecialNote,
         SpecialNoteSinhala = serpent.SpecialNoteSinhala,
         Description = serpent.Description,
-        DescriptionSinhala = serpent.DescriptionSinhala
+        DescriptionSinhala = serpent.DescriptionSinhala,
+        // SerpentImageFile = File(serpent.SerpentImage, "serpentImage/jpeg")
     };
 
     private static Serpent SerpentDtoToSerpent (SerpentDto serpent) => new Serpent {
         SerpentId = (long)serpent.SerpentId!,
-        // SerpentImage = serpent.SerpentImage!,
+        SerpentImage = serpent.SerpentImage!,
         ScientificName = serpent.ScientificName!,
         EnglishName = serpent.EnglishName!,
         SinhalaName = serpent.SinhalaName!,
@@ -119,9 +131,9 @@ public class SerpentController : ControllerBase
     };
 
     public static Serpent SerpentDtoToSerpent ( SerpentDto serpentDto, Serpent serpent ) {
-        // if ( serpentDto.SerpentImage != null ) {
-            // serpent.SerpentImage = serpentDto.SerpentImage;
-        // }
+        if ( serpentDto.SerpentImage != null ) {
+            serpent.SerpentImage = serpentDto.SerpentImage;
+        }
         if ( serpentDto.ScientificName != null ) {
             serpent.ScientificName = serpentDto.ScientificName;
         }

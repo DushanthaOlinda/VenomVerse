@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using VenomVerseApi.DTO;
 using VenomVerseApi.Models;
 
-namespace VenomVerseApi.Controllers;
+namespace VenomVerseApi.Controllers; 
 
 [ApiController]
 [Route("[controller]")]
@@ -87,6 +87,7 @@ public class UserDetailController : ControllerBase
 
     private static UserDto UserToUserDto(UserDetail user) => new UserDto {
         UserId = user.UserDetailId,
+        // UserProfilePicture = user.UserProfilePicture,
         UserName = user.UserName,
         FirstName = user.FirstName,
         LastName = user.LastName,
@@ -103,7 +104,7 @@ public class UserDetailController : ControllerBase
 
     private static UserDetail UserDtoToUserDetail(UserDto userDto) => new UserDetail {
         UserDetailId = (long)userDto.UserId!,
-        UserProfilePicture = userDto.UserProfilePicture!,
+        // UserProfilePicture = userDto.UserProfilePicture!,
         UserName = userDto.UserName!,
         FirstName = userDto.FirstName!,
         LastName = userDto.LastName!,
@@ -122,9 +123,9 @@ public class UserDetailController : ControllerBase
         if (userDto.UserName != null){
             userDetail.UserName = userDto.UserName!;
         }
-        if (userDto.UserProfilePicture != null){
-            userDetail.UserProfilePicture = userDto.UserProfilePicture!;
-        }
+        // if (userDto.UserProfilePicture != null){
+        //     userDetail.UserProfilePicture = userDto.UserProfilePicture!;
+        // }
         if (userDto.FirstName != null){
             userDetail.FirstName = userDto.FirstName!;
         }

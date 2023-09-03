@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using VenomVerseApi.Models;
@@ -11,9 +12,11 @@ using VenomVerseApi.Models;
 namespace VenomVerseApi.Migrations
 {
     [DbContext(typeof(VenomVerseContext))]
-    partial class VenomVerseContextModelSnapshot : ModelSnapshot
+    [Migration("20230813181547_serpentImage3")]
+    partial class serpentImage3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -637,37 +640,6 @@ namespace VenomVerseApi.Migrations
                         .IsUnique();
 
                     b.ToTable("CommunityResearch");
-                });
-
-            modelBuilder.Entity("VenomVerseApi.Models.CommunityVideo", b =>
-                {
-                    b.Property<long>("CommunityVideoId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    NpgsqlPropertyBuilderExtensions.UseSerialColumn(b.Property<long>("CommunityVideoId"));
-
-                    b.Property<long>("UserId")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("VideoDescription")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("VideoLink")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("VideoTitle")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("CommunityVideoId");
-
-                    b.HasIndex("UserId")
-                        .IsUnique();
-
-                    b.ToTable("CommunityVideo");
                 });
 
             modelBuilder.Entity("VenomVerseApi.Models.EmergencyContact", b =>
@@ -1343,6 +1315,10 @@ namespace VenomVerseApi.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<byte[]>("UserProfilePicture")
+                        .IsRequired()
+                        .HasColumnType("bytea");
+
                     b.Property<string>("WorkingStatus")
                         .IsRequired()
                         .HasColumnType("text");
@@ -1667,17 +1643,6 @@ namespace VenomVerseApi.Migrations
                     b.Navigation("Zoologist");
                 });
 
-            modelBuilder.Entity("VenomVerseApi.Models.CommunityVideo", b =>
-                {
-                    b.HasOne("VenomVerseApi.Models.UserDetail", "VideoUser")
-                        .WithOne("CommunityVideo")
-                        .HasForeignKey("VenomVerseApi.Models.CommunityVideo", "UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("VideoUser");
-                });
-
             modelBuilder.Entity("VenomVerseApi.Models.Notification", b =>
                 {
                     b.HasOne("VenomVerseApi.Models.UserDetail", "User")
@@ -1965,8 +1930,6 @@ namespace VenomVerseApi.Migrations
                         .IsRequired();
 
                     b.Navigation("CommunityResearch");
-
-                    b.Navigation("CommunityVideo");
 
                     b.Navigation("Notification");
 

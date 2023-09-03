@@ -45,4 +45,5 @@ public class VenomVerseContext : IdentityUserContext<IdentityUser>
     public DbSet<SystemReport> SystemReport { get; set; } = default!;
     public DbSet<UserDetail> UserDetail { get; set; } = default!;   //
     public DbSet<Zoologist> Zoologist { get; set; } = default!;
+    public DbSet<CommunityVideo> CommunityVideo { get; set; } = default!;
 }

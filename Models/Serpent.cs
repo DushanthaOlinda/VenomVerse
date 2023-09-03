@@ -3,7 +3,8 @@ namespace VenomVerseApi.Models
 {
         public class Serpent {
         public required long SerpentId { get; set; }
-        // public required byte[] SerpentImage { get; set; } = new byte[0];
+        [NotMapped] public IFormFile? SerpentImageFile { get; set; } = null;
+        public required byte[] SerpentImage { get; set; } = new byte[0];
         public required string ScientificName { get; set; }
         public required string EnglishName { get; set; }
         public required string SinhalaName { get; set; }
