@@ -1,5 +1,3 @@
-using System.Collections.Immutable;
-using System.Xml;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using VenomVerseApi.DTO;
@@ -61,8 +59,10 @@ namespace VenomVerseApi.Controllers
         }
 
 
-        private static PostDto CreatePostDto(CommunityPost communityPost,
-            IEnumerable<CommunityPostComment> communityPostComments, IEnumerable<CommunityPostReport> communityPostReports)
+        private static PostDto CreatePostDto(
+            CommunityPost communityPost,
+            IEnumerable<CommunityPostComment> communityPostComments, 
+            IEnumerable<CommunityPostReport> communityPostReports)
         {
             var postDetails = new PostDto(communityPost.CommunityPostId,
                 communityPost.UserId,
