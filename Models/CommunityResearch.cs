@@ -12,7 +12,7 @@ public class CommunityResearch{
     public string[]? Media { get; set;}
     public string? Author { get; set;}
     public DateOnly? PublishedDate { get; set;}    // Research should have been published before upload as a learning material in the application
-    public string[]? PostCopyright { get; set; }
+    public string[]? ResearchCopyright { get; set; }
 
             // Foreign Key References
             [ForeignKey("UserId")] public Zoologist Zoologist { get; set; } = null!;

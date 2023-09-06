@@ -29,6 +29,7 @@ public class UserDetailController : ControllerBase
     [HttpGet("{id}")]
     public async Task<ActionResult<UserDto>> GetUserDetail(long id)         
     {
+        Console.Out.WriteLine(id);
         if (_context.UserDetail == null) return NotFound();
         var userDetail = await _context.UserDetail.FindAsync(id);
         if (userDetail == null) return NotFound();
@@ -40,8 +41,23 @@ public class UserDetailController : ControllerBase
     [HttpPut("{id}")]
     public async Task<IActionResult> EditUserDetails(long id, UserDto userDto)
     {
-        if (id != userDto.UserId) return BadRequest();
-        var userDetail = UserDtoToUserDetail(userDto); 
+        if (id != userDto.UserId)
+        {
+            return BadRequest();
+        }
+
+        var userDetail = await _context.UserDetail.FindAsync(id);
+
+        
+        if (userDetail == null)
+        {
+            return NotFound();
+        }
+        else
+        {
+            userDetail = UserDtoToUserDetail(userDto, userDetail);
+        }
+        
         _context.Entry(userDetail).State = EntityState.Modified;
         try 
         {
@@ -50,7 +66,10 @@ public class UserDetailController : ControllerBase
         catch (DbUpdateConcurrencyException)
         {
             if (!UserDetailsExists(id))
+            {
                 return NotFound();
+            }
+
             throw;
         }
         return NoContent();
@@ -128,5 +147,11 @@ public class UserDetailController : ControllerBase
             WorkingStatus = userDto.WorkingStatus!,
             AccountStatus = userDto.AccountStatus!,
         };
-    
+    private static UserDetail UserDtoToUserDetail(UserDto userDto, UserDetail userDetail)
+    {
+        userDetail.UserDetailId = (long)userDto.UserId!;  
+        // userDetail.FirstName = userDto.FirstName
+        return userDetail;
+    }
+
 }
