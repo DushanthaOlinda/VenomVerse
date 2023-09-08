@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Win32;
 using VenomVerseApi.DTO;
 using VenomVerseApi.Models;
 
@@ -23,10 +22,10 @@ public class SerpentController : ControllerBase
     {
         if ( _context.Serpent == null ) return NotFound();
         // return await _context.Serpent.Select( x=>SerpentToSerpentDto(x)).ToListAsync();
-        return await _context.CommunityPost.Select(x => CreateSerpentDto(
+        return await _context.Serpent.Select(x => CreateSerpentDto(
             x,
             _context.SerpentInstruction.Where(p => p.SerpentId == x.SerpentId).ToList()
-        ).ToListAsync();
+        )).ToListAsync();
     }
 
     // GET: Serpent/{id}
@@ -82,7 +81,21 @@ public class SerpentController : ControllerBase
             serpentDetail.DescriptionSinhala,
             serpentInstructions
 
-        );
+        )
+        {
+            SerpentId = serpentDetail.SerpentId,
+            ScientificName = serpentDetail.ScientificName,
+            EnglishName = serpentDetail.EnglishName,
+            SinhalaName = serpentDetail.SinhalaName,
+            SerpentMedia = serpentDetail.SerpentMedia,
+            Venomous = serpentDetail.Venomous,
+            Family = serpentDetail.Family,
+            SubFamily = serpentDetail.SubFamily,
+            Genus = serpentDetail.Genus,
+            Description = serpentDetail.Description,
+            DescriptionSinhala = serpentDetail.DescriptionSinhala
+        };
+        return serpent;
     }
 
     // PUT: Serpent/{id}
@@ -120,7 +133,7 @@ public class SerpentController : ControllerBase
         var serpent = SerpentDtoToSerpent(serpentDto);
         _context.Serpent.Add(serpent);
         await _context.SaveChangesAsync();
-        return CreatedAtAction( "GetSerpent", new { id = serpentDto.SerpentId}, serpentDto );
+        return CreatedAtAction( "GetSerpentDetail", new { id = serpentDto.SerpentId}, serpentDto );
     }
 
 

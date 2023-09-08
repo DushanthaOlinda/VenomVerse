@@ -55,7 +55,7 @@ public class SerpentDto
         public required string Description { get; set; }
         public required string DescriptionSinhala { get; set; }
 
-        public List<SerpentInstructionDto>? Instructions { get; set; } = null;
+        public List<SerpentInstructionDto>? Instructions { get; set; }
 
         // public SerpentDto ( long serpentId, string scientificName, string englishName, string sinhalaName, string[] serpentMedia, int venomous, string family, string subFamily, string genus, string specialNote, string specialNoteSinhala, string description, string descriptionSinhala, List<SerpentInstructionDto>? instructions) {
         //         SerpentId = serpentId;

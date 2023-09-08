@@ -1,5 +1,3 @@
-using System.Collections.Immutable;
-using System.Xml;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using VenomVerseApi.DTO;
@@ -120,8 +118,8 @@ namespace VenomVerseApi.Controllers
               return Problem("Entity set 'VenomVerseContext.CommunityPost'  is null.");
           }
           
-        //   _context.CommunityPost.Add(PostDtoToPost(communityPost));
-        _context.CommunityPost.Add(CommunityPost.PostDtoToPost(communityPost));
+          //   _context.CommunityPost.Add(PostDtoToPost(communityPost));
+          _context.CommunityPost.Add(CommunityPost.PostDtoToPost(communityPost));
 
           await _context.SaveChangesAsync();
 
