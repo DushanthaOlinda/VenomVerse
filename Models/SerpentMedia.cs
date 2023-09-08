@@ -9,6 +9,6 @@ namespace VenomVerseApi.Models
         public string? SerpentMediaSource { get; set; }
 
                 // Foreign Key References
-                [ForeignKey("SerpentId")] public Serpent Serpent { get; set; } = null!;
+                // [ForeignKey("SerpentId")] public Serpent Serpent { get; set; } = null!;
     }
 }

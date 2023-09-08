@@ -38,6 +38,7 @@ public class CommunityPost{
             [ForeignKey("React")] public List<UserDetail> UserPostReact { get; set; } = null!;
             [ForeignKey("UserId")] public UserDetail PostUser { get; set; } = null!;
             [InverseProperty("UserSavedPost")] public List<UserDetail> UserSavedPost { get; set; } = null!;
+    public long SerpentId { get; internal set; }
 
     public static CommunityPost PostDtoToPost(PostDto communityPostDto)
         {

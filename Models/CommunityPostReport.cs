@@ -26,7 +26,7 @@ namespace VenomVerseApi.Models
                 this.Description,
                 this.ComAdminId,
                 this.Response
-                );
+            );
         }   
     }
 }

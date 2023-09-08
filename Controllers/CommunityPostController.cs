@@ -54,7 +54,6 @@ namespace VenomVerseApi.Controllers
 
           var postDetails = CreatePostDto(communityPost, comments, reports);
 
-
           return postDetails;
         }
 

@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Win32;
 using VenomVerseApi.DTO;
 using VenomVerseApi.Models;
 
@@ -21,7 +22,11 @@ public class SerpentController : ControllerBase
     public async Task<ActionResult<IEnumerable<SerpentDto>>> GetAllSerpents()
     {
         if ( _context.Serpent == null ) return NotFound();
-        return await _context.Serpent.Select( x=>SerpentToSerpentDto(x)).ToListAsync();
+        // return await _context.Serpent.Select( x=>SerpentToSerpentDto(x)).ToListAsync();
+        return await _context.CommunityPost.Select(x => CreateSerpentDto(
+            x,
+            _context.SerpentInstruction.Where(p => p.SerpentId == x.SerpentId).ToList()
+        ).ToListAsync();
     }
 
     // GET: Serpent/{id}
@@ -31,7 +36,53 @@ public class SerpentController : ControllerBase
         if ( _context.Serpent == null ) return NotFound();
         var serpentDetail =  await _context.Serpent.FindAsync(id);
         if ( serpentDetail == null ) return NotFound();
-        return SerpentToSerpentDto(serpentDetail);
+        var serpentInstructoins = _context.SerpentInstruction.Where(p=> p.SerpentId == serpentDetail.SerpentId).ToList();
+        // return SerpentToSerpentDto(serpentDetail);
+        return CreateSerpentDto(serpentDetail, serpentInstructoins);
+    }
+
+    private static SerpentDto CreateSerpentDto(
+        Serpent serpentDetail, IEnumerable<SerpentInstruction> serpentInstructions
+    ){
+        // var serpent = new SerpentDto(
+        //     serpentDetail.SerpentId,
+        //     serpentDetail.ScientificName,
+        //     serpentDetail.EnglishName,
+        //     serpentDetail.SinhalaName,
+        //     serpentDetail.SerpentMedia,
+        //     serpentDetail.Venomous,
+        //     serpentDetail.Family,
+        //     serpentDetail.SubFamily,
+        //     serpentDetail.Genus,
+        //     serpentDetail.SpecialNote!,
+        //     serpentDetail.SpecialNoteSinhala!,
+        //     serpentDetail.Description,
+        //     serpentDetail.DescriptionSinhala,
+        //     serpentInstructions.Select(i => i.InstructionToInstructionDto()).ToList()
+        // )
+        // {
+        //     SerpentId = serpentDetail.SerpentId
+        // };
+
+        // return serpent;
+
+        var serpent = new SerpentDto( 
+            serpentDetail.SerpentId,
+            serpentDetail.ScientificName,
+            serpentDetail.EnglishName,
+            serpentDetail.SinhalaName,
+            serpentDetail.SerpentMedia,
+            serpentDetail.Venomous,
+            serpentDetail.Family,
+            serpentDetail.SubFamily,
+            serpentDetail.Genus,
+            serpentDetail.SpecialNote,
+            serpentDetail.SpecialNoteSinhala,
+            serpentDetail.Description,
+            serpentDetail.DescriptionSinhala,
+            serpentInstructions
+
+        );
     }
 
     // PUT: Serpent/{id}
@@ -96,30 +147,33 @@ public class SerpentController : ControllerBase
     // ============================ DTO CONVERSION ================================
     // ============================================================================
 
-    private static SerpentDto SerpentToSerpentDto (Serpent serpent) =>
-        new SerpentDto
-        {
-            SerpentId = serpent.SerpentId,
-            ScientificName = serpent.ScientificName,
-            EnglishName = serpent.EnglishName,
-            SinhalaName = serpent.SinhalaName,
-            Venomous = serpent.Venomous,
-            Family = serpent.Family,
-            SubFamily = serpent.SubFamily,
-            Genus = serpent.Genus,
-            SpecialNote = serpent.SpecialNote,
-            SpecialNoteSinhala = serpent.SpecialNoteSinhala,
-            Description = serpent.Description,
-            DescriptionSinhala = serpent.DescriptionSinhala
-        };
+    // private static SerpentDto SerpentToSerpentDto (Serpent serpent, ) =>
+    //     new SerpentDto
+    //     {
+    //         SerpentId = serpent.SerpentId,
+    //         ScientificName = serpent.ScientificName,
+    //         EnglishName = serpent.EnglishName,
+    //         SinhalaName = serpent.SinhalaName,
+    //         SerpentMedia = serpent.SerpentMedia,
+    //         Venomous = serpent.Venomous,
+    //         Family = serpent.Family,
+    //         SubFamily = serpent.SubFamily,
+    //         Genus = serpent.Genus,
+    //         SpecialNote = serpent.SpecialNote,
+    //         SpecialNoteSinhala = serpent.SpecialNoteSinhala,
+    //         Description = serpent.Description,
+    //         DescriptionSinhala = serpent.DescriptionSinhala,
+    //         Instructions = null
+    //     };
 
     private static Serpent SerpentDtoToSerpent (SerpentDto serpent) =>
-        new Serpent
+        new()
         {
             SerpentId = serpent.SerpentId,
             ScientificName = serpent.ScientificName,
             EnglishName = serpent.EnglishName,
             SinhalaName = serpent.SinhalaName,
+            SerpentMedia = serpent.SerpentMedia,
             Venomous = serpent.Venomous,
             Family = serpent.Family,
             SubFamily = serpent.SubFamily,
@@ -129,4 +183,5 @@ public class SerpentController : ControllerBase
             Description = serpent.Description,
             DescriptionSinhala = serpent.DescriptionSinhala
         };
+        
 }
