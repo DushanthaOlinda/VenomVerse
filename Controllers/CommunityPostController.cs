@@ -25,7 +25,7 @@ namespace VenomVerseApi.Controllers
                 return NotFound();
             }
             // return await _context.CommunityPost.ToListAsync();
-            return await _context.CommunityPost.Select(x => CreatePostDto(
+            return await _context.CommunityPost.Select(x => CommunityPost.CreatePostDto(
                 x,
                 _context.CommunityPostComment.Where(p => p.CommunityPostId == x.CommunityPostId).ToList(),
                 _context.CommunityPostReport.Where(p => p.CommunityPostId == x.CommunityPostId).ToList())
@@ -50,31 +50,10 @@ namespace VenomVerseApi.Controllers
           var comments = _context.CommunityPostComment.Where(p => p.CommunityPostId == communityPost.CommunityPostId).ToList();
           var reports = _context.CommunityPostReport.Where(p => p.CommunityPostId == communityPost.CommunityPostId).ToList();
 
-          var postDetails = CreatePostDto(communityPost, comments, reports);
+          var postDetails = CommunityPost.CreatePostDto(communityPost, comments, reports);
 
           return postDetails;
         }
-
-
-        private static PostDto CreatePostDto(
-            CommunityPost communityPost,
-            IEnumerable<CommunityPostComment> communityPostComments, 
-            IEnumerable<CommunityPostReport> communityPostReports)
-        {
-            var postDetails = new PostDto(communityPost.CommunityPostId,
-                communityPost.UserId,
-                communityPost.Category,
-                communityPost.Description,
-                communityPost.DateTime,
-                communityPost.Media,
-                communityPost.React,
-                communityPost.PostStatus,
-                communityPostComments.Select(c => c.CommentToCommentDto()).ToList(),
-                communityPostReports.Select(r => r.ReportToReportDto()).ToList()
-            );
-            return postDetails;
-        }
-
         
         
         // PUT: api/CommunityPost/5

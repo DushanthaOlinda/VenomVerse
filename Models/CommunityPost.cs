@@ -10,16 +10,6 @@ public class CommunityPost{
     public CommunityPost()
     {}
 
-    public CommunityPost(long communityPostId, long userId, string category, string description, string[]? media, long[]? react, int postStatus)
-    {
-        CommunityPostId = communityPostId;
-        UserId = userId;
-        Category = category;
-        Description = description;
-        Media = media;
-        React = react;
-        PostStatus = postStatus;
-    }
     
     public required long CommunityPostId { get; set; }
     public required long UserId { get; set; }
@@ -34,11 +24,36 @@ public class CommunityPost{
     // -1 - reported
 
 
-            // Foreign Key References
-            [ForeignKey("React")] public List<UserDetail> UserPostReact { get; set; } = null!;
-            [ForeignKey("UserId")] public UserDetail PostUser { get; set; } = null!;
-            [InverseProperty("UserSavedPost")] public List<UserDetail> UserSavedPost { get; set; } = null!;
-    public long SerpentId { get; internal set; }
+    public CommunityPost(long communityPostId, long userId, string category, string description, string[]? media, long[]? react, int postStatus)
+    {
+        CommunityPostId = communityPostId;
+        UserId = userId;
+        Category = category;
+        Description = description;
+        Media = media;
+        React = react;
+        PostStatus = postStatus;
+    }
+    // public long SerpentId { get; internal set; }
+
+    public static PostDto CreatePostDto(
+            CommunityPost communityPost,
+            IEnumerable<CommunityPostComment> communityPostComments, 
+            IEnumerable<CommunityPostReport> communityPostReports)
+        {
+            var postDetails = new PostDto(communityPost.CommunityPostId,
+                communityPost.UserId,
+                communityPost.Category,
+                communityPost.Description,
+                communityPost.DateTime,
+                communityPost.Media,
+                communityPost.React,
+                communityPost.PostStatus,
+                communityPostComments.Select(c => c.CommentToCommentDto()).ToList(),
+                communityPostReports.Select(r => r.ReportToReportDto()).ToList()
+            );
+            return postDetails;
+        }
 
     public static CommunityPost PostDtoToPost(PostDto communityPostDto)
         {
@@ -61,4 +76,10 @@ public class CommunityPost{
             return communityPost;
             // communityPost.PostId,communityPost.UserId,communityPost.Category,communityPost.Description,communityPost.Media,communityPost.React,communityPost.PostStatus);
         }
+
+
+            // Foreign Key References
+            [ForeignKey("React")] public List<UserDetail> UserPostReact { get; set; } = null!;
+            [ForeignKey("UserId")] public UserDetail PostUser { get; set; } = null!;
+            [InverseProperty("UserSavedPost")] public List<UserDetail> UserSavedPost { get; set; } = null!;
 }

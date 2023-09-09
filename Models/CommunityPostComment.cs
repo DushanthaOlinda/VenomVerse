@@ -10,9 +10,6 @@ namespace VenomVerseApi.Models
         public required DateTime DateTime { get; set; } = DateTime.Now;
         public required string Comment { get; set; }
 
-        // Foreign Key References
-                [ForeignKey("UserId")] public UserDetail User { get; set; } = null!; 
-                [ForeignKey("CommunityPostId")] public CommunityPost CommunityArticle { get; set; } = null!;
 
 
         public static PostCommentDto CommentToCommentDto(CommunityPostComment comment)
@@ -34,6 +31,11 @@ namespace VenomVerseApi.Models
                 this.Comment
             );
         }
+
+        
+        // Foreign Key References
+                [ForeignKey("UserId")] public UserDetail User { get; set; } = null!; 
+                [ForeignKey("CommunityPostId")] public CommunityPost CommunityArticle { get; set; } = null!;
         
     }
 }
