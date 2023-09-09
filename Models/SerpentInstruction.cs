@@ -10,14 +10,9 @@ namespace VenomVerseApi.Models
         // public long[]? PositiveVote { get; set; }   
         // public long[]? NegativeVote { get; set; }   
 
-                // Foreign Key References
-                [ForeignKey("WittenUser")] public UserDetail WrittenUser { get; set; } = null!;
-                [ForeignKey("PositiveVote")] public List<UserDetail> UserPos { get; set; } = null!;
-                [ForeignKey("NegativeVote")] public List<UserDetail> UserNeg { get; set; } = null!;
-                [ForeignKey("SerpentId")] public Serpent Serpent { get; set; } = null!;
 
         
-         public static SerpentInstructionDto InstructionToInstructionDto(SerpentInstruction serpentInstructions)
+        public static SerpentInstructionDto InstructionToInstructionDto(SerpentInstruction serpentInstructions)
         {
             return new SerpentInstructionDto(
                 serpentInstructions.SerpentInstructionId,
@@ -36,5 +31,12 @@ namespace VenomVerseApi.Models
                 this.Description
             );
         }
+
+
+                // Foreign Key References
+                [ForeignKey("WittenUser")] public UserDetail WrittenUser { get; set; } = null!;
+                [ForeignKey("PositiveVote")] public List<UserDetail> UserPos { get; set; } = null!;
+                [ForeignKey("NegativeVote")] public List<UserDetail> UserNeg { get; set; } = null!;
+                [ForeignKey("SerpentId")] public Serpent Serpent { get; set; } = null!;
     }
 }

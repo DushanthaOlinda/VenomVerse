@@ -22,7 +22,7 @@ public class SerpentController : ControllerBase
     {
         if ( _context.Serpent == null ) return NotFound();
         // return await _context.Serpent.Select( x=>SerpentToSerpentDto(x)).ToListAsync();
-        return await _context.Serpent.Select(x => CreateSerpentDto(
+        return await _context.Serpent.Select(x => Serpent.CreateSerpentDto(
             x,
             _context.SerpentInstruction.Where(p => p.SerpentId == x.SerpentId).ToList()
         )).ToListAsync();
@@ -37,65 +37,7 @@ public class SerpentController : ControllerBase
         if ( serpentDetail == null ) return NotFound();
         var serpentInstructoins = _context.SerpentInstruction.Where(p=> p.SerpentId == serpentDetail.SerpentId).ToList();
         // return SerpentToSerpentDto(serpentDetail);
-        return CreateSerpentDto(serpentDetail, serpentInstructoins);
-    }
-
-    private static SerpentDto CreateSerpentDto(
-        Serpent serpentDetail, IEnumerable<SerpentInstruction> serpentInstructions
-    ){
-        // var serpent = new SerpentDto(
-        //     serpentDetail.SerpentId,
-        //     serpentDetail.ScientificName,
-        //     serpentDetail.EnglishName,
-        //     serpentDetail.SinhalaName,
-        //     serpentDetail.SerpentMedia,
-        //     serpentDetail.Venomous,
-        //     serpentDetail.Family,
-        //     serpentDetail.SubFamily,
-        //     serpentDetail.Genus,
-        //     serpentDetail.SpecialNote!,
-        //     serpentDetail.SpecialNoteSinhala!,
-        //     serpentDetail.Description,
-        //     serpentDetail.DescriptionSinhala,
-        //     serpentInstructions.Select(i => i.InstructionToInstructionDto()).ToList()
-        // )
-        // {
-        //     SerpentId = serpentDetail.SerpentId
-        // };
-
-        // return serpent;
-
-        var serpent = new SerpentDto( 
-            serpentDetail.SerpentId,
-            serpentDetail.ScientificName,
-            serpentDetail.EnglishName,
-            serpentDetail.SinhalaName,
-            serpentDetail.SerpentMedia,
-            serpentDetail.Venomous,
-            serpentDetail.Family,
-            serpentDetail.SubFamily,
-            serpentDetail.Genus,
-            serpentDetail.SpecialNote,
-            serpentDetail.SpecialNoteSinhala,
-            serpentDetail.Description,
-            serpentDetail.DescriptionSinhala,
-            serpentInstructions
-
-        )
-        {
-            SerpentId = serpentDetail.SerpentId,
-            ScientificName = serpentDetail.ScientificName,
-            EnglishName = serpentDetail.EnglishName,
-            SinhalaName = serpentDetail.SinhalaName,
-            SerpentMedia = serpentDetail.SerpentMedia,
-            Venomous = serpentDetail.Venomous,
-            Family = serpentDetail.Family,
-            SubFamily = serpentDetail.SubFamily,
-            Genus = serpentDetail.Genus,
-            Description = serpentDetail.Description,
-            DescriptionSinhala = serpentDetail.DescriptionSinhala
-        };
-        return serpent;
+        return Serpent.CreateSerpentDto(serpentDetail, serpentInstructoins);
     }
 
     // PUT: Serpent/{id}
@@ -103,7 +45,7 @@ public class SerpentController : ControllerBase
     public async Task<IActionResult> PutSerpent(long id, SerpentDto serpentDto)
     {
         if ( id != serpentDto.SerpentId ) return BadRequest();
-        var serpent = SerpentDtoToSerpent(serpentDto);
+        var serpent = Serpent.SerpentDtoToSerpent(serpentDto);
         _context.Entry(serpent).State = EntityState.Modified;
 
         try
@@ -130,7 +72,7 @@ public class SerpentController : ControllerBase
     public async Task<ActionResult<SerpentDto>> PostSerpent(SerpentDto serpentDto)
     {
         if ( _context.Serpent == null ) return NotFound();
-        var serpent = SerpentDtoToSerpent(serpentDto);
+        var serpent = Serpent.SerpentDtoToSerpent(serpentDto);
         _context.Serpent.Add(serpent);
         await _context.SaveChangesAsync();
         return CreatedAtAction( "GetSerpentDetail", new { id = serpentDto.SerpentId}, serpentDto );
@@ -155,46 +97,4 @@ public class SerpentController : ControllerBase
         return (_context.Serpent?.Any(e => e.SerpentId == id)).GetValueOrDefault();
     }
     
-
-    // ============================================================================
-    // ============================ DTO CONVERSION ================================
-    // ============================================================================
-
-    // private static SerpentDto SerpentToSerpentDto (Serpent serpent, ) =>
-    //     new SerpentDto
-    //     {
-    //         SerpentId = serpent.SerpentId,
-    //         ScientificName = serpent.ScientificName,
-    //         EnglishName = serpent.EnglishName,
-    //         SinhalaName = serpent.SinhalaName,
-    //         SerpentMedia = serpent.SerpentMedia,
-    //         Venomous = serpent.Venomous,
-    //         Family = serpent.Family,
-    //         SubFamily = serpent.SubFamily,
-    //         Genus = serpent.Genus,
-    //         SpecialNote = serpent.SpecialNote,
-    //         SpecialNoteSinhala = serpent.SpecialNoteSinhala,
-    //         Description = serpent.Description,
-    //         DescriptionSinhala = serpent.DescriptionSinhala,
-    //         Instructions = null
-    //     };
-
-    private static Serpent SerpentDtoToSerpent (SerpentDto serpent) =>
-        new()
-        {
-            SerpentId = serpent.SerpentId,
-            ScientificName = serpent.ScientificName,
-            EnglishName = serpent.EnglishName,
-            SinhalaName = serpent.SinhalaName,
-            SerpentMedia = serpent.SerpentMedia,
-            Venomous = serpent.Venomous,
-            Family = serpent.Family,
-            SubFamily = serpent.SubFamily,
-            Genus = serpent.Genus,
-            SpecialNote = serpent.SpecialNote,
-            SpecialNoteSinhala = serpent.SpecialNoteSinhala,
-            Description = serpent.Description,
-            DescriptionSinhala = serpent.DescriptionSinhala
-        };
-        
 }

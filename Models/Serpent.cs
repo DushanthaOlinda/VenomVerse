@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations.Schema;
+using VenomVerseApi.DTO;
 namespace VenomVerseApi.Models
 {
         public class Serpent {
@@ -18,6 +19,61 @@ namespace VenomVerseApi.Models
         public string? SpecialNoteSinhala { get; set; } = null;
         public required string Description { get; set; }
         public required string DescriptionSinhala { get; set; }
+
+
+
+        public static SerpentDto CreateSerpentDto( Serpent serpentDetail, IEnumerable<SerpentInstruction> serpentInstructions ){
+                        var serpent = new SerpentDto( 
+                        serpentDetail.SerpentId,
+                        serpentDetail.ScientificName,
+                        serpentDetail.EnglishName,
+                        serpentDetail.SinhalaName,
+                        serpentDetail.SerpentMedia,
+                        serpentDetail.Venomous,
+                        serpentDetail.Family,
+                        serpentDetail.SubFamily,
+                        serpentDetail.Genus,
+                        serpentDetail.SpecialNote,
+                        serpentDetail.SpecialNoteSinhala,
+                        serpentDetail.Description,
+                        serpentDetail.DescriptionSinhala,
+                        serpentInstructions
+                )
+                {
+                        SerpentId = serpentDetail.SerpentId,
+                        ScientificName = serpentDetail.ScientificName,
+                        EnglishName = serpentDetail.EnglishName,
+                        SinhalaName = serpentDetail.SinhalaName,
+                        SerpentMedia = serpentDetail.SerpentMedia,
+                        Venomous = serpentDetail.Venomous,
+                        Family = serpentDetail.Family,
+                        SubFamily = serpentDetail.SubFamily,
+                        Genus = serpentDetail.Genus,
+                        Description = serpentDetail.Description,
+                        DescriptionSinhala = serpentDetail.DescriptionSinhala
+                };
+                return serpent;
+        }
+
+
+        public static Serpent SerpentDtoToSerpent (SerpentDto serpent) =>
+        new()
+        {
+            SerpentId = serpent.SerpentId,
+            ScientificName = serpent.ScientificName,
+            EnglishName = serpent.EnglishName,
+            SinhalaName = serpent.SinhalaName,
+            SerpentMedia = serpent.SerpentMedia,
+            Venomous = serpent.Venomous,
+            Family = serpent.Family,
+            SubFamily = serpent.SubFamily,
+            Genus = serpent.Genus,
+            SpecialNote = serpent.SpecialNote,
+            SpecialNoteSinhala = serpent.SpecialNoteSinhala,
+            Description = serpent.Description,
+            DescriptionSinhala = serpent.DescriptionSinhala
+        };
+
 
 
                 // Foreign Key References
