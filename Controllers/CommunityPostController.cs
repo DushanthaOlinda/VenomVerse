@@ -147,6 +147,44 @@ namespace VenomVerseApi.Controllers
 
             return NoContent();
         }
+        
+        [HttpPost("AddComment/{id}")]
+        public async Task<ActionResult<CommunityPost>> PostCommunityPostComment(long id, PostCommentDto commentDto)
+        {
+            if (_context.CommunityPost == null)
+            {
+                return Problem("Entity set 'VenomVerseContext.CommunityPost'  is null.");
+            }
+
+            if (id != commentDto.PostId)
+            {
+                return Problem("Id Mismatch");
+            }
+
+            var communityPost = await _context.CommunityPost.FindAsync(id);
+            if (communityPost == null)
+            {
+                return NotFound();
+            }
+
+            var comment = new CommunityPostComment
+            {
+                CommunityPostCommentId = commentDto.CommentId,
+                CommunityPostId = commentDto.PostId,
+                UserId = commentDto.UserId,
+                DateTime = commentDto.DateTime,
+                Comment = commentDto.Comment
+            };
+
+            _context.CommunityPostComment.Add(comment);
+          
+            //   _context.CommunityPost.Add(PostDtoToPost(communityPost));
+            // _context.CommunityPost.Add(CommunityPost.PostDtoToPost(communityPost));
+
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction("GetCommunityPost", new { id = commentDto.PostId }, comment);
+        }
 
         private bool CommunityPostExists(long id)
         {
@@ -154,3 +192,6 @@ namespace VenomVerseApi.Controllers
         }
     }
 }
+
+// for like use put method 
+// for comment create separate table records for this post id
