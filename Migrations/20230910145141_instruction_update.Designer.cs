@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using VenomVerseApi.Models;
@@ -11,9 +12,11 @@ using VenomVerseApi.Models;
 namespace VenomVerseApi.Migrations
 {
     [DbContext(typeof(VenomVerseContext))]
-    partial class VenomVerseContextModelSnapshot : ModelSnapshot
+    [Migration("20230910145141_instruction_update")]
+    partial class instructionupdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -736,14 +739,18 @@ namespace VenomVerseApi.Migrations
                     b.Property<DateTime>("DateTime")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<string>("Description")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Difficulty")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<float>("Marks")
+                        .HasColumnType("real");
+
                     b.Property<bool>("MultipleAnswers")
                         .HasColumnType("boolean");
-
-                    b.Property<string>("Note")
-                        .HasColumnType("text");
-
-                    b.Property<string>("NoteSinhala")
-                        .HasColumnType("text");
 
                     b.Property<bool>("Published")
                         .HasColumnType("boolean");
@@ -755,12 +762,9 @@ namespace VenomVerseApi.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("QuestionStringSinhala")
+                    b.Property<string>("Type")
                         .IsRequired()
                         .HasColumnType("text");
-
-                    b.Property<long>("QuizId")
-                        .HasColumnType("bigint");
 
                     b.Property<long>("WriterId")
                         .HasColumnType("bigint");
@@ -790,6 +794,10 @@ namespace VenomVerseApi.Migrations
                     b.Property<float?>("PassMark")
                         .HasColumnType("real");
 
+                    b.Property<string>("QuizType")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<DateTime>("SubmittedTime")
                         .HasColumnType("timestamp with time zone");
 
@@ -807,27 +815,6 @@ namespace VenomVerseApi.Migrations
                     b.ToTable("Quiz");
                 });
 
-            modelBuilder.Entity("VenomVerseApi.Models.QuizDetail", b =>
-                {
-                    b.Property<long>("QuizDetailId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    NpgsqlPropertyBuilderExtensions.UseSerialColumn(b.Property<long>("QuizDetailId"));
-
-                    b.Property<string>("QuizTopic")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("QuizTopicSinhala")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("QuizDetailId");
-
-                    b.ToTable("QuizDetail");
-                });
-
             modelBuilder.Entity("VenomVerseApi.Models.QuizUserAnswer", b =>
                 {
                     b.Property<long>("QuizId")
@@ -835,12 +822,6 @@ namespace VenomVerseApi.Migrations
 
                     b.Property<long>("QuestionId")
                         .HasColumnType("bigint");
-
-                    b.Property<long>("UserId")
-                        .HasColumnType("bigint");
-
-                    b.Property<DateTime>("SubmittedTime")
-                        .HasColumnType("timestamp with time zone");
 
                     b.Property<bool>("Correctness01")
                         .HasColumnType("boolean");
@@ -872,7 +853,7 @@ namespace VenomVerseApi.Migrations
                     b.Property<bool?>("Select05")
                         .HasColumnType("boolean");
 
-                    b.HasKey("QuizId", "QuestionId", "UserId", "SubmittedTime");
+                    b.HasKey("QuizId", "QuestionId");
 
                     b.HasIndex("QuestionId");
 

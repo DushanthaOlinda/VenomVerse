@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using VenomVerseApi.Models;
@@ -11,9 +12,11 @@ using VenomVerseApi.Models;
 namespace VenomVerseApi.Migrations
 {
     [DbContext(typeof(VenomVerseContext))]
-    partial class VenomVerseContextModelSnapshot : ModelSnapshot
+    [Migration("20230910172912_quizdetail")]
+    partial class quizdetail
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -805,27 +808,6 @@ namespace VenomVerseApi.Migrations
                         .IsUnique();
 
                     b.ToTable("Quiz");
-                });
-
-            modelBuilder.Entity("VenomVerseApi.Models.QuizDetail", b =>
-                {
-                    b.Property<long>("QuizDetailId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    NpgsqlPropertyBuilderExtensions.UseSerialColumn(b.Property<long>("QuizDetailId"));
-
-                    b.Property<string>("QuizTopic")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("QuizTopicSinhala")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("QuizDetailId");
-
-                    b.ToTable("QuizDetail");
                 });
 
             modelBuilder.Entity("VenomVerseApi.Models.QuizUserAnswer", b =>

@@ -6,7 +6,7 @@ namespace VenomVerseApi.Models
         public required long SerpentId { get; set; }
         public required string ScientificName { get; set; }
         public required string EnglishName { get; set; }
-        public required string SinhalaName { get; set; }
+        public required string SinhalaName { get; set; } 
         public required string[] SerpentMedia { get; set; } 
 
         public required int Venomous { get; set; }   // -1 ==> non-venomous,   0 ==> middle-venomous-range,  1 ==> high-venomous
@@ -19,8 +19,6 @@ namespace VenomVerseApi.Models
         public string? SpecialNoteSinhala { get; set; } = null;
         public required string Description { get; set; }
         public required string DescriptionSinhala { get; set; }
-
-
 
         public static SerpentDto CreateSerpentDto( Serpent serpentDetail, IEnumerable<SerpentInstruction> serpentInstructions ){
                         var serpent = new SerpentDto( 

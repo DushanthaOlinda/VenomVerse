@@ -16,7 +16,7 @@ public class SerpentController : ControllerBase
         _context = context;
     }
 
-    // GET: Serprnt
+    // view all serpents
     [HttpGet]
     public async Task<ActionResult<IEnumerable<SerpentDto>>> GetAllSerpents()
     {
@@ -28,7 +28,7 @@ public class SerpentController : ControllerBase
         )).ToListAsync();
     }
 
-    // GET: Serpent/{id}
+    // view selected serpent
     [HttpGet("{id}")]
     public async Task<ActionResult<SerpentDto>> GetSerpentDetail(long id)
     {
@@ -40,7 +40,7 @@ public class SerpentController : ControllerBase
         return Serpent.CreateSerpentDto(serpentDetail, serpentInstructoins);
     }
 
-    // PUT: Serpent/{id}
+    // update serpent details
     [HttpPut("{id}")]
     public async Task<IActionResult> PutSerpent(long id, SerpentDto serpentDto)
     {
@@ -67,7 +67,7 @@ public class SerpentController : ControllerBase
     }
 
 
-    // POST: Serpent
+    // insert a new serpent
     [HttpPost]
     public async Task<ActionResult<SerpentDto>> PostSerpent(SerpentDto serpentDto)
     {
@@ -79,11 +79,35 @@ public class SerpentController : ControllerBase
     }
 
 
-    // DELETE: Serpent/{id}
+
+    // add new instruction for a serpent
+
+
+    // delete instruction for a serpent
+
+
+    // add common instructions
+
+
+    // delete commmon instructions
+
+
+    // view emergency contacts
+
+    
+    // add new emergency contact
+
+
+    // delete an emergency contact
+
+
+    // Delete a serpent - 
+    //delete insructions too
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteSerpent(long id)
     {
         if ( _context.Serpent == null ) return NotFound();
+        // delete instrucctions before deleting the serpent
         var serpent = await _context.Serpent.FindAsync(id);
         if ( serpent == null ) return NotFound();
         _context.Serpent.Remove(serpent);

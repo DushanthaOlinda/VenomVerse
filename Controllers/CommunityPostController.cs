@@ -16,7 +16,7 @@ namespace VenomVerseApi.Controllers
             _context = context;
         }
 
-        // GET: api/CommunityPost
+        // view all community posts
         [HttpGet]
         public async Task<ActionResult<IEnumerable<PostDto>>> GetCommunityPost()
         {
@@ -32,7 +32,7 @@ namespace VenomVerseApi.Controllers
             ).ToListAsync();
         }
 
-        // GET: api/CommunityPost/5
+        // view selected community posts
         [HttpGet("{id}")]
         public async Task<ActionResult<PostDto>> GetCommunityPost(long id)
         {
@@ -56,8 +56,9 @@ namespace VenomVerseApi.Controllers
         }
         
         
-        // PUT: api/CommunityPost/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+
+        // edit communitypost
         [HttpPut("{id}")]
         public async Task<IActionResult> PutCommunityPost(long id, CommunityPost communityPost)
         {
@@ -87,8 +88,9 @@ namespace VenomVerseApi.Controllers
             return NoContent();
         }
 
-        // POST: api/CommunityPost
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+
+        // add new community post
         [HttpPost]
         public async Task<ActionResult<CommunityPost>> PostCommunityPost(PostDto communityPost)
         {
@@ -107,7 +109,7 @@ namespace VenomVerseApi.Controllers
 
         
 
-        // DELETE: api/CommunityPost/5
+        // delete a community post
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCommunityPost(long id)
         {
@@ -127,6 +129,7 @@ namespace VenomVerseApi.Controllers
             return NoContent();
         }
         
+        // add a new comment to a community post
         [HttpPost("AddComment/{id}")]
         public async Task<ActionResult<CommunityPost>> PostCommunityPostComment(long id, PostCommentDto commentDto)
         {
@@ -164,6 +167,21 @@ namespace VenomVerseApi.Controllers
 
             return CreatedAtAction("GetCommunityPost", new { id = commentDto.PostId }, comment);
         }
+
+
+        // delete a comment from community post
+
+
+        // report a community post - send a notification
+
+
+        // view own posts
+
+
+        // like/unlike a post
+
+
+        
 
         private bool CommunityPostExists(long id)
         {

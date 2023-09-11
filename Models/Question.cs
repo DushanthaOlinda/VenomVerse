@@ -9,13 +9,16 @@ namespace VenomVerseApi.Models
 
     public class Question {     // For MCQ type
         public required long QuestionId { get; set; }
+        public required long QuizId { get; set; }
         public required string QuestionString { get; set; }
+        public required string QuestionStringSinhala { get; set; }
         public string[]? QuestionMedia { get; set; }
-        public required string Difficulty { get; set; }
-        public string? Description { get; set; }
-        public required string Type { get; set; }
+        // public required string Difficulty { get; set; }
+        public string? Note { get; set; }
+        public string? NoteSinhala { get; set; }
+        // public required string Type { get; set; }
         public required bool MultipleAnswers { get; set; } = false;
-        public required float Marks { get; set; }
+        // public required float Marks { get; set; }
         public required long WriterId { get; set; }       // Zoologists create questions
         public long? ApprovedUserId { get; set; }         // Zoologists approve questions
         public required DateTime DateTime { get; set; } = DateTime.Now;

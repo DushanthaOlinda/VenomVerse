@@ -2,10 +2,12 @@ using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 namespace VenomVerseApi.Models
 {
-        [PrimaryKey(nameof(QuizId), nameof(QuestionId))]    
+        [PrimaryKey(nameof(QuizId), nameof(QuestionId), nameof(UserId), nameof(SubmittedTime))]    
         public class QuizUserAnswer{
-        public required long QuizId { get; set; }
-        public required long QuestionId { get; set; }
+        public required long QuizId { get; set; }    
+        public required long UserId { get; set; }     
+        public required DateTime SubmittedTime { get; set; }    
+        public required long QuestionId { get; set; }    
        
         // Answers
         public required bool Select01 { get; set; } = false;

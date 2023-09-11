@@ -109,6 +109,24 @@ public class UserDetailController : ControllerBase
     }
     
 
+    // view user profiles - including posts, feedbacks, ratings
+
+
+    // give feedbacks
+
+
+    // give ratings
+
+
+    // request catcher service
+
+
+    // request to become catcher
+
+
+    // request to become zoologist
+    
+
     // ============================================================================
     // ============================ DTO CONVERSION ================================
     // ============================================================================

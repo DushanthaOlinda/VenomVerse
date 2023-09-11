@@ -13,15 +13,16 @@ public class CommunityPost{
     
     public required long CommunityPostId { get; set; }
     public required long UserId { get; set; }
-    public required string Category { get; set; } = null!;
-    public required string Description { get; set; } = null!;
+    public required string Category { get; set; } = null!;      // dropdown
+    public required string Description { get; set; } = null!;       // english or sinhala or singlish
     public required DateTime DateTime { get; set; } = DateTime.Now;
     public string[]? Media { get; set;}
     public long[]? React { get; set; }
-    public required int PostStatus {get; set; } = 1;
-    // 0 - hidden
+    public required int PostStatus {get; set; } = 0;
+    // 0 - pending approval
     // 1 - posted
     // -1 - reported
+    // -2 - hidden (optional)
 
 
     public CommunityPost(long communityPostId, long userId, string category, string description, string[]? media, long[]? react, int postStatus)

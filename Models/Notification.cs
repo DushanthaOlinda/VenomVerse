@@ -14,8 +14,8 @@ namespace VenomVerseApi.Models
         //content? -> can have many types, use seperate tables
         
         // Notification types
-            //Like to a post - user
-            //Comment to a post - user
+            //Like to a post - user                         last liked user, count, postid    -> "{last liked user} and {count-1} liked your {post}"
+            //Comment to a post - user                      commenteduser, postid             -> "{commenteduser} commented on your post on {postid.topic}"
             //Reported post approvals - user
             //Reported account warning - user
             //service request - catchers

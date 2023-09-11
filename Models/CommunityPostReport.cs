@@ -8,7 +8,7 @@ namespace VenomVerseApi.Models
         public required long CommunityPostId { get; set; }
         public required long UserId { get; set; }
         public required DateTime DateTime { get; set; } = DateTime.Now;
-        public required string Description { get; set; }
+        public required string Description { get; set; }     // english or sinhala or singlish
         public long? ComAdminId {get; set; }
         public string? Response {get; set; }    // rejected, deleted, no action
 

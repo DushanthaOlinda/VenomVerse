@@ -5,7 +5,8 @@ namespace VenomVerseApi.Models
     public class SerpentInstruction{
         public required long SerpentInstructionId { get; set; }
         public required long SerpentId { get; set; }
-        public required string Description { get; set; }
+        public required string InsDetail { get; set; }
+        public required string InsDetailSinhala { get; set; }
         public required long WittenUser { get; set; }
         // public long[]? PositiveVote { get; set; }   
         // public long[]? NegativeVote { get; set; }   
@@ -18,7 +19,8 @@ namespace VenomVerseApi.Models
                 serpentInstructions.SerpentInstructionId,
                 serpentInstructions.SerpentId,
                 serpentInstructions.WittenUser,
-                serpentInstructions.Description
+                serpentInstructions.InsDetail,
+                serpentInstructions.InsDetailSinhala
             );
         }
 
@@ -28,7 +30,8 @@ namespace VenomVerseApi.Models
                 this.SerpentInstructionId,
                 this.SerpentId,
                 this.WittenUser,
-                this.Description
+                this.InsDetail,
+                this.InsDetailSinhala
             );
         }
 

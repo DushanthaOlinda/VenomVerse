@@ -6,12 +6,12 @@ namespace VenomVerseApi.Models
         public required long UploadedUserId { get; set; }
         public required string ScannedImageMedia { get; set; }
         public required DateTime DateTime { get; set; } = DateTime.Now;
-        public long? PredictedSerpentType { get; set; }
-        public float? Accuracy { get; set; }
+        public long? PredictedSerpentType { get; set; }  // 1
+        public float? Accuracy { get; set; }  // 75%
 
-        public long? ActualSerpentType { get; set; }          // maximum voted serpent type
+        public long? ActualSerpentType { get; set; }          // maximum voted serpent type         1
         // public string? OtherSerpentType { get; set; }
-        public bool? PredictionSuccess { get; set; }
+        public bool? PredictionSuccess { get; set; }        // T
 
                 // Foreign Key References
                 [ForeignKey("UploadedUserId")] public UserDetail User { get; set; } = null!;

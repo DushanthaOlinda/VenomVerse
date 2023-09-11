@@ -7,7 +7,7 @@ namespace VenomVerseApi.Models
         public required long ReviewedUserId { get; set; }   // Expert / Zoologist
         public required DateTime DateTime { get; set; } = DateTime.Now;
         public long PredictedSerpentType { get; set; }
-        public long? ActualSerpentType { get; set; }          // maximum voted serpent type
+        public long? ActualSerpentType { get; set; }          // maximum voted serpent type         1  1  2  2  2  1  1
         public bool? PredictionSuccess { get; set; }
 
                 // Foreign Key References
