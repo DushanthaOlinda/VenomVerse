@@ -15,7 +15,7 @@ public class CommunityBook{
     public DateOnly? PublishedDate { get; set;}
     public required DateOnly UploadedDate { get; set;}
 
-    public required long UploadedUserId { get; set;}         // Zoologists upload books
+    public required long UploadedUserId { get; set;}         // zoologist->zoologistId   ++Zoologists upload books
     // [ForeignKey("CommunityAdmin")] public long? ApprovedUserId { get; set;}         // Community admins approves the articles
     public string[]? BookCopyright { get; set; }
 

@@ -3,7 +3,7 @@ namespace VenomVerseApi.Models;
 
 public class CommunityArticle{
     public required long CommunityArticleId { get; set; }
-    public required long UserId { get; set; }       // Uploaded Expert Id - validate from backend whether user has the expert privilleges AND Zoologists
+    public required long UserId { get; set; }       // user-> userId  +++Uploaded Expert Id - validate from backend whether user has the expert privilleges AND Zoologists
     public required string Category { get; set; } = null!;
     public string? Description { get; set; }
     public required string Content { get; set; } = null!;
@@ -14,7 +14,7 @@ public class CommunityArticle{
     // 0 - pending approval
     // 1 - approved
     // -1 - rejected
-    public long? ApprovedUserId { get; set;}     // Community admins approves the articles
+    public long? ApprovedUserId { get; set;}     // Comadmin->comadminId  ++Community admins approves the articles
     public long[]? React { get; set; }
 
     public string[]? ArticleCopyright { get; set; }

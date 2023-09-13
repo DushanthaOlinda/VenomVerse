@@ -12,13 +12,15 @@ public class CommunityPost{
 
     
     public required long CommunityPostId { get; set; }
-    public required long UserId { get; set; }
+    public required long UserId { get; set; }//user->userId
     public required string Category { get; set; } = null!;      // dropdown
     public required string Description { get; set; } = null!;       // english or sinhala or singlish
     public required DateTime DateTime { get; set; } = DateTime.Now;
     public string[]? Media { get; set;}
     public long[]? React { get; set; }
     public required int PostStatus {get; set; } = 0;
+    
+    public long? ApprovedAdmin { get; set; }//ComAdmin->ComAdminId
     // 0 - pending approval
     // 1 - posted
     // -1 - reported
@@ -82,5 +84,6 @@ public class CommunityPost{
             // Foreign Key References
             [ForeignKey("React")] public List<UserDetail> UserPostReact { get; set; } = null!;
             [ForeignKey("UserId")] public UserDetail PostUser { get; set; } = null!;
+            [ForeignKey("ApprovedAdmin")] public CommunityAdmin? ApprovedBy { get; set; } = null;
             [InverseProperty("UserSavedPost")] public List<UserDetail> UserSavedPost { get; set; } = null!;
 }

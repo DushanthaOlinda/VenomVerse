@@ -3,7 +3,7 @@ namespace VenomVerseApi.Models
 {
     public class Notification {
         public required long NotificationId { get; set; }
-        public required long UserId { get; set;}
+        public required long UserId { get; set;}//User->UserId
         public required string Type { get; set; } = null!;      
         public required DateTime DateTime { get; set; } = DateTime.Now;
 

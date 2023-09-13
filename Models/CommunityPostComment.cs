@@ -5,8 +5,8 @@ namespace VenomVerseApi.Models
 {
     public class CommunityPostComment{
         public required long CommunityPostCommentId { get; set; }
-        public required long CommunityPostId { get; set; }
-        public required long UserId { get; set; }
+        public required long CommunityPostId { get; set; }//CommunityPost->CommunityPostId
+        public required long UserId { get; set; } // User --> UserID
         public required DateTime DateTime { get; set; } = DateTime.Now;
         public required string Comment { get; set; }     // english or sinhala or singlish
 

@@ -3,8 +3,8 @@ namespace VenomVerseApi.Models
 {
     public class CatcherRating{
         public required long CatcherRatingId { get; set; }
-        public required long UserId { get; set; }
-        public required long CatcherId { get; set; }
+        public required long UserId { get; set; }//user -> userId
+        public required long CatcherId { get; set; }//catcher -> catcherId
         public required DateTime DateTime { get; set; } = DateTime.Now;
         public DateTime? LastUpdatedTime { get; set; } = null;
         public required int Rate { get; set; }        // 1-5

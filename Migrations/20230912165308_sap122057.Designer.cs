@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using VenomVerseApi.Models;
@@ -11,9 +12,11 @@ using VenomVerseApi.Models;
 namespace VenomVerseApi.Migrations
 {
     [DbContext(typeof(VenomVerseContext))]
-    partial class VenomVerseContextModelSnapshot : ModelSnapshot
+    [Migration("20230912165308_sap122057")]
+    partial class sap122057
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -517,8 +520,6 @@ namespace VenomVerseApi.Migrations
                         .HasColumnType("bigint");
 
                     b.HasKey("CommunityPostId");
-
-                    b.HasIndex("ApprovedAdmin");
 
                     b.HasIndex("UserId");
 
@@ -1628,17 +1629,11 @@ namespace VenomVerseApi.Migrations
 
             modelBuilder.Entity("VenomVerseApi.Models.CommunityPost", b =>
                 {
-                    b.HasOne("VenomVerseApi.Models.CommunityAdmin", "ApprovedBy")
-                        .WithMany()
-                        .HasForeignKey("ApprovedAdmin");
-
                     b.HasOne("VenomVerseApi.Models.UserDetail", "PostUser")
                         .WithOne("UserPost")
                         .HasForeignKey("VenomVerseApi.Models.CommunityPost", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("ApprovedBy");
 
                     b.Navigation("PostUser");
                 });

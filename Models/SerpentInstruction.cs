@@ -4,10 +4,10 @@ namespace VenomVerseApi.Models
 {
     public class SerpentInstruction{
         public required long SerpentInstructionId { get; set; }
-        public required long SerpentId { get; set; }
+        public required long SerpentId { get; set; }//Serpent->SerpentId 
         public required string InsDetail { get; set; }
         public required string InsDetailSinhala { get; set; }
-        public required long WittenUser { get; set; }
+        public required long WittenUser { get; set; } // User -> Written User
         // public long[]? PositiveVote { get; set; }   
         // public long[]? NegativeVote { get; set; }   
 

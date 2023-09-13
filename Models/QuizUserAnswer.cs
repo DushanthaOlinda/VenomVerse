@@ -22,7 +22,9 @@ namespace VenomVerseApi.Models
         public bool? Correctness05 { get; set; }
 
         // Foreign Key References
-                [ForeignKey("QuizId")] public Quiz Quiz { get; set; } = null!;
+        [ForeignKey("QuizId, UserId, SubmittedTime")]
+                // [ForeignKey("QuizId")] 
+        public Quiz Quiz { get; set; } = null!;
                 [ForeignKey("QuestionId")] public Question Question { get; set; } = null!;
 
     }

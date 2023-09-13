@@ -52,6 +52,6 @@ public class UserDetail{
     public RequestService? RequestService { get; set; } = null;
     public ScannedImage? ScannedImage { get; set; } = null;
     public Zoologist? Zoologist { get; set; } = null;
-    [InverseProperty("UserPos")] public SerpentInstruction? SerpentInstructionPos { get; set; } = null!;
-    [InverseProperty("UserNeg")] public SerpentInstruction? SerpentInstructionNeg { get; set; } = null!;
+    // [InverseProperty("UserPos")] public SerpentInstruction? SerpentInstructionPos { get; set; } = null!;
+    // [InverseProperty("UserNeg")] public SerpentInstruction? SerpentInstructionNeg { get; set; } = null!;
 }

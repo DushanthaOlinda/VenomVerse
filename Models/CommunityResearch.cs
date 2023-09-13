@@ -4,7 +4,7 @@ namespace VenomVerseApi.Models;
 public class CommunityResearch{
 
     public required long CommunityResearchId { get; set; }
-    public required long UserId { get; set; }       // Uploaded Expert Id - validate from backend whether user has the expert privilleges
+    public required long UserId { get; set; }       // User->UserId    +++Uploaded Expert Id - validate from backend whether user has the expert privilleges
     public required string Category { get; set; } = null!;
     public string? Description { get; set; }
     public required string Content { get; set; } = null!;

@@ -11,20 +11,21 @@ namespace VenomVerseApi.Models
 
     public class Zoologist {
 
-        public required long ZoologistId { get; set; }
+        public required long ZoologistId { get; set; }//User->UserId
         
         public string? Description { get; set; }
         public string? SpecialNote { get; set; }   
         // public required string[,] Certification { get; set; }
 
         public required DateTime RequestedDateTime { get; set; } = DateTime.Now;
-        public long? ApprovedPersonId { get; set; }
+        public long? ApprovedPersonId { get; set; }//ComAdmin->ComAdminId
         public DateOnly? ApprovedDate { get; set; }  
 
                 // Foreign Key References
                 [ForeignKey("ZoologistId")] public UserDetail User { get; set; } = null!;
                 [InverseProperty("ZoologistApprove")] public Question QuestionApprove { get; set; } = null!;
                 [InverseProperty("ZoologistWrite")] public Question QuestionWrite { get; set; } = null!;
+                [ForeignKey("ApprovedPersonId")]public CommunityAdmin? CommunityAdmin { get; set; } = null;
                 public CommunityResearch CommunityResearch { get; set; } = null!;
     }
 }
