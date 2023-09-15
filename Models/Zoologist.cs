@@ -18,6 +18,7 @@ namespace VenomVerseApi.Models
         // public required string[,] Certification { get; set; }
 
         public required DateTime RequestedDateTime { get; set; } = DateTime.Now;
+        public long Status { get; set; } = 1; // rejected = 0, pending = 1, accepted = 2
         public long? ApprovedPersonId { get; set; }//ComAdmin->ComAdminId
         public DateOnly? ApprovedDate { get; set; }  
 

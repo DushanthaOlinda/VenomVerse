@@ -23,7 +23,7 @@ namespace VenomVerseApi.Models
 
                 // Foreign Key References
                 [ForeignKey("ReqUserId")] public UserDetail User { get; set; } = null!;
-                [ForeignKey("CatcherId")] public Catcher Catcher { get; set; } = null!;
+                [ForeignKey("CatcherId")] public Catcher? Catcher { get; set; } = null!;
                 [ForeignKey("SelectedSerpent")] public Serpent Serpent { get; set; } = null!;
                 [ForeignKey("ScannedImage")] public ScannedImage ScannedImg { get; set; } = null!;
     }

@@ -36,7 +36,7 @@ namespace VenomVerseApi.Models
                 public Catcher? ApprovalThree { get; set; }
                 
 
-                public RequestService RequestService { get; set; } = null!; 
-        
-    }
+                public RequestService RequestService { get; set; } = null!;
+                
+            }
 }
