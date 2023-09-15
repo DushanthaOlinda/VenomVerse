@@ -35,9 +35,9 @@ public class SerpentController : ControllerBase
         if ( _context.Serpent == null ) return NotFound();
         var serpentDetail =  await _context.Serpent.FindAsync(id);
         if ( serpentDetail == null ) return NotFound();
-        var serpentInstructoins = _context.SerpentInstruction.Where(p=> p.SerpentId == serpentDetail.SerpentId).ToList();
+        var serpentInstructions = _context.SerpentInstruction.Where(p=> p.SerpentId == serpentDetail.SerpentId).ToList();
         // return SerpentToSerpentDto(serpentDetail);
-        return Serpent.CreateSerpentDto(serpentDetail, serpentInstructoins);
+        return Serpent.CreateSerpentDto(serpentDetail, serpentInstructions);
     }
 
     // update serpent details

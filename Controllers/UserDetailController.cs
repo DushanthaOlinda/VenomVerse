@@ -88,7 +88,7 @@ public class UserDetailController : ControllerBase
         return CreatedAtAction("GetUserDetail", new { id = userDetail.UserDetailId }, userDetail);
     }
 
-    // DELETE: UserDetail/{id}  => Detele selected user account
+    // DELETE: UserDetail/{id}  => Delete selected user account
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteUserDetails(long id)
     {
