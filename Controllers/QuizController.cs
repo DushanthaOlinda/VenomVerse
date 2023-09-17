@@ -45,6 +45,8 @@ public class QuizController : ControllerBase
 
     //====OPT====//
 
+    // add quiz details, edit, delete
+
     // add questions
 
     // approve questions

@@ -39,11 +39,10 @@ namespace VenomVerseApi.Models
         public static CatcherReqDto ToCatcherReqDto(Catcher catcher, UserDetail? userDetail)
         {
                 // var userDetails = await _context.UserDetail.FindAsync(catcher.CatcherId);
-                var fullName = userDetail!.FirstName + ' ' + userDetail.LastName;
+                // var fullName = userDetail!.FirstName + ' ' + userDetail.LastName;
                 var newReq = new CatcherReqDto(
                 catcher.ReqId,
                 catcher.ReqCatcher,
-                fullName, 
                 catcher.CatcherEvidence, 
                 catcher.Description, 
                 catcher.SpecialNote, 

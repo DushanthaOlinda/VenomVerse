@@ -16,11 +16,14 @@ namespace VenomVerseApi.Models
         public bool FakeReqFlag { get; set; } = false;
 
 
-        public required int Rate { get; set; }  // 1-5
+        public int? Rate { get; set; }  // 1-5
         public string? RatingComment { get; set; }
+
 
         public string? ServiceFeedback { get; set; }
         public string[]? ServiceFeedbackMedia { get; set; }
+        public string[]? CatcherMedia { get; set; }
+        public string? CatcherFeedback { get; set; }
 
 
         public static ServiceDto ToServiceDto(RequestService service, ScannedImage? image)

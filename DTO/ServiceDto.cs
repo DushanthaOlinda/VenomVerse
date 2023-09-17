@@ -2,33 +2,27 @@ namespace VenomVerseApi.DTO;
 
 public class ServiceDto
 {
-    public ServiceDto(long requestServiceId, long reqUserId, string? scannedImage, long? selectedSerpent)
+    //when a service request is created
+    public ServiceDto(long requestServiceId, long reqUserId, string? scannedImageLink, long? selectedSerpent)
     {
         RequestServiceId = requestServiceId;
         ReqUserId = reqUserId;
-        ScannedImageLink = scannedImage;
+        ScannedImageLink = scannedImageLink;
         SelectedSerpent = selectedSerpent;
-    }
-
-    public ServiceDto(long requestServiceId, long reqUserId, string? scannedImage, long? selectedSerpent, int rate, string? ratingComment, string? serviceFeedback, string[]? serviceFeedbackMedia)
-    {
-        RequestServiceId = requestServiceId;
-        ReqUserId = reqUserId;
-        ScannedImageLink = scannedImage;
-        SelectedSerpent = selectedSerpent;
-        Rate = rate;
-        RatingComment = ratingComment;
-        ServiceFeedback = serviceFeedback;
-        ServiceFeedbackMedia = serviceFeedbackMedia;
+        DateTime = new DateTime();
     }
 
     public long RequestServiceId { get; set; } 
-    public long ReqUserId { get; set; }//User->UserId
-    public DateTime DateTime { get; set; } = DateTime.Now;
-    public string? ScannedImageLink { get; set; } = null; //ScannedImage->ScannedImageId           
-    public long? SelectedSerpent { get; set; } = null;//Serpent->SerpentId
-    public int Rate { get; set; } = 0; // 1-5
+    public long ReqUserId { get; set; }
+    public long? CatcherId { get; set; }
+    public DateTime DateTime { get; set; }
+    public string? ScannedImageLink { get; set; } = null; 
+    public long? ScannedImageId { get; set; } = null; 
+    public long? SelectedSerpent { get; set; } = null;
+    public int? Rate { get; set; } = 0; 
     public string? RatingComment { get; set; } = null;
+    public string[]? CatcherMedia { get; set; } = null;
+    public string? CatcherFeedback { get; set; } = null;
     public string? ServiceFeedback { get; set; } = null;
     public string[]? ServiceFeedbackMedia { get; set; } = null;
 }

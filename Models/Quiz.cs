@@ -17,6 +17,7 @@ namespace VenomVerseApi.Models
 
             // Foreign Key References
             [ForeignKey("UserId")] public UserDetail User { get; set; } = null!;
+            [ForeignKey("QuizId")] public QuizDetail QuizDetail { get; set; } = null!;
 
     //Answer details - for mcq types
 

@@ -2,9 +2,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using VenomVerseApi.DTO;
 namespace VenomVerseApi.Models
 {
-    public class QuizDetail {     // Like QuizAttemp
-
-        // QuizDtail - QuizID, Topic, TopicSinhala
+    public class QuizDetail {    
 
         public required long QuizDetailId { get; set; }   
         public required string QuizTopic { get; set; }

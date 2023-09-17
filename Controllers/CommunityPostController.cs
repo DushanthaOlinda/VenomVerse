@@ -17,6 +17,7 @@ namespace VenomVerseApi.Controllers
         }
 
         // view all community posts
+        // HIDDEN POSTS MUST BE HIDDEN
         [HttpGet]
         public async Task<ActionResult<IEnumerable<PostDto>>> GetCommunityPost()
         {
@@ -129,6 +130,7 @@ namespace VenomVerseApi.Controllers
             return NoContent();
         }
         
+        
         // add a new comment to a community post
         [HttpPost("AddComment/{id}")]
         public async Task<ActionResult<CommunityPost>> PostCommunityPostComment(long id, PostCommentDto commentDto)
@@ -179,6 +181,9 @@ namespace VenomVerseApi.Controllers
 
 
         // like/unlike a post
+
+
+        // hide a post
 
 
         

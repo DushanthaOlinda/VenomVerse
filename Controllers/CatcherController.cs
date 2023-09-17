@@ -52,16 +52,16 @@ public class CatcherController : ControllerBase
             }
         }
         
-        // return NoContent();
-        return Ok( new{
-            ssss = "sasdasd",
-            dasda = "dasda"
-        }); 
+        return NoContent();
+        // return Ok( new{
+        //     ssss = catcher,
+        //     dasda = "dasda"
+        // }); 
     }
 
 
     // change charging fee
-    [HttpPut("ChangeAvailability/{id}")]
+    [HttpPut("ChangeChargingFee/{id}")]
     public async Task<IActionResult> UpdateChargingFee(long id, float new_charging)
     {
         if (_context.Catcher == null)
@@ -231,7 +231,6 @@ public class CatcherController : ControllerBase
     }
     
     // approve or decline service 
-
     [HttpPut("ServiceReqResponse/{serviceReqId}")]
     public async Task<ActionResult<ServiceDto>> AcceptRejectService(long catcherId, long serviceReqId, bool response)
     {
@@ -275,12 +274,8 @@ public class CatcherController : ControllerBase
 
 
     // complete service
-
-    // NO NEED TO GIVE FEEDBACK, REQUEST IS COMPLETED BY CATCHER, FEEDBACK IS GIVEN BY THE USER.
-    // TO GIVE A FEEDBACK, USER MUST DO A SEPARATE FUNCTIONALITY
-    // CATCHER CAN UPLOAD IMAGES, VIDEOS
     [HttpPut("CompleteServiceReq/{serviceReqId}")]
-    public async Task<ActionResult<ServiceDto>> CompleteServiceRequest(long catcherId, long serviceReqId, string? feedback)
+    public async Task<ActionResult<ServiceDto>> CompleteServiceRequest(long catcherId, long serviceReqId, string? feedback, string[]? catcherMedia)
     {
         var serviceReq = await _context.RequestService.FindAsync(serviceReqId);
         if (serviceReq == null)
@@ -313,7 +308,8 @@ public class CatcherController : ControllerBase
         }
 
 
-        serviceReq.ServiceFeedback = feedback;
+        serviceReq.CatcherFeedback = feedback;
+        serviceReq.CatcherMedia = catcherMedia;
         serviceReq.CompleteFlag = true;
         _context.Entry(serviceReq).State = EntityState.Modified;
         
@@ -337,7 +333,63 @@ public class CatcherController : ControllerBase
 
 
     // give feedbacks for the service requests by user
-    
+    [HttpPut("FeedbackRateServiceReq/{serviceReqId}")]
+    public async Task<ActionResult<ServiceDto>> FeedbackrateServiceRequest(long userId, long serviceReqId, string? feedback, string[]? feedbackMedia, int? rate, string? ratingComment)
+    {
+        var serviceReq = await _context.RequestService.FindAsync(serviceReqId);
+        if (serviceReq == null)
+        {
+            return NotFound();
+        }
+
+        try
+        {
+            if (serviceReq.AcceptFlag != true)
+            {
+                throw new ApplicationException("Service isn't accepted yet.");
+            }
+            else
+            {
+                if (serviceReq.ReqUserId != userId)
+                {
+                    throw new ApplicationException("User id isn't matched");
+                }
+            }
+        }
+        catch (ApplicationException ex)
+        {
+            var errorResponse = new CustomError
+            {
+                ErrorCode = "500",
+                ErrorMessage = ex.Message
+            };
+            return StatusCode(500, errorResponse);
+        }
+
+
+        serviceReq.ServiceFeedback = feedback;
+        serviceReq.ServiceFeedbackMedia = feedbackMedia;
+        serviceReq.Rate = rate;
+        serviceReq.RatingComment = ratingComment;
+        _context.Entry(serviceReq).State = EntityState.Modified;
+        
+        try
+        {
+            await _context.SaveChangesAsync();
+        }
+        catch (DbUpdateConcurrencyException)
+        {
+            if (!ServiceExists(serviceReqId))
+            {
+                return NotFound();
+            }
+            else
+            {
+                throw;
+            }
+        }
+        return NoContent();
+    }
     
 
 

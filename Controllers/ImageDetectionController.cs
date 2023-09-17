@@ -30,7 +30,7 @@ public class ImageDetectionController : ControllerBase
             return NotFound("User not found");
         }
 
-        var image = new ScannedImage()
+        var image = new ScannedImage()      // CHECK THIS
         {
             ScannedImageId = new Random().NextInt64(),
             UploadedUserId = scannedImageDto.UploadedUserId,

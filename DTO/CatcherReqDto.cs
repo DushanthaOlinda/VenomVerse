@@ -2,11 +2,11 @@ namespace VenomVerseApi.DTO;
 
 public class CatcherReqDto
 {
-    public CatcherReqDto(long reqId, long catcherId, string catcherName, string[] catcherEvidence, string? description, string? specialNote, long? approvedPersonIdOne, DateOnly? approvedDateOne, long? approvedPersonIdTwo, DateOnly? approvedDateTwo, long? approvedPersonIdThree, DateOnly? approvedDateThree, DateOnly? joinedDate, bool approvedFlag)
+    // dto constructor for retrieve
+    public CatcherReqDto(long reqId, long catcherId, string[] catcherEvidence, string? description, string? specialNote, long? approvedPersonIdOne, DateOnly? approvedDateOne, long? approvedPersonIdTwo, DateOnly? approvedDateTwo, long? approvedPersonIdThree, DateOnly? approvedDateThree, DateOnly? joinedDate, bool approvedFlag)
     {
         ReqId = reqId;
         ReqCatcher = catcherId;
-        CatcherName = catcherName;
         CatcherEvidence = catcherEvidence;
         Description = description;
         SpecialNote = specialNote;
@@ -20,9 +20,24 @@ public class CatcherReqDto
         ApprovedFlag = approvedFlag;
     }
 
+    // dto constructor for insert
+    public CatcherReqDto(long reqId, long catcherId, string[] catcherEvidence, string? description, string? specialNote)
+    {
+        ReqId = reqId;
+        ReqCatcher = catcherId;
+        // CatcherName = catcherName;
+        CatcherEvidence = catcherEvidence;
+        Description = description;
+        SpecialNote = specialNote;
+    }
+
+    // public CatcherReqDto(long reqId, long catcherId, string[] catcherEvidence, string? description, string? specialNote, long? approvedPersonIdOne, DateOnly? approvedDateOne, long? approvedPersonIdTwo, DateOnly? approvedDateTwo, long? approvedPersonIdThree, DateOnly? approvedDateThree, DateOnly? joinedDate, bool approvedFlag) : this(reqId, catcherId, catcherEvidence, description, specialNote)
+    // {
+    // }
+
     public long ReqId { get; set; } 
     public long ReqCatcher { get; set; }
-    public string CatcherName { get; set; }
+    // public string CatcherName { get; set; }
     public string[] CatcherEvidence { get; set; }
     public string? Description { get; set; }
     public string? SpecialNote { get; set; }   
