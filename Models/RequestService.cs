@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations.Schema;
+using VenomVerseApi.DTO;
 namespace VenomVerseApi.Models
 {    public class RequestService {
         public required long RequestServiceId { get; set; }
@@ -20,6 +21,33 @@ namespace VenomVerseApi.Models
 
         public string? ServiceFeedback { get; set; }
         public string[]? ServiceFeedbackMedia { get; set; }
+
+
+        public static ServiceDto ToServiceDto(RequestService service, ScannedImage? image)
+        {
+                
+                var serviceReq = new ServiceDto(
+                service.RequestServiceId, 
+                service.ReqUserId,
+                image!.ScannedImageMedia,
+                service.SelectedSerpent
+                );
+
+                return serviceReq;
+        }
+        
+        public static ServiceDto ToServiceDto(RequestService service)
+        {
+                var serviceReq = new ServiceDto(
+                service.RequestServiceId, 
+                service.ReqUserId,
+                null,
+                service.SelectedSerpent
+                );
+
+                return serviceReq;    
+        }
+    
 
                 // Foreign Key References
                 [ForeignKey("ReqUserId")] public UserDetail User { get; set; } = null!;

@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations.Schema;
+using VenomVerseApi.DTO;
 
 namespace VenomVerseApi.Models;
 
@@ -31,6 +32,42 @@ public class UserDetail{
     public bool CatcherPrivilege { get; set; } = false;
     public bool CommunityAdminPrivilege { get; set; } = false;
     public required string AccountStatus { get; set; } = null!;  // Active, Inactive, Deleted, Suspended etc...
+
+
+    public static UserDto UserToUserDto(UserDetail user) =>
+        new UserDto
+        {
+            FirstName = user.FirstName,
+            LastName = user.LastName,
+            UserName = user.UserName,
+            UserId = user.UserDetailId,
+            UserEmail = user.UserEmail,
+            CurrentMarks = user.CurrentMarks,
+            Nic = user.Nic,
+            Dob = user.Dob,
+            District = user.District,
+            Address = user.Address,
+            ContactNo = user.ContactNo,
+            WorkingStatus = user.WorkingStatus,
+        };
+
+    public static UserDetail UserDtoToUserDetail(UserDto userDto) =>
+        new UserDetail
+        {
+            UserDetailId = (long)userDto.UserId!,
+            FirstName = userDto.FirstName!,
+            LastName = userDto.LastName!,
+            UserEmail = userDto.UserEmail!,
+            CurrentMarks = (float)userDto.CurrentMarks!,
+            UserName = userDto.UserName!,
+            Nic = userDto.Nic!,
+            Dob = (DateOnly)userDto.Dob!,
+            District = userDto.Dob.ToString()!,
+            Address = userDto.Address!,
+            ContactNo = userDto.ContactNo!,
+            WorkingStatus = userDto.WorkingStatus!,
+            AccountStatus = userDto.AccountStatus!,
+        };
 
 
     

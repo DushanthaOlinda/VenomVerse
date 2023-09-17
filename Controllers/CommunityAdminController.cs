@@ -50,7 +50,7 @@ public class CommunityAdminController : ControllerBase
                     throw new ApplicationException("No relevant user Account found");
                 }
 
-                results.Add(ToZoologistRequestsDto(zoologist, userDetail, evidence));
+                results.Add(Zoologist.ToZoologistRequestsDto(zoologist, userDetail, evidence));
             }
             catch (ApplicationException ex)
             {
@@ -226,24 +226,24 @@ public class CommunityAdminController : ControllerBase
     // deactivate banned accounts -> send notification
 
 
-    private static ZoologistRequestsDto ToZoologistRequestsDto(Zoologist zoologist, UserDetail userDetail,
-        RequestToBeZoologistEvidence evidence)
-    {
-        var zoologistReq = new ZoologistRequestsDto()
-        {
-            FullName = userDetail.FirstName + " " + userDetail.LastName,
-            ZoologistId = zoologist.ZoologistId,
-            Description = zoologist.Description,
-            SpecialNote = zoologist.SpecialNote,
-            RequestedDateTime = zoologist.RequestedDateTime,
-            RequestToBeZoologistEvidenceId = evidence.RequestToBeZoologistEvidenceId,
-            DegreeName = evidence.DegreeName,
-            University = evidence.University,
-            GraduatedYear = evidence.GraduatedYear,
-            SpecialDetails = evidence.SpecialDetails
-        };
+    // private static ZoologistRequestsDto ToZoologistRequestsDto(Zoologist zoologist, UserDetail userDetail,
+    //     RequestToBeZoologistEvidence evidence)
+    // {
+    //     var zoologistReq = new ZoologistRequestsDto()
+    //     {
+    //         FullName = userDetail.FirstName + " " + userDetail.LastName,
+    //         ZoologistId = zoologist.ZoologistId,
+    //         Description = zoologist.Description,
+    //         SpecialNote = zoologist.SpecialNote,
+    //         RequestedDateTime = zoologist.RequestedDateTime,
+    //         RequestToBeZoologistEvidenceId = evidence.RequestToBeZoologistEvidenceId,
+    //         DegreeName = evidence.DegreeName,
+    //         University = evidence.University,
+    //         GraduatedYear = evidence.GraduatedYear,
+    //         SpecialDetails = evidence.SpecialDetails
+    //     };
 
-        return zoologistReq;
-    }
+    //     return zoologistReq;
+    // }
 
 }

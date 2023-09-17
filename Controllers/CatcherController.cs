@@ -15,9 +15,9 @@ public class CatcherController : ControllerBase
     {
         _context = context;
     }
-    // change availability 
     
-    [HttpPut("changeAvailability/{id}")]
+    // change availability 
+    [HttpPut("ChangeAvailability/{id}")]
     public async Task<IActionResult> UpdateAvailability(long id, bool availability)
     {
         if (_context.Catcher == null)
@@ -52,12 +52,56 @@ public class CatcherController : ControllerBase
             }
         }
         
+        // return NoContent();
+        return Ok( new{
+            ssss = "sasdasd",
+            dasda = "dasda"
+        }); 
+    }
+
+
+    // change charging fee
+    [HttpPut("ChangeAvailability/{id}")]
+    public async Task<IActionResult> UpdateChargingFee(long id, float new_charging)
+    {
+        if (_context.Catcher == null)
+        {
+            return NotFound();
+        }
+        
+        var catcher = await _context.Catcher.FindAsync(id);
+        
+        if (catcher == null)
+        {
+            return NotFound();
+        }
+
+        catcher.ChargingFee = new_charging;
+        
+        _context.Entry(catcher).State = EntityState.Modified;
+        
+        try
+        {
+            await _context.SaveChangesAsync();
+        }
+        catch (DbUpdateConcurrencyException)
+        {
+            if (!CatcherExists(id))
+            {
+                return NotFound();
+            }
+            else
+            {
+                throw;
+            }
+        }
+        
         return NoContent(); 
     }
 
 
     // view catcher requests
-    [HttpGet("RequestsToBecomeCatcher")]
+    [HttpGet("ViewRequestsToBecomeCatcher")]
     public async Task<ActionResult<List<CatcherReqDto>>> GetAllCatcherRequests()
     {
         if (_context.Catcher == null)
@@ -65,13 +109,13 @@ public class CatcherController : ControllerBase
             return NotFound();
         }
         
-        var pendingCatcherList = await _context.Catcher.Where(catcher => catcher.ApprovedFlag == false).ToListAsync();
+        var pendingCatcherList = await _context.Catcher.Where(catcher_req => catcher_req.ApprovedFlag == false).ToListAsync();
         if (pendingCatcherList != null)
         {
             return pendingCatcherList.Select(x =>
             {
-                var userDetails = _context.UserDetail.Find(x.CatcherId);
-                return ToCatcherReqDto(x,userDetails);
+                var userDetails = _context.UserDetail.Find(x.ReqCatcher);
+                return Catcher.ToCatcherReqDto(x,userDetails);
             }).ToList();
         }
         else
@@ -81,6 +125,86 @@ public class CatcherController : ControllerBase
     }
 
     // approve or decline catcher requests
+    [HttpGet("RespondRequestsToBecomeCatcher")]
+    public async Task<ActionResult> RespondRequestsToBecomeCatcher(long catcherId, long approvedUser, bool approveFlag)
+    // public async Task<ActionResult<List<CatcherReqDto>>> ResponseRequestsToBecomeCatcher(request karapu catcher, approve karana catcher, approve krada ndda kyana eka true or false)
+    {
+        if (_context.Catcher == null)
+        {
+            return NotFound();
+        }
+        if (_context.UserDetail == null)
+        {
+            return NotFound();
+        }
+        var approvingCatcher = await _context.Catcher.Where(catcher => catcher.ReqCatcher == catcherId).OrderByDescending(catcher => catcher.ReqId).FirstOrDefaultAsync();
+        if ( approvingCatcher != null )
+        {
+            if ( approvingCatcher.ApprovedPersonIdOne == null )
+            {
+                approvingCatcher.ApprovedPersonIdOne = approvedUser;
+                approvingCatcher.ApprovedDateOne = new DateOnly();
+                approvingCatcher.ApprovedStatusOne = approveFlag;
+            }
+            else if ( approvingCatcher.ApprovedPersonIdTwo == null )
+            {
+                approvingCatcher.ApprovedPersonIdTwo = approvedUser;
+                approvingCatcher.ApprovedDateTwo = new DateOnly();   
+                approvingCatcher.ApprovedStatusTwo = approveFlag;
+            }
+            else if ( approvingCatcher.ApprovedPersonIdThree == null )
+            {
+                approvingCatcher.ApprovedPersonIdThree = approvedUser;
+                approvingCatcher.ApprovedDateThree = new DateOnly();  
+                approvingCatcher.ApprovedStatusThree = approveFlag;
+
+                if (
+                    approvingCatcher.ApprovedStatusOne == true &&
+                    approvingCatcher.ApprovedStatusTwo == true &&
+                    approvingCatcher.ApprovedStatusThree == true 
+                )
+                {
+                    approvingCatcher.JoinedDate = new DateOnly();
+                    approvingCatcher.ApprovedFlag = true;
+                    var privillaging_user = await _context.UserDetail.FindAsync(catcherId);
+                    if ( privillaging_user != null ){
+                        privillaging_user.CatcherPrivilege = true;
+                        _context.Entry(privillaging_user).State = EntityState.Modified;
+                        try
+                        {
+                            await _context.SaveChangesAsync();
+                        }
+                        catch (DbUpdateConcurrencyException)
+                        {
+                            if (!CatcherExists(catcherId))
+                            {
+                                return NotFound();
+                            }
+                            else
+                            {
+                                throw;
+                            }
+                        }
+                    }
+                    //return successful
+                }
+                else 
+                {
+                    approvingCatcher.ApprovedFlag = false;
+                    //return error saying request has been declined
+                }
+            }
+            else{
+                // catcher has been already approved
+            }
+        }
+        else
+        {
+            return NotFound();
+        }
+        return NoContent(); 
+    }
+
 
 
     // view service notifications
@@ -101,7 +225,7 @@ public class CatcherController : ControllerBase
         {
             // find image relevant to scanned image id in request service class 
             var image = _context.ScannedImage.Find(service.ScannedImage);
-            return image == null ? ToServiceDto(service) : ToServiceDto(service, image);
+            return image == null ? RequestService.ToServiceDto(service) : RequestService.ToServiceDto(service, image);
         } ).ToList();
         
     }
@@ -122,7 +246,10 @@ public class CatcherController : ControllerBase
             return NotFound();
         }
 
-        if (response != true) return NoContent();
+        if (response != true) 
+        {
+            return NoContent();
+        }
         serviceReq.AcceptFlag = response;
         serviceReq.CatcherId = catcherId;
         
@@ -149,6 +276,9 @@ public class CatcherController : ControllerBase
 
     // complete service
 
+    // NO NEED TO GIVE FEEDBACK, REQUEST IS COMPLETED BY CATCHER, FEEDBACK IS GIVEN BY THE USER.
+    // TO GIVE A FEEDBACK, USER MUST DO A SEPARATE FUNCTIONALITY
+    // CATCHER CAN UPLOAD IMAGES, VIDEOS
     [HttpPut("CompleteServiceReq/{serviceReqId}")]
     public async Task<ActionResult<ServiceDto>> CompleteServiceRequest(long catcherId, long serviceReqId, string? feedback)
     {
@@ -205,60 +335,15 @@ public class CatcherController : ControllerBase
         return NoContent();
     }
 
-    
-    
-    
-    
-    private static CatcherReqDto ToCatcherReqDto(Catcher catcher, UserDetail? userDetail)
-    {
-        // var userDetails = await _context.UserDetail.FindAsync(catcher.CatcherId);
-        var fullName = userDetail!.FirstName + ' ' + userDetail.LastName;
-        var newReq = new CatcherReqDto(
-            catcher.CatcherId,
-            fullName, 
-            catcher.CatcherEvidence, 
-            catcher.Description, 
-            catcher.SpecialNote, 
-            catcher.ApprovedPersonIdOne, 
-            catcher.ApprovedDateOne, 
-            catcher.ApprovedPersonIdTwo, 
-            catcher.ApprovedDateTwo, 
-            catcher.ApprovedPersonIdThree, 
-            catcher.ApprovedDateThree, 
-            catcher.JoinedDate
-        );
-        return newReq;
-    }
 
-    private static ServiceDto ToServiceDto(RequestService service, ScannedImage? image)
-    {
-        
-        var serviceReq = new ServiceDto(
-            service.RequestServiceId, 
-            service.ReqUserId,
-            image!.ScannedImageMedia,
-            service.SelectedSerpent
-            );
+    // give feedbacks for the service requests by user
+    
+    
 
-        return serviceReq;
-    }
-    
-    private static ServiceDto ToServiceDto(RequestService service)
-    {
-        var serviceReq = new ServiceDto(
-            service.RequestServiceId, 
-            service.ReqUserId,
-            null,
-            service.SelectedSerpent
-        );
-
-        return serviceReq;    }
-    
-    
 
     private bool CatcherExists(long id)
     {
-        return (_context.Catcher?.Any(e => e.CatcherId == id)).GetValueOrDefault();
+        return (_context.Catcher?.Any(e => e.ReqCatcher == id)).GetValueOrDefault();
     }
 
     private bool ServiceExists(long id)
@@ -423,3 +508,7 @@ public class CatcherController : ControllerBase
     //     }
     //
     //     
+
+
+
+    

@@ -14,7 +14,7 @@ public class CommunityArticle{
     // 0 - pending approval
     // 1 - approved
     // -1 - rejected
-    public long? ApprovedUserId { get; set;}     // Comadmin->comadminId  ++Community admins approves the articles
+    public long? ApprovedUserId { get; set;}     // zoologist->zoologistId  ++zoologists approves the articles
     public long[]? React { get; set; }
 
     public string[]? ArticleCopyright { get; set; }
@@ -24,5 +24,5 @@ public class CommunityArticle{
             [ForeignKey("React")] public List<UserDetail> UserReact { get; set; } = null!;
             [ForeignKey("UserId")] public UserDetail User { get; set; } = null!;
             [InverseProperty("UserSavedArticle")] public List<UserDetail> UserSavedArticle { get; set; } = null!;
-            [ForeignKey("ApprovedUserId")] public CommunityAdmin CommunityAdmin { get; set; } = null!;
+            [ForeignKey("ApprovedUserId")] public CommunityAdmin CommunityAdmin { get; set; } = null!; //ZOOLOGIST FOREIGN
 }

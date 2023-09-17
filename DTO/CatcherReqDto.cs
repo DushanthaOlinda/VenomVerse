@@ -2,9 +2,10 @@ namespace VenomVerseApi.DTO;
 
 public class CatcherReqDto
 {
-    public CatcherReqDto(long catcherId, string catcherName, string[] catcherEvidence, string? description, string? specialNote, long? approvedPersonIdOne, DateOnly? approvedDateOne, long? approvedPersonIdTwo, DateOnly? approvedDateTwo, long? approvedPersonIdThree, DateOnly? approvedDateThree, DateOnly? joinedDate)
+    public CatcherReqDto(long reqId, long catcherId, string catcherName, string[] catcherEvidence, string? description, string? specialNote, long? approvedPersonIdOne, DateOnly? approvedDateOne, long? approvedPersonIdTwo, DateOnly? approvedDateTwo, long? approvedPersonIdThree, DateOnly? approvedDateThree, DateOnly? joinedDate, bool approvedFlag)
     {
-        CatcherId = catcherId;
+        ReqId = reqId;
+        ReqCatcher = catcherId;
         CatcherName = catcherName;
         CatcherEvidence = catcherEvidence;
         Description = description;
@@ -16,9 +17,11 @@ public class CatcherReqDto
         ApprovedPersonIdThree = approvedPersonIdThree;
         ApprovedDateThree = approvedDateThree;
         JoinedDate = joinedDate;
+        ApprovedFlag = approvedFlag;
     }
 
-    public long CatcherId { get; set; }
+    public long ReqId { get; set; } 
+    public long ReqCatcher { get; set; }
     public string CatcherName { get; set; }
     public string[] CatcherEvidence { get; set; }
     public string? Description { get; set; }
@@ -31,4 +34,5 @@ public class CatcherReqDto
     public long? ApprovedPersonIdThree { get; set; }//catcher -> catcherId
     public DateOnly? ApprovedDateThree { get; set; }     
     public DateOnly? JoinedDate { get; set; }
+    public bool ApprovedFlag { get; set; }
 }

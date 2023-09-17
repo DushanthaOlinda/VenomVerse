@@ -22,7 +22,7 @@ public class UserDetailController : ControllerBase
     {
         if (_context.UserDetail == null) return NotFound(); // If the table named 'UserDetail' does not exist
         // return await _context.UserDetail.ToListAsync();
-        return await _context.UserDetail.Select(x => UserToUserDto(x)).ToListAsync();
+        return await _context.UserDetail.Select(x => UserDetail.UserToUserDto(x)).ToListAsync();
     }
 
     // GET: UserDetail/{id}  => Get details of a selected user
@@ -33,7 +33,7 @@ public class UserDetailController : ControllerBase
         if (_context.UserDetail == null) return NotFound();
         var userDetail = await _context.UserDetail.FindAsync(id);
         if (userDetail == null) return NotFound();
-        return UserToUserDto(userDetail);
+        return UserDetail.UserToUserDto(userDetail);
     }
 
     // PUT: UserDetail/{id}  => Edit selected user details
@@ -81,7 +81,7 @@ public class UserDetailController : ControllerBase
     public async Task<ActionResult<UserDto>> PostCommunityPost(UserDto userDto)
     {
         if (_context.UserDetail == null) return Problem("Entity set 'VenomVerseContext.UserDetails'  is null.");
-        var userDetail = UserDtoToUserDetail(userDto);
+        var userDetail = UserDetail.UserDtoToUserDetail(userDto);
         _context.UserDetail.Add(userDetail);
         await _context.SaveChangesAsync();
 
@@ -125,46 +125,16 @@ public class UserDetailController : ControllerBase
 
 
     // request to become zoologist
+
+
+    // publish articles - check whether zoology privillege or expert privillage
     
 
     // ============================================================================
     // ============================ DTO CONVERSION ================================
     // ============================================================================
 
-    private static UserDto UserToUserDto(UserDetail user) =>
-        new UserDto
-        {
-            FirstName = user.FirstName,
-            LastName = user.LastName,
-            UserName = user.UserName,
-            UserId = user.UserDetailId,
-            UserEmail = user.UserEmail,
-            CurrentMarks = user.CurrentMarks,
-            Nic = user.Nic,
-            Dob = user.Dob,
-            District = user.District,
-            Address = user.Address,
-            ContactNo = user.ContactNo,
-            WorkingStatus = user.WorkingStatus,
-        };
-
-    private static UserDetail UserDtoToUserDetail(UserDto userDto) =>
-        new UserDetail
-        {
-            UserDetailId = (long)userDto.UserId!,
-            FirstName = userDto.FirstName!,
-            LastName = userDto.LastName!,
-            UserEmail = userDto.UserEmail!,
-            CurrentMarks = (float)userDto.CurrentMarks!,
-            UserName = userDto.UserName!,
-            Nic = userDto.Nic!,
-            Dob = (DateOnly)userDto.Dob!,
-            District = userDto.Dob.ToString()!,
-            Address = userDto.Address!,
-            ContactNo = userDto.ContactNo!,
-            WorkingStatus = userDto.WorkingStatus!,
-            AccountStatus = userDto.AccountStatus!,
-        };
+    
     private static UserDetail UserDtoToUserDetail(UserDto userDto, UserDetail userDetail)
     {
         userDetail.UserDetailId = (long)userDto.UserId!;  

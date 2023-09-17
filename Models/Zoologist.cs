@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using VenomVerseApi.DTO;
 namespace VenomVerseApi.Models
 {
     // public struct ZoologistCertificationStruct {        //Try to way to map
@@ -21,6 +22,27 @@ namespace VenomVerseApi.Models
         public long Status { get; set; } = 1; // rejected = 0, pending = 1, accepted = 2
         public long? ApprovedPersonId { get; set; }//ComAdmin->ComAdminId
         public DateOnly? ApprovedDate { get; set; }  
+
+
+        public static ZoologistRequestsDto ToZoologistRequestsDto(Zoologist zoologist, UserDetail userDetail,
+        RequestToBeZoologistEvidence evidence)
+    {
+        var zoologistReq = new ZoologistRequestsDto()
+        {
+            FullName = userDetail.FirstName + " " + userDetail.LastName,
+            ZoologistId = zoologist.ZoologistId,
+            Description = zoologist.Description,
+            SpecialNote = zoologist.SpecialNote,
+            RequestedDateTime = zoologist.RequestedDateTime,
+            RequestToBeZoologistEvidenceId = evidence.RequestToBeZoologistEvidenceId,
+            DegreeName = evidence.DegreeName,
+            University = evidence.University,
+            GraduatedYear = evidence.GraduatedYear,
+            SpecialDetails = evidence.SpecialDetails
+        };
+
+        return zoologistReq;
+    }
 
                 // Foreign Key References
                 [ForeignKey("ZoologistId")] public UserDetail User { get; set; } = null!;
