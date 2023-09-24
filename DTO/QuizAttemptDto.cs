@@ -2,7 +2,7 @@ using VenomVerseApi.Models;
 
 namespace VenomVerseApi.DTO;
 
-public class QuizDto
+public class QuizAttemptDto
 {
     public required long QuizId { get; set; }          //primary           
     public required long UserId { get; set; }          //primary         

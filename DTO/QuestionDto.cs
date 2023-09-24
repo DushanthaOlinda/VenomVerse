@@ -13,10 +13,10 @@ public class QuestionDto
     public string? Note { get; set; }
     public string? NoteSinhala { get; set; }
     // public required string Type { get; set; }
-    public required bool MultipleAnswers { get; set; } = false;
+    public required bool MultipleAnswers { get; set; } = true;
     // public required float Marks { get; set; }
-    public required long WriterId { get; set; }       // Zoologists create questions
-    public long? ApprovedUserId { get; set; }         // Zoologists approve questions
+    // public required long WriterId { get; set; }       // Zoologists create questions
+    // public long? ApprovedUserId { get; set; }         // Zoologists approve questions
     public required DateTime DateTime { get; set; } = DateTime.Now;
     public bool Published { get; set; } = false;    // option to publish the quiz
 

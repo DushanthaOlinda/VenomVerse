@@ -8,12 +8,13 @@ namespace VenomVerseApi.Models
         public required string QuizTopic { get; set; }
         public required string QuizTopicSinhala { get; set; }
 
+        // Approve quiz
+        
         public static QuizDetailDto QuizDetailtoQuizDetailDto( QuizDetail quizDetail) => new QuizDetailDto{
             QuizDetailId = quizDetail.QuizDetailId,
             QuizTopic = quizDetail.QuizTopic,
             QuizTopicSinhala = quizDetail.QuizTopicSinhala
         };
 
-        // Approve quiz
     }
 }

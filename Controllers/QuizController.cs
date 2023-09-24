@@ -24,7 +24,7 @@ public class QuizController : ControllerBase
         return await _context.QuizDetail.Select(x=>QuizDetail.QuizDetailtoQuizDetailDto(x)).ToListAsync();
     }
 
-    // if attempted view reviews
+    // if attempted view reviews otherwise get attempted page
     // [HttpGet("{uid/qid}")]
     // public async Task<ActionResult<SerpentDto>> GetQuizQuestions(long uid, long qid)
     // {
