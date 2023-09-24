@@ -73,7 +73,7 @@ public class CommunityPost{
                 CommunityPostId = communityPostDto.PostId,
                 UserId = communityPostDto.UserId,
                 Category = communityPostDto.Category,
-                Description = communityPostDto.Category,
+                Description = communityPostDto.Description,
                 DateTime = communityPostDto.DateTime,
                 PostStatus = communityPostDto.PostStatus
             };
