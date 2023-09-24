@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using VenomVerseApi.Models;
@@ -11,9 +12,11 @@ using VenomVerseApi.Models;
 namespace VenomVerseApi.Migrations
 {
     [DbContext(typeof(VenomVerseContext))]
-    partial class VenomVerseContextModelSnapshot : ModelSnapshot
+    [Migration("20230924045101_update quiz attempt 2")]
+    partial class updatequizattempt2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -746,6 +749,9 @@ namespace VenomVerseApi.Migrations
                     b.Property<string>("Answer05")
                         .HasColumnType("text");
 
+                    b.Property<long?>("ApprovedUserId")
+                        .HasColumnType("bigint");
+
                     b.Property<bool>("Correctness01")
                         .HasColumnType("boolean");
 
@@ -790,9 +796,18 @@ namespace VenomVerseApi.Migrations
                     b.Property<long>("QuizDetailId")
                         .HasColumnType("bigint");
 
+                    b.Property<long>("WriterId")
+                        .HasColumnType("bigint");
+
                     b.HasKey("QuestionId");
 
+                    b.HasIndex("ApprovedUserId")
+                        .IsUnique();
+
                     b.HasIndex("QuizDetailId");
+
+                    b.HasIndex("WriterId")
+                        .IsUnique();
 
                     b.ToTable("Question");
                 });
@@ -901,11 +916,10 @@ namespace VenomVerseApi.Migrations
                     b.Property<DateTime>("SubmittedTime")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint");
+
                     b.HasKey("QuizUserAnswerId");
-
-                    b.HasIndex("QuestionId");
-
-                    b.HasIndex("QuizAttemptId");
 
                     b.ToTable("QuizUserAnswer");
                 });
@@ -1742,13 +1756,27 @@ namespace VenomVerseApi.Migrations
 
             modelBuilder.Entity("VenomVerseApi.Models.Question", b =>
                 {
+                    b.HasOne("VenomVerseApi.Models.Zoologist", "ZoologistApprove")
+                        .WithOne("QuestionApprove")
+                        .HasForeignKey("VenomVerseApi.Models.Question", "ApprovedUserId");
+
                     b.HasOne("VenomVerseApi.Models.QuizDetail", "QuizDetail")
                         .WithMany()
                         .HasForeignKey("QuizDetailId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("VenomVerseApi.Models.Zoologist", "ZoologistWrite")
+                        .WithOne("QuestionWrite")
+                        .HasForeignKey("VenomVerseApi.Models.Question", "WriterId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("QuizDetail");
+
+                    b.Navigation("ZoologistApprove");
+
+                    b.Navigation("ZoologistWrite");
                 });
 
             modelBuilder.Entity("VenomVerseApi.Models.QuizAttempt", b =>
@@ -1768,25 +1796,6 @@ namespace VenomVerseApi.Migrations
                     b.Navigation("QuizDetail");
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("VenomVerseApi.Models.QuizUserAnswer", b =>
-                {
-                    b.HasOne("VenomVerseApi.Models.Question", "Question")
-                        .WithMany()
-                        .HasForeignKey("QuestionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("VenomVerseApi.Models.QuizAttempt", "QuizAttempt")
-                        .WithMany()
-                        .HasForeignKey("QuizAttemptId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Question");
-
-                    b.Navigation("QuizAttempt");
                 });
 
             modelBuilder.Entity("VenomVerseApi.Models.RequestService", b =>
@@ -2035,6 +2044,12 @@ namespace VenomVerseApi.Migrations
             modelBuilder.Entity("VenomVerseApi.Models.Zoologist", b =>
                 {
                     b.Navigation("CommunityResearch")
+                        .IsRequired();
+
+                    b.Navigation("QuestionApprove")
+                        .IsRequired();
+
+                    b.Navigation("QuestionWrite")
                         .IsRequired();
                 });
 #pragma warning restore 612, 618

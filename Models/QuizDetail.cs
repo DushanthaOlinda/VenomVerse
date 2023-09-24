@@ -14,5 +14,6 @@ namespace VenomVerseApi.Models
             QuizTopicSinhala = quizDetail.QuizTopicSinhala
         };
 
+        // Approve quiz
     }
 }

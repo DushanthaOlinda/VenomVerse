@@ -1,13 +1,15 @@
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 namespace VenomVerseApi.Models
 {
-        [PrimaryKey(nameof(QuizId), nameof(QuestionId), nameof(UserId), nameof(SubmittedTime))]    
+        // [PrimaryKey(nameof(QuizAttemptId), nameof(QuestionId), nameof(UserId), nameof(SubmittedTime))]    
         public class QuizUserAnswer{
-        public required long QuizId { get; set; }    
-        public required long UserId { get; set; }     
+        [Key]public required long QuizUserAnswerId { get; set; }    
+        public required long QuizAttemptId { get; set; }  //*  
+        // public required long UserId { get; set; }     //*
+        public required long QuestionId { get; set; }    //*
         public required DateTime SubmittedTime { get; set; }    
-        public required long QuestionId { get; set; }    
        
         // Answers
         public required bool Select01 { get; set; } = false;
@@ -21,11 +23,11 @@ namespace VenomVerseApi.Models
         public bool? Select05 { get; set; } = false;
         public bool? Correctness05 { get; set; }
 
-        // Foreign Key References
-        [ForeignKey("QuizId, UserId, SubmittedTime")]
-                // [ForeignKey("QuizId")] 
-        public Quiz Quiz { get; set; } = null!;
-                [ForeignKey("QuestionId")] public Question Question { get; set; } = null!;
+
+
+
+        [ForeignKey("QuizAttemptId")] public QuizAttempt QuizAttempt { get; set; } = null!;
+        [ForeignKey("QuestionId")] public Question Question { get; set; } = null!;
 
     }
 }

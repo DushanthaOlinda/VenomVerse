@@ -2,14 +2,14 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace VenomVerseApi.Models
 {
 
-    public struct AnswerStruct {
-        public string Answer { get; set; }
-        public bool Correctness { get; set; }
-    }
+    // public struct AnswerStruct {
+    //     public string Answer { get; set; }
+    //     public bool Correctness { get; set; }
+    // }
 
     public class Question {     // For MCQ type
         public required long QuestionId { get; set; }
-        public required long QuizId { get; set; }
+        public required long QuizDetailId { get; set; }   // quizdetail -> quizdetailid
         public required string QuestionString { get; set; }
         public required string QuestionStringSinhala { get; set; }
         public string[]? QuestionMedia { get; set; }
@@ -19,8 +19,8 @@ namespace VenomVerseApi.Models
         // public required string Type { get; set; }
         public required bool MultipleAnswers { get; set; } = false;
         // public required float Marks { get; set; }
-        public required long WriterId { get; set; }       // Zoologists create questions
-        public long? ApprovedUserId { get; set; }         // Zoologists approve questions
+        // public required long WriterId { get; set; }       // Zoologists create questions
+        // public long? ApprovedUserId { get; set; }         // Zoologists approve questions
         public required DateTime DateTime { get; set; } = DateTime.Now;
         public bool Published { get; set; } = false;    // option to publish the quiz
 
@@ -38,7 +38,8 @@ namespace VenomVerseApi.Models
 
 
                 // Foreign Key References
-                [ForeignKey("ApprovedUserId")] public Zoologist ZoologistApprove { get; set; } = null!;
-                [ForeignKey("WriterId")] public Zoologist ZoologistWrite { get; set; } = null!;
+                [ForeignKey("QuizDetailId")] public QuizDetail QuizDetail { get; set; } = null!;
+                // [ForeignKey("ApprovedUserId")] public Zoologist ZoologistApprove { get; set; } = null!;
+                // [ForeignKey("WriterId")] public Zoologist ZoologistWrite { get; set; } = null!;
     }
 }
