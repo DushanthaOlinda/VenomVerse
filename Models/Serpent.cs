@@ -20,7 +20,9 @@ namespace VenomVerseApi.Models
         public required string Description { get; set; }
         public required string DescriptionSinhala { get; set; }
 
-        public static SerpentDto CreateSerpentDto( Serpent serpentDetail, IEnumerable<SerpentInstruction> serpentInstructions ){
+        public static SerpentDto CreateSerpentDto( Serpent serpentDetail
+        , IEnumerable<SerpentInstruction> serpentInstructions 
+        ){
                         var serpent = new SerpentDto( 
                         serpentDetail.SerpentId,
                         serpentDetail.ScientificName,

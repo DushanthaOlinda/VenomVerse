@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using VenomVerseApi.DTO;
+using VenomVerseApi.Migrations;
 using VenomVerseApi.Models;
 
 namespace VenomVerseApi.Controllers;
@@ -21,39 +22,237 @@ public class QuizController : ControllerBase
     public async Task<ActionResult<IEnumerable<QuizDetailDto>>> GetAllQuizDetails()
     {
         if ( _context.QuizDetail == null ) return NotFound();
-        return await _context.QuizDetail.Select(x=>QuizDetail.QuizDetailtoQuizDetailDto(x)).ToListAsync();
+        return await _context.QuizDetail.Select(x=>QuizDetail.QuizDetailToQuizDetailDto(x)).ToListAsync();
     }
 
     // if attempted view reviews otherwise get attempted page
-    // [HttpGet("{uid/qid}")]
-    // public async Task<ActionResult<SerpentDto>> GetQuizQuestions(long uid, long qid)
-    // {
-    //     if ( _context.QuizUserAnswer == null ) return NotFound();
+    [HttpGet("GetQuestions/{uid}/{qzid}")]
+    public async Task<ActionResult> GetQuizQuestions(long uid, long qzid)
+    {
+        if ( _context.Question == null ) return NotFound();
 
-    //     var quizUserAnswerDetail =  await _context.QuizUserAnswer.FindAsync(id);    //composite key??
-    //     // if ( serpentDetail == null ) return NotFound();
-    //     // var serpentInstructoins = _context.SerpentInstruction.Where(p=> p.SerpentId == serpentDetail.SerpentId).ToList();
-    //     // // return SerpentToSerpentDto(serpentDetail);
-    //     // return Serpent.CreateSerpentDto(serpentDetail, serpentInstructoins);
-    // }
+        var questionDetails = await _context.Question.Where(questionDetail => questionDetail.QuizDetailId == qzid ).Select(q => Question.QuestionToQuestionDto(q)).ToListAsync();
+    
 
-    //Else get questions for relavant quiz
+        var quizAttempt = await _context.QuizAttempt.Where(attempt => attempt.QuizDetailId == qzid && attempt.UserId == uid).FirstOrDefaultAsync();
+
+        if ( quizAttempt != null ){
+            var quizAnswers = await _context.QuizUserAnswer.Where(quizAnswer => quizAnswer.QuizAttemptId == quizAttempt.QuizAttemptId).Select(quizAnswer => QuizUserAnswer.QuizUserAnsToQuizUserAnsDto(quizAnswer)).ToListAsync();
+
+            return Ok( new{
+                quiz_answers = quizAnswers,
+                question_details = questionDetails
+            }); 
+        }
+
+        return Ok( new{
+            question_details = questionDetails
+        }); 
+    }
 
     //Compare given answers and store
+    [HttpPost("SubmitAnswer/{uid}/{attempid}/{qid}/{qstnid}")]
+    public async Task<ActionResult> SubmitQuizAnswer(long uid, long attempid, long qstnid, QuizUserAnswerDto user_ans)
+    {
+        if ( _context.QuizUserAnswer == null ) return NotFound();
+
+        var quiz_attempt = await _context.QuizAttempt.FindAsync(attempid);
+        var db_question = await _context.Question.FindAsync(qstnid);
+        var ans_question = QuizUserAnswer.QuizUserAnsDtoToQuizUserAns(user_ans);
+
+        if ( quiz_attempt == null ) return NotFound();
+        if ( db_question == null ) return NotFound();
+
+        float total_marks = 0;
+
+        if ( ans_question.Select01 == db_question.Correctness01 ){
+            ans_question.Correctness01 = true;
+            total_marks += 2;
+        } else {
+            ans_question.Correctness01 = false;
+            total_marks -= 2;
+        }
+
+        if ( ans_question.Select02 == db_question.Correctness02 ){
+            ans_question.Correctness02 = true;
+            total_marks += 2;
+        } else {
+            ans_question.Correctness02 = false;
+            total_marks -= 2;
+        }
+
+        if ( ans_question.Select03 == db_question.Correctness03 ){
+            ans_question.Correctness03 = true;
+            total_marks += 2;
+        } else {
+            ans_question.Correctness03 = false;
+            total_marks -= 2;
+        }
+
+        if ( ans_question.Select04 == db_question.Correctness04 ){
+            ans_question.Correctness04 = true;
+            total_marks += 2;
+        } else {
+            ans_question.Correctness04 = false;
+            total_marks -= 2;
+        }
+
+        if ( ans_question.Select05 == db_question.Correctness05 ){
+            ans_question.Correctness05 = true;
+            total_marks += 2;
+        } else {
+            ans_question.Correctness05 = false;
+            total_marks -= 2;
+        }
+
+        if ( total_marks < 0 ){
+            total_marks = 0;
+        }
+
+        quiz_attempt.TotalMarks += total_marks;
+
+        return Ok();
+
+    }
+
+    // add quiz details
+    [HttpPost("AddNewQuiz/{newquizdetail}")]
+    public async Task<IActionResult> AddNewQuizDetail(QuizDetailDto quizDetailDto)
+    {
+        if ( _context.QuizDetail == null ) return NotFound();
+        var quizDetail = QuizDetail.QuizDetailDtoToQuizDetail(quizDetailDto);
+        _context.QuizDetail.Add(quizDetail);
+        await _context.SaveChangesAsync();
+        return CreatedAtAction("QuizDEtails", new { id = quizDetail.QuizDetailId }, quizDetail);
+    }
+
+    // edit quiz details
+    [HttpPut("EditQuiz/{editquizdetail}")]
+    public async Task<IActionResult> EditQuizDetail(long id, QuizDetailDto quizDetailDto)
+    {
+        if (id != quizDetailDto.QuizDetailId)
+        {
+            return BadRequest();
+        }
+        if ( _context.QuizDetail == null ) return NotFound();
+        var quizDetail = await _context.QuizDetail.FindAsync(id);
+        if (quizDetail==null) 
+        {
+            return NotFound();
+        } 
+        else 
+        {
+            quizDetail = QuizDetail.QuizDetailDtoToQuizDetail(quizDetailDto);
+        }
+        _context.Entry(quizDetail).State = EntityState.Modified;
+        try 
+        {
+            await _context.SaveChangesAsync();
+        }
+        catch (DbUpdateConcurrencyException)
+        {
+            if (!QuizDetailsExists(id))
+            {
+                return NotFound();
+            }
+
+            throw;
+        }
+        return NoContent();
+    }
+
+    // delete a quiz including whole questions inside it
+    [HttpDelete("DeleteQuiz/{id}")]
+    public async Task<IActionResult> DeleteQuizDetails(long id)
+    {
+        if (_context.QuizDetail == null) return NotFound();
+        var quizDetail = await _context.QuizDetail.FindAsync(id);
+        if (quizDetail == null) return NotFound();
+
+        var questions = await _context.Question.Where(questionDetail => questionDetail.QuizDetailId == id ).ToListAsync();
+        foreach ( var question in questions) {
+            _context.Question.Remove(question);
+        }
+        _context.QuizDetail.Remove(quizDetail);
+        await _context.SaveChangesAsync();
+
+        return NoContent();
+    }
 
 
-
-    //====OPT====//
-
-    // add quiz details, edit, delete
 
     // add questions
+    [HttpPost("AddNewQuestion/{newquestion}")]
+    public async Task<IActionResult> AddNewQuestion(QuestionDto questionDto)
+    {
+        if ( _context.Question == null ) return NotFound();
+        var question = Question.QuestionDtoToQuestion(questionDto);
+        _context.Question.Add(question);
+        await _context.SaveChangesAsync();
+        return CreatedAtAction("QuestionDetails", new { id = question.QuestionId }, question);
+    }
+
+    // delete a question
+    [HttpDelete("DeleteQuestion/{id}")]
+    public async Task<IActionResult> DeleteQuestion(long id)
+    {
+        if (_context.Question == null) return NotFound();
+        var question = await _context.Question.FindAsync(id);
+        if (question == null) return NotFound();
+
+        _context.Question.Remove(question);
+        await _context.SaveChangesAsync();
+        
+        return NoContent();
+    }
+
+    //edit a question
+    [HttpPut("EditQuestion/{editquizdetail}")]
+    public async Task<IActionResult> EditQuestionDetail(long id, QuestionDto questionDto)
+    {
+        if (id != questionDto.QuestionId)
+        {
+            return BadRequest();
+        }
+        if ( _context.Question == null ) return NotFound();
+        var question = await _context.Question.FindAsync(id);
+        if (question==null) 
+        {
+            return NotFound();
+        } 
+        else 
+        {
+            question = Question.QuestionDtoToQuestion(questionDto);
+        }_context.Entry(question).State = EntityState.Modified;
+        try 
+        {
+            await _context.SaveChangesAsync();
+        }
+        catch (DbUpdateConcurrencyException)
+        {
+            if (!QuestionExists(id))
+            {
+                return NotFound();
+            }
+
+            throw;
+        }
+        return NoContent();
+    }
+
 
     // approve questions
 
-    // delete questions
 
-    // edit questions
+    private bool QuizDetailsExists(long id)     
+    {
+        return (_context.QuizDetail?.Any(e => e.QuizDetailId == id)).GetValueOrDefault();
+    }
+
+    private bool QuestionExists(long id)     
+    {
+        return (_context.Question?.Any(e => e.QuestionId == id)).GetValueOrDefault();
+    }
 
 
 }

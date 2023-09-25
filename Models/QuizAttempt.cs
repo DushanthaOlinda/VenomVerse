@@ -12,9 +12,9 @@ namespace VenomVerseApi.Models
     public required long UserId { get; set; }     
     public required DateTime SubmittedTime { get; set; } = DateTime.Now;      
     // public required string QuizType { get; set; }
-    public float? TotalMarks { get; set; }
-    public float? AttemptedMarks { get; set; }
-    public float? PassMark { get; set; }
+    public float TotalMarks { get; set; } = 0;
+    // public float? AttemptedMarks { get; set; }
+    // public float? PassMark { get; set; }
 
 
             // Foreign Key References
