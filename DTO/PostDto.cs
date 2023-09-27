@@ -17,10 +17,11 @@ public class PostDto
     public List<ReportDto>? Reports { get; set; }
 
 
-    public string? UserName { get; set; } = null;
+    public string? FirstName { get; set; } = null;
+    public string? LastName { get; set; } = null;
 
 
-    public PostDto(long postId, long userId, string category, string description, DateTime dateTime, string[]? media, long[]? react, int postStatus, List<PostCommentDto>? comments, List<ReportDto>? reports, string? username)
+    public PostDto(long postId, long userId, string category, string description, DateTime dateTime, string[]? media, long[]? react, int postStatus, List<PostCommentDto>? comments, List<ReportDto>? reports, string? firstname, string? lastname)
     {
         PostId = postId;
         UserId = userId;
@@ -32,7 +33,8 @@ public class PostDto
         PostStatus = postStatus;
         Comments = comments;
         Reports = reports;
-        UserName = username;
+        FirstName = firstname;
+        LastName = lastname;
     }
 }
     

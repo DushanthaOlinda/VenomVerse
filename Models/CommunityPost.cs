@@ -57,7 +57,8 @@ public class CommunityPost{
                 communityPost.PostStatus,
                 communityPostComments.Select(c => c.CommentToCommentDto()).ToList(),
                 communityPostReports.Select(r => r.ReportToReportDto()).ToList(),
-                username.UserName
+                username.FirstName,
+                username.LastName
             );
             return postDetails;
         }
