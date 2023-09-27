@@ -35,6 +35,16 @@ namespace VenomVerseApi.Models
             );
         }
 
+        public static SerpentInstruction InstructionDtoToInstruction (SerpentInstructionDto serpentInstruction) =>
+        new()
+        {
+            SerpentInstructionId = serpentInstruction.SerpentInstructionId,
+            SerpentId = serpentInstruction.SerpentId,
+            WittenUser = serpentInstruction.WrittenUser,
+            InsDetail = serpentInstruction.InsDetail,
+            InsDetailSinhala = serpentInstruction.InsDetailSinhala
+        };
+
 
                 // Foreign Key References
                 [ForeignKey("WittenUser")] public Zoologist WrittenUser { get; set; } = null!;

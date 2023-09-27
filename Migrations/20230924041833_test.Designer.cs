@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using VenomVerseApi.Models;
@@ -11,9 +12,11 @@ using VenomVerseApi.Models;
 namespace VenomVerseApi.Migrations
 {
     [DbContext(typeof(VenomVerseContext))]
-    partial class VenomVerseContextModelSnapshot : ModelSnapshot
+    [Migration("20230924041833_test")]
+    partial class test
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -731,15 +734,7 @@ namespace VenomVerseApi.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("Answer01Sinhala")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.Property<string>("Answer02")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Answer02Sinhala")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -747,25 +742,15 @@ namespace VenomVerseApi.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("Answer03Sinhala")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.Property<string>("Answer04")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("Answer04Sinhala")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.Property<string>("Answer05")
-                        .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("Answer05Sinhala")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<long?>("ApprovedUserId")
+                        .HasColumnType("bigint");
 
                     b.Property<bool>("Correctness01")
                         .HasColumnType("boolean");
@@ -779,17 +764,23 @@ namespace VenomVerseApi.Migrations
                     b.Property<bool>("Correctness04")
                         .HasColumnType("boolean");
 
-                    b.Property<bool>("Correctness05")
+                    b.Property<bool?>("Correctness05")
                         .HasColumnType("boolean");
 
                     b.Property<DateTime>("DateTime")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("MultipleAnswers")
+                        .HasColumnType("boolean");
 
                     b.Property<string>("Note")
                         .HasColumnType("text");
 
                     b.Property<string>("NoteSinhala")
                         .HasColumnType("text");
+
+                    b.Property<bool>("Published")
+                        .HasColumnType("boolean");
 
                     b.Property<string[]>("QuestionMedia")
                         .HasColumnType("text[]");
@@ -802,44 +793,49 @@ namespace VenomVerseApi.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<long>("QuizDetailId")
+                    b.Property<long>("QuizId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("WriterId")
                         .HasColumnType("bigint");
 
                     b.HasKey("QuestionId");
 
-                    b.HasIndex("QuizDetailId");
+                    b.HasIndex("ApprovedUserId")
+                        .IsUnique();
+
+                    b.HasIndex("WriterId")
+                        .IsUnique();
 
                     b.ToTable("Question");
                 });
 
-            modelBuilder.Entity("VenomVerseApi.Models.QuizAttempt", b =>
+            modelBuilder.Entity("VenomVerseApi.Models.Quiz", b =>
                 {
-                    b.Property<long>("QuizAttemptId")
-                        .ValueGeneratedOnAdd()
+                    b.Property<long>("QuizId")
                         .HasColumnType("bigint");
 
-                    NpgsqlPropertyBuilderExtensions.UseSerialColumn(b.Property<long>("QuizAttemptId"));
-
-                    b.Property<long>("QuizDetailId")
+                    b.Property<long>("UserId")
                         .HasColumnType("bigint");
 
                     b.Property<DateTime>("SubmittedTime")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<float>("TotalMarks")
+                    b.Property<float?>("AttemptedMarks")
                         .HasColumnType("real");
 
-                    b.Property<long>("UserId")
-                        .HasColumnType("bigint");
+                    b.Property<float?>("PassMark")
+                        .HasColumnType("real");
 
-                    b.HasKey("QuizAttemptId");
+                    b.Property<float?>("TotalMarks")
+                        .HasColumnType("real");
 
-                    b.HasIndex("QuizDetailId");
+                    b.HasKey("QuizId", "UserId", "SubmittedTime");
 
                     b.HasIndex("UserId")
                         .IsUnique();
 
-                    b.ToTable("QuizAttempt");
+                    b.ToTable("Quiz");
                 });
 
             modelBuilder.Entity("VenomVerseApi.Models.QuizDetail", b =>
@@ -865,11 +861,17 @@ namespace VenomVerseApi.Migrations
 
             modelBuilder.Entity("VenomVerseApi.Models.QuizUserAnswer", b =>
                 {
-                    b.Property<long>("QuizUserAnswerId")
-                        .ValueGeneratedOnAdd()
+                    b.Property<long>("QuizId")
                         .HasColumnType("bigint");
 
-                    NpgsqlPropertyBuilderExtensions.UseSerialColumn(b.Property<long>("QuizUserAnswerId"));
+                    b.Property<long>("QuestionId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("SubmittedTime")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<bool>("Correctness01")
                         .HasColumnType("boolean");
@@ -883,14 +885,8 @@ namespace VenomVerseApi.Migrations
                     b.Property<bool>("Correctness04")
                         .HasColumnType("boolean");
 
-                    b.Property<bool>("Correctness05")
+                    b.Property<bool?>("Correctness05")
                         .HasColumnType("boolean");
-
-                    b.Property<long>("QuestionId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("QuizAttemptId")
-                        .HasColumnType("bigint");
 
                     b.Property<bool>("Select01")
                         .HasColumnType("boolean");
@@ -904,14 +900,14 @@ namespace VenomVerseApi.Migrations
                     b.Property<bool>("Select04")
                         .HasColumnType("boolean");
 
-                    b.Property<bool>("Select05")
+                    b.Property<bool?>("Select05")
                         .HasColumnType("boolean");
 
-                    b.HasKey("QuizUserAnswerId");
+                    b.HasKey("QuizId", "QuestionId", "UserId", "SubmittedTime");
 
                     b.HasIndex("QuestionId");
 
-                    b.HasIndex("QuizAttemptId");
+                    b.HasIndex("QuizId", "UserId", "SubmittedTime");
 
                     b.ToTable("QuizUserAnswer");
                 });
@@ -1748,26 +1744,32 @@ namespace VenomVerseApi.Migrations
 
             modelBuilder.Entity("VenomVerseApi.Models.Question", b =>
                 {
-                    b.HasOne("VenomVerseApi.Models.QuizDetail", "QuizDetail")
-                        .WithMany()
-                        .HasForeignKey("QuizDetailId")
+                    b.HasOne("VenomVerseApi.Models.Zoologist", "ZoologistApprove")
+                        .WithOne("QuestionApprove")
+                        .HasForeignKey("VenomVerseApi.Models.Question", "ApprovedUserId");
+
+                    b.HasOne("VenomVerseApi.Models.Zoologist", "ZoologistWrite")
+                        .WithOne("QuestionWrite")
+                        .HasForeignKey("VenomVerseApi.Models.Question", "WriterId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("QuizDetail");
+                    b.Navigation("ZoologistApprove");
+
+                    b.Navigation("ZoologistWrite");
                 });
 
-            modelBuilder.Entity("VenomVerseApi.Models.QuizAttempt", b =>
+            modelBuilder.Entity("VenomVerseApi.Models.Quiz", b =>
                 {
                     b.HasOne("VenomVerseApi.Models.QuizDetail", "QuizDetail")
                         .WithMany()
-                        .HasForeignKey("QuizDetailId")
+                        .HasForeignKey("QuizId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("VenomVerseApi.Models.UserDetail", "User")
-                        .WithOne("QuizAttempt")
-                        .HasForeignKey("VenomVerseApi.Models.QuizAttempt", "UserId")
+                        .WithOne("Quiz")
+                        .HasForeignKey("VenomVerseApi.Models.Quiz", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -1784,15 +1786,15 @@ namespace VenomVerseApi.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("VenomVerseApi.Models.QuizAttempt", "QuizAttempt")
+                    b.HasOne("VenomVerseApi.Models.Quiz", "Quiz")
                         .WithMany()
-                        .HasForeignKey("QuizAttemptId")
+                        .HasForeignKey("QuizId", "UserId", "SubmittedTime")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Question");
 
-                    b.Navigation("QuizAttempt");
+                    b.Navigation("Quiz");
                 });
 
             modelBuilder.Entity("VenomVerseApi.Models.RequestService", b =>
@@ -2023,7 +2025,7 @@ namespace VenomVerseApi.Migrations
 
                     b.Navigation("Notification");
 
-                    b.Navigation("QuizAttempt");
+                    b.Navigation("Quiz");
 
                     b.Navigation("RequestService");
 
@@ -2041,6 +2043,12 @@ namespace VenomVerseApi.Migrations
             modelBuilder.Entity("VenomVerseApi.Models.Zoologist", b =>
                 {
                     b.Navigation("CommunityResearch")
+                        .IsRequired();
+
+                    b.Navigation("QuestionApprove")
+                        .IsRequired();
+
+                    b.Navigation("QuestionWrite")
                         .IsRequired();
                 });
 #pragma warning restore 612, 618

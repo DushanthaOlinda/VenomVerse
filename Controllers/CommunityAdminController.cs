@@ -218,12 +218,15 @@ public class CommunityAdminController : ControllerBase
     }
 
     // actions on complaints - ban accounts
-
+    
 
     // activate banned accounts
 
 
     // deactivate banned accounts -> send notification
+
+
+
 
 
     // private static ZoologistRequestsDto ToZoologistRequestsDto(Zoologist zoologist, UserDetail userDetail,

@@ -46,8 +46,8 @@ namespace VenomVerseApi.Models
 
                 // Foreign Key References
                 [ForeignKey("ZoologistId")] public UserDetail User { get; set; } = null!;
-                [InverseProperty("ZoologistApprove")] public Question QuestionApprove { get; set; } = null!;
-                [InverseProperty("ZoologistWrite")] public Question QuestionWrite { get; set; } = null!;
+                // [InverseProperty("ZoologistApprove")] public Question QuestionApprove { get; set; } = null!;
+                // [InverseProperty("ZoologistWrite")] public Question QuestionWrite { get; set; } = null!;
                 [ForeignKey("ApprovedPersonId")]public CommunityAdmin? CommunityAdmin { get; set; } = null;
                 public CommunityResearch CommunityResearch { get; set; } = null!;
     }

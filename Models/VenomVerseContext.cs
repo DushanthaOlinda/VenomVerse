@@ -31,7 +31,7 @@ public class VenomVerseContext : IdentityUserContext<IdentityUser>
     public DbSet<EmergencyContact> EmergencyContact { get; set; } = default!;
     public DbSet<Notification> Notification { get; set; } = default!;
     public DbSet<Question> Question { get; set; } = default!;
-    public DbSet<Quiz> Quiz { get; set; } = default!;
+    public DbSet<QuizAttempt> QuizAttempt { get; set; } = default!;
     public DbSet<QuizDetail> QuizDetail { get; set; } = default!;
     public DbSet<QuizUserAnswer> QuizUserAnswer { get; set; } = default!;
     public DbSet<RegistrationRequest> RegistrationRequest { get; set; } = default!; //

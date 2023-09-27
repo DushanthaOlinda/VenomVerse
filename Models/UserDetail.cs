@@ -85,7 +85,7 @@ public class UserDetail{
     [ForeignKey("SavedResearch")] public List<CommunityResearch> CommunityResearch { get; set; } = null!;
     public Notification? Notification { get; set; } = null;
     public Question? Question { get; set; } = null;
-    public Quiz? Quiz { get; set; } = null;
+    public QuizAttempt? QuizAttempt { get; set; } = null;
     public RequestService? RequestService { get; set; } = null;
     public ScannedImage? ScannedImage { get; set; } = null;
     public Zoologist? Zoologist { get; set; } = null;
