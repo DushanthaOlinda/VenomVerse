@@ -43,9 +43,11 @@ public class CommunityPost{
     public static PostDto CreatePostDto(
             CommunityPost communityPost,
             IEnumerable<CommunityPostComment> communityPostComments, 
-            IEnumerable<CommunityPostReport> communityPostReports)
+            IEnumerable<CommunityPostReport> communityPostReports,
+            UserDetail username)
         {
-            var postDetails = new PostDto(communityPost.CommunityPostId,
+            var postDetails = new PostDto(
+                communityPost.CommunityPostId,
                 communityPost.UserId,
                 communityPost.Category,
                 communityPost.Description,
@@ -54,7 +56,8 @@ public class CommunityPost{
                 communityPost.React,
                 communityPost.PostStatus,
                 communityPostComments.Select(c => c.CommentToCommentDto()).ToList(),
-                communityPostReports.Select(r => r.ReportToReportDto()).ToList()
+                communityPostReports.Select(r => r.ReportToReportDto()).ToList(),
+                username.UserName
             );
             return postDetails;
         }

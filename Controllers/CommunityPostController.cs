@@ -29,9 +29,16 @@ namespace VenomVerseApi.Controllers
             return await _context.CommunityPost.Select(x => CommunityPost.CreatePostDto(
                 x,
                 _context.CommunityPostComment.Where(p => p.CommunityPostId == x.CommunityPostId).ToList(),
-                _context.CommunityPostReport.Where(p => p.CommunityPostId == x.CommunityPostId).ToList())
+                _context.CommunityPostReport.Where(p => p.CommunityPostId == x.CommunityPostId).ToList(),
+                _context.UserDetail.Where(u => u.UserDetailId==x.UserId).FirstOrDefault()
+                )
             ).ToListAsync();
         }
+
+        // private async Task<ActionResult> getUserById(long id){
+        //     var user =  await _context.UserDetail.FindAsync(id);
+        //     return user.UserName;
+        // }
 
         // view selected community posts
         [HttpGet("{id}")]
@@ -50,8 +57,9 @@ namespace VenomVerseApi.Controllers
           
           var comments = _context.CommunityPostComment.Where(p => p.CommunityPostId == communityPost.CommunityPostId).ToList();
           var reports = _context.CommunityPostReport.Where(p => p.CommunityPostId == communityPost.CommunityPostId).ToList();
+          var user = _context.UserDetail.Where(u => u.UserDetailId==communityPost.UserId).FirstOrDefault();
 
-          var postDetails = CommunityPost.CreatePostDto(communityPost, comments, reports);
+          PostDto postDetails = CommunityPost.CreatePostDto(communityPost, comments, reports, user);
 
           return postDetails;
         }
