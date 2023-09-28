@@ -207,9 +207,9 @@ public class CatcherController : ControllerBase
 
 
 
-    // view service notifications
-    [HttpGet("GetServiceReqList")]
-    public async Task<ActionResult<List<ServiceDto>>> GetServiceRequests()
+    // view service notifications which allocated for the relevant catcher
+    [HttpGet("GetServiceReqList/{uid}")]
+    public async Task<ActionResult<List<ServiceDto>>> GetServiceRequests(long uid)
     {
         //UserDto, reqest details
 
@@ -220,7 +220,7 @@ public class CatcherController : ControllerBase
         }
 
         // then get a list of request services where accept flag is false
-        var serviceList = await _context.RequestService.Where(service => service.AcceptFlag == false).ToListAsync();
+        var serviceList = await _context.RequestService.Where(service => service.AcceptFlag == false && service.CatcherId==uid).ToListAsync();
 
         // then map above list to serviceDto
         return serviceList.Select(service =>
@@ -393,6 +393,14 @@ public class CatcherController : ControllerBase
         return NoContent();
     }
     
+
+    // view accepted requests by the catcher himself
+
+
+    // view relevant request by clicking the card with user details
+
+
+    // view all ratings of his services
 
 
     private bool CatcherExists(long id)
