@@ -23,6 +23,7 @@ public class QuizController : ControllerBase
     {
         if ( _context.QuizDetail == null ) return NotFound();
         return await _context.QuizDetail.Select(x=>QuizDetail.QuizDetailToQuizDetailDto(x)).ToListAsync();
+        // add marks if attempted
     }
 
     // get all attempts for admin panel or community admins
@@ -38,9 +39,21 @@ public class QuizController : ControllerBase
         )).ToListAsync();
     }
 
+    //Attempt to a quiz
+    // [HttpPost("AttemptQuiz/{aid}/{uid}/{qzid}")]    // check whether priviously done or not
+    // public async Task<ActionResult> AttemptQuiz(long aid, long uid, long qzid)
+    // {
+    //     if ( _context.QuizAttempt == null ) return NotFound();
+
+    //     var quizAttemptDto = new QuizAttemptDto(aid, uid, qzid, DateTime.Now, 0 );
+    //     _context.QuizAttempt.Add(QuizAttempt.QuizAttemptDtoToQuizAttempt(quizAttemptDto));
+    //     await _context.SaveChangesAsync();
+    //     return Ok("User Attempt started");
+    // }
+
     // if attempted view reviews otherwise get attempted page
-    [HttpGet("GetQuestions/{uid}/{qzid}")]
-    public async Task<ActionResult> GetQuizQuestions(long uid, long qzid)
+    [HttpGet("GetQuestions/{aid}/{uid}/{qzid}")]
+    public async Task<ActionResult> GetQuizQuestions(long aid, long uid, long qzid)
     {
         if ( _context.Question == null ) return NotFound();
 
@@ -58,24 +71,15 @@ public class QuizController : ControllerBase
             }); 
         }
 
+        var quizAttemptDto = new QuizAttemptDto(aid, uid, qzid, DateTime.Now, 0 );
+        _context.QuizAttempt.Add(QuizAttempt.QuizAttemptDtoToQuizAttempt(quizAttemptDto));
+        await _context.SaveChangesAsync();
         return Ok( new{
             question_details = questionDetails
         }); 
     }
 
-    //Attempt to a quiz
-    [HttpPost("AttemptQuiz/{aid}/{uid}/{qzid}")]
-    public async Task<ActionResult> AttemptQuiz(long aid, long uid, long qzid)
-    {
-        if ( _context.QuizAttempt == null ) return NotFound();
-
-        var quizAttemptDto = new QuizAttemptDto(aid, uid, qzid, DateTime.Now, 0 );
-        _context.QuizAttempt.Add(QuizAttempt.QuizAttemptDtoToQuizAttempt(quizAttemptDto));
-        await _context.SaveChangesAsync();
-        return Ok("User Attempt started");
-    }
-
-    //Compare given answers and store
+    //Compare given answers and store - for 1 question
     [HttpPost("SubmitAnswer/{uid}/{attempid}/{qstnid}")]
     public async Task<ActionResult> SubmitQuizAnswer(long uid, long attempid, long qstnid, QuizUserAnswerDto user_ans)
     {
