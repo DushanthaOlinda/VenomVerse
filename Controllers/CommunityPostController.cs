@@ -16,6 +16,8 @@ namespace VenomVerseApi.Controllers
             _context = context;
         }
 
+        // show all posts of a perticular user
+
         // view all community posts
         // HIDDEN POSTS MUST BE HIDDEN
         [HttpGet]

@@ -1,3 +1,4 @@
+using System.Drawing;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using VenomVerseApi.DTO;
@@ -18,7 +19,7 @@ public class ImageDetectionController : ControllerBase
 
     // save scanned image, prediction, accuracy
     [HttpPost("ScanImage")]
-    public async Task<ActionResult<ScannedImageDto>> ScanImage(ScannedImageDto scannedImageDto)
+    public async Task<ActionResult<long>> ScanImage(ScannedImageDto scannedImageDto)
     {
         if (_context.ScannedImage == null)
         {
@@ -45,7 +46,7 @@ public class ImageDetectionController : ControllerBase
         _context.ScannedImage.Add(image);
 
         await _context.SaveChangesAsync();
-        return NoContent();
+        return image.ScannedImageId;
         // return CreatedAtAction("GetCommunityPost", new { id = communityPost.PostId }, communityPost);
     }
 

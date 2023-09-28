@@ -59,7 +59,6 @@ public class QuizController : ControllerBase
 
         var questionDetails = await _context.Question.Where(questionDetail => questionDetail.QuizDetailId == qzid ).Select(q => Question.QuestionToQuestionDto(q)).ToListAsync();
     
-
         var quizAttempt = await _context.QuizAttempt.Where(attempt => attempt.QuizDetailId == qzid && attempt.UserId == uid).FirstOrDefaultAsync();
 
         if ( quizAttempt != null ){
