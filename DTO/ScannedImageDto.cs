@@ -13,6 +13,15 @@ public class ScannedImageDto
         PredictionSuccess = predictionSuccess;
     }
 
+    public ScannedImageDto(long? scannedImageId, long uploadedUserId, string scannedImageMedia, long? predictedSerpentType, float? accuracy)
+    {
+        ScannedImageId = scannedImageId;
+        UploadedUserId = uploadedUserId;
+        ScannedImageMedia = scannedImageMedia;
+        PredictedSerpentType = predictedSerpentType;
+        Accuracy = accuracy;
+    }
+
     public long? ScannedImageId { get; set; }
     public long UploadedUserId { get; set; } //User->UserId
     public string ScannedImageMedia { get; set; } //ScannedIMage->ScannedImageId
@@ -21,5 +30,5 @@ public class ScannedImageDto
     public float? Accuracy { get; set; } // 75%
 
     public long? ActualSerpentType { get; set; } // Serpent->SerpentId         ++maximum voted serpent type         1
-    public bool? PredictionSuccess { get; set; }    
+    public bool? PredictionSuccess { get; set; }
 }
