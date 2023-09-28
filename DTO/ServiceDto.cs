@@ -14,6 +14,7 @@ public class ServiceDto
 
     public long RequestServiceId { get; set; } 
     public long ReqUserId { get; set; }
+//user photo
     public long? CatcherId { get; set; }
     public DateTime DateTime { get; set; }
     public string? ScannedImageLink { get; set; } = null; 

@@ -1,6 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
+using VenomVerseApi.DTO;
+using VenomVerseApi.Migrations;
 namespace VenomVerseApi.Models
 {
     // [PrimaryKey(nameof(QuizDetailId), nameof(UserId), nameof(SubmittedTime))] 
@@ -15,6 +17,58 @@ namespace VenomVerseApi.Models
     public float TotalMarks { get; set; } = 0;
     // public float? AttemptedMarks { get; set; }
     // public float? PassMark { get; set; }
+
+    public static QuizAttemptDto QuizAttemptToQuizAttemptDto( QuizAttempt quizAttempt)
+    {
+        var quizAttemptDet = new QuizAttemptDto( 
+            quizAttempt.QuizAttemptId,
+            quizAttempt.UserId,
+            quizAttempt.QuizDetailId,
+            quizAttempt.SubmittedTime,
+            quizAttempt.TotalMarks
+        )
+        {
+            QuizAttemptId = quizAttempt.QuizAttemptId,
+            UserId = quizAttempt.UserId,
+            QuizDetailId = quizAttempt.QuizDetailId,
+            SubmittedTime = quizAttempt.SubmittedTime,
+            TotalMarks = quizAttempt.TotalMarks
+        };
+        return quizAttemptDet;
+    }
+
+    public static QuizAttemptDto QuizAttemptToQuizAttemptDto( QuizAttempt quizAttempt, UserDetail userDetail, QuizDetail quizDetails)
+    {
+        var quizAttemptDet = new QuizAttemptDto( 
+            quizAttempt.QuizAttemptId,
+            quizAttempt.UserId,
+            quizAttempt.QuizDetailId,
+            quizAttempt.SubmittedTime,
+            quizAttempt.TotalMarks,
+            userDetail,
+            quizDetails
+        )
+        {
+            QuizAttemptId = quizAttempt.QuizAttemptId,
+            UserId = quizAttempt.UserId,
+            QuizDetailId = quizAttempt.QuizDetailId,
+            SubmittedTime = quizAttempt.SubmittedTime,
+            TotalMarks = quizAttempt.TotalMarks,
+            UserDetails = userDetail,
+            QuizDetails = quizDetails
+        };
+        return quizAttemptDet;
+    }
+
+    public static QuizAttempt QuizAttemptDtoToQuizAttempt (QuizAttemptDto quizAttemptDto) =>
+        new()
+        {
+            QuizAttemptId = quizAttemptDto.QuizDetailId,
+            UserId = quizAttemptDto.UserId,
+            QuizDetailId = quizAttemptDto.QuizDetailId,
+            SubmittedTime = quizAttemptDto.SubmittedTime,
+            // TotalMarks = quizAttemptDto.TotalMarks
+        };
 
 
             // Foreign Key References
