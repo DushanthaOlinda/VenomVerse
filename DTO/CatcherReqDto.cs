@@ -1,9 +1,11 @@
+using VenomVerseApi.Models;
+
 namespace VenomVerseApi.DTO;
 
 public class CatcherReqDto
 {
     // dto constructor for retrieve
-    public CatcherReqDto(long reqId, long catcherId, string[] catcherEvidence, string? description, string? specialNote, long? approvedPersonIdOne, DateOnly? approvedDateOne, long? approvedPersonIdTwo, DateOnly? approvedDateTwo, long? approvedPersonIdThree, DateOnly? approvedDateThree, DateOnly? joinedDate, bool approvedFlag)
+    public CatcherReqDto(long reqId, long catcherId, string[] catcherEvidence, string? description, string? specialNote, long? approvedPersonIdOne, DateOnly? approvedDateOne, long? approvedPersonIdTwo, DateOnly? approvedDateTwo, long? approvedPersonIdThree, DateOnly? approvedDateThree, DateOnly? joinedDate, bool approvedFlag, UserDetail? user)
     {
         ReqId = reqId;
         ReqCatcher = catcherId;
@@ -18,6 +20,7 @@ public class CatcherReqDto
         ApprovedDateThree = approvedDateThree;
         JoinedDate = joinedDate;
         ApprovedFlag = approvedFlag;
+        User = user;
     }
 
     // dto constructor for insert
@@ -50,4 +53,6 @@ public class CatcherReqDto
     public DateOnly? ApprovedDateThree { get; set; }     
     public DateOnly? JoinedDate { get; set; }
     public bool ApprovedFlag { get; set; }
+
+    public UserDetail? User { get; set; } = null;
 }
