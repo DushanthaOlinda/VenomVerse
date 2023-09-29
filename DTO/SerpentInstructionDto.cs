@@ -9,6 +9,9 @@ public class SerpentInstructionDto
     public long WrittenUser { get; set; }
     public string InsDetail { get; set; }
     public string InsDetailSinhala { get; set; }
+
+    public string? WrittenUserFirstName { get; set; } = null;
+    public string? WrittenUserLastName { get; set; } = null;
     // public long[]? PositiveVote { get; set; }   
     // public long[]? NegativeVote { get; set; }  
 

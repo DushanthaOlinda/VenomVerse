@@ -9,6 +9,8 @@ public class PostCommentDto
     public long UserId { get; set; }
     public DateTime DateTime { get; set; } = DateTime.Now;
     public string Comment { get; set; }
+    public string? UserFirstName { get; set; } = null;
+    public string? UserLastName { get; set; } = null;
 
     
     public PostCommentDto(long commentId, long postId, long userId, string comment)

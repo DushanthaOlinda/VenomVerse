@@ -20,7 +20,8 @@ public class CatcherReqDto
         ApprovedDateThree = approvedDateThree;
         JoinedDate = joinedDate;
         ApprovedFlag = approvedFlag;
-        User = user;
+        UserFirstName = user.FirstName;
+        UserFirstName = user.LastName;
     }
 
     // dto constructor for insert
@@ -54,5 +55,6 @@ public class CatcherReqDto
     public DateOnly? JoinedDate { get; set; }
     public bool ApprovedFlag { get; set; }
 
-    public UserDetail? User { get; set; } = null;
+    public string? UserFirstName { get; set; } = null;
+    public string? UserLastName { get; set; } = null;
 }

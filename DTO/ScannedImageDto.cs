@@ -13,6 +13,7 @@ public class ScannedImageDto
 
     public long? ActualSerpentType { get; set; } // Serpent->SerpentId         ++maximum voted serpent type         1
     public bool? PredictionSuccess { get; set; }    
+    
     public string? UserFirstName {get; set; }
     public string? UserLastName {get; set; }
     public string? ScannedSerpentName {get; set; }

@@ -14,8 +14,13 @@ public class QuizAttemptDto
     // public float? PassMark { get; set; }
 
 
-    public UserDetail? UserDetails { get; set; } = null;
-    public QuizDetail? QuizDetails { get; set; } = null;
+    public string? UserFirstName { get; set; } = null;
+    public string? UserLastName { get; set; } = null;
+
+    public string? QuizTopicEng { get; set; } = null;
+    public string? QuizTopicSin { get; set; } = null;
+    // public QuizDetail? QuizDetails { get; set; } = null;
+    
 
     public QuizAttemptDto( long quizAttemptID, long userId, long quizDetailId, DateTime submittedTime, float totalMarks)
     {
@@ -35,8 +40,10 @@ public class QuizAttemptDto
         QuizDetailId = quizDetailId;
         SubmittedTime = submittedTime;
         TotalMarks = totalMarks;
-        UserDetails = userDetails;
-        QuizDetails = quizDetails;
+        UserFirstName = userDetails.FirstName;
+        UserLastName = userDetails.LastName;
+        QuizTopicEng = quizDetails.QuizTopic;
+        QuizTopicSin = quizDetails.QuizTopicSinhala;
         // TotalMarks = totalMarks;
         // PassMark = passMark;
     }
