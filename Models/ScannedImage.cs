@@ -5,6 +5,7 @@ using VenomVerseApi.DTO;
 namespace VenomVerseApi.Models;
 
 [Index("UploadedUserId", IsUnique = false)]
+[Index("PredictedSerpentType", IsUnique = false)]
 public class ScannedImage
 {
     public required long ScannedImageId { get; set; }
