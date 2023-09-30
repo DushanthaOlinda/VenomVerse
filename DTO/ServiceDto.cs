@@ -1,3 +1,5 @@
+using VenomVerseApi.Models;
+
 namespace VenomVerseApi.DTO;
 
 public class ServiceDto
@@ -12,9 +14,20 @@ public class ServiceDto
         DateTime = new DateTime();
     }
 
+    public ServiceDto(long requestServiceId, long reqUserId, string? scannedImageLink, long? selectedSerpent, UserDetail user, ScannedImage scanImg, Serpent serpent)
+    {
+        RequestServiceId = requestServiceId;
+        ReqUserId = reqUserId;
+        ScannedImageLink = scannedImageLink;
+        SelectedSerpent = selectedSerpent;
+        DateTime = new DateTime();
+        User = user;
+        ScanImg = scanImg;
+        SerpentDetails = serpent;
+    }
+
     public long RequestServiceId { get; set; } 
     public long ReqUserId { get; set; }
-//user photo
     public long? CatcherId { get; set; }
     public DateTime DateTime { get; set; }
     public string? ScannedImageLink { get; set; } = null; 
@@ -26,4 +39,8 @@ public class ServiceDto
     public string? CatcherFeedback { get; set; } = null;
     public string? ServiceFeedback { get; set; } = null;
     public string[]? ServiceFeedbackMedia { get; set; } = null;
+
+    public UserDetail? User { get; set; } = null;
+    public ScannedImage? ScanImg { get; set; } = null;
+    public Serpent? SerpentDetails { get; set; } = null;
 }

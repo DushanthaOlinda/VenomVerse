@@ -50,6 +50,21 @@ namespace VenomVerseApi.Models
 
                 return serviceReq;    
         }
+
+        public static ServiceDto ToServiceDto(RequestService service, UserDetail user, ScannedImage scanImg, Serpent serpent)
+        {
+                var serviceReq = new ServiceDto(
+                service.RequestServiceId, 
+                service.ReqUserId,
+                null,
+                service.SelectedSerpent,
+                user,
+                scanImg,
+                serpent
+                );
+
+                return serviceReq;    
+        }
     
 
                 // Foreign Key References
