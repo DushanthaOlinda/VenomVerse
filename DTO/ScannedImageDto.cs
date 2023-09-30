@@ -19,7 +19,7 @@ public class ScannedImageDto
     public string? ScannedSerpentName {get; set; }
 
 
-    public ScannedImageDto(long scannedImageId, long uploadedUserId, string scannedImageMedia, DateTime dateTime, long predictedSerpentType, float accuracy, long? actualSerpentType, bool? predictionSuccess, string userfname, string userlname, string serpentName)
+    public ScannedImageDto(long scannedImageId, long uploadedUserId, string scannedImageMedia, DateTime dateTime, long predictedSerpentType, float accuracy, long? actualSerpentType, bool? predictionSuccess, string? userFirstName, string? userLastName, string? scannedSerpentName)
     {
         ScannedImageId = scannedImageId;
         UploadedUserId = uploadedUserId;
@@ -29,19 +29,8 @@ public class ScannedImageDto
         Accuracy = accuracy;
         ActualSerpentType = actualSerpentType;
         PredictionSuccess = predictionSuccess;
-        UserFirstName = userfname;
-        UserLastName = userlname;
-        ScannedSerpentName = serpentName;
+        UserFirstName = userFirstName;
+        UserLastName = userLastName;
+        ScannedSerpentName = scannedSerpentName;
     }
-
-    // public ScannedImageDto(long scannedImageId, long uploadedUserId, string scannedImageMedia, long predictedSerpentType, float accuracy)
-    // {
-    //     ScannedImageId = scannedImageId;
-    //     UploadedUserId = uploadedUserId;
-    //     ScannedImageMedia = scannedImageMedia;
-    //     PredictedSerpentType = predictedSerpentType;
-    //     Accuracy = accuracy;
-    // }
-
-
 }

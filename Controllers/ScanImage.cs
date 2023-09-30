@@ -5,7 +5,6 @@ using VenomVerseApi.Models;
 
 namespace VenomVerseApi.Controllers;
 
-
 [ApiController]
 [Route("[controller]")]
 public class ScanImageController : ControllerBase
@@ -20,7 +19,7 @@ public class ScanImageController : ControllerBase
     // view all community posts
     // HIDDEN POSTS MUST BE HIDDEN
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<ScannedImageDto>>> GetAllScannedImages()
+    public async Task<ActionResult<List<ScannedImageDto>>> GetAllScannedImages()
     {
         if (_context.ScannedImage == null)
         {
@@ -28,15 +27,7 @@ public class ScanImageController : ControllerBase
         }
 
         // return await _context.CommunityPost.ToListAsync();
-        return await _context.ScannedImage.Select(x => new ScannedImageDto(
-            x.ScannedImageId, 
-            x.UploadedUserId,
-            x.ScannedImageMedia,
-            x.PredictedSerpentType,
-            x.Accuracy,
-            x.ActualSerpentType,
-            x.PredictionSuccess
-            )).ToListAsync();
+        return await _context.ScannedImage.Select(x => PrepareDto(x, _context.UserDetail.FirstOrDefault(detail => detail.UserDetailId == x.UploadedUserId))).ToListAsync();
     }
 
     // private async Task<ActionResult> getUserById(long id){
@@ -60,18 +51,24 @@ public class ScanImageController : ControllerBase
             return NotFound();
         }
 
+        var scannedUser = await _context.UserDetail.FindAsync(scannedImage.UploadedUserId);
+
         var imageDto = new ScannedImageDto(
-            scannedImage.ScannedImageId, 
+            scannedImage.ScannedImageId,
             scannedImage.UploadedUserId,
             scannedImage.ScannedImageMedia,
+            scannedImage.DateTime,
             scannedImage.PredictedSerpentType,
             scannedImage.Accuracy,
             scannedImage.ActualSerpentType,
-            scannedImage.PredictionSuccess
+            scannedImage.PredictionSuccess,
+            scannedUser?.FirstName,
+            scannedUser?.LastName,
+            scannedImage.PredictedSerpentType.ToString()
         );
         return imageDto;
     }
-    
+
     // add new community post
     [HttpPost]
     public async Task<ActionResult<ScannedImageDto>> SaveScannedImage(ScannedImageDto imageDto)
@@ -88,10 +85,12 @@ public class ScanImageController : ControllerBase
                 ScannedImageId = (long)imageDto.ScannedImageId,
                 UploadedUserId = imageDto.UploadedUserId,
                 ScannedImageMedia = imageDto.ScannedImageMedia,
-                DateTime = default
+                DateTime = default,
+                PredictedSerpentType = imageDto.PredictedSerpentType,
+                Accuracy = imageDto.Accuracy,
             };
-            
-            
+
+
             //   _context.CommunityPost.Add(PostDtoToPost(communityPost));
             _context.ScannedImage.Add(newImage);
 
@@ -105,9 +104,30 @@ public class ScanImageController : ControllerBase
         }
     }
 
-    
+
     private bool CommunityPostExists(long id)
     {
         return (_context.CommunityPost?.Any(e => e.CommunityPostId == id)).GetValueOrDefault();
+    }
+
+    private static ScannedImageDto PrepareDto(ScannedImage image, UserDetail? user)
+    {
+        var snakeNames = new Dictionary<long, string>
+        {
+            { 1, "Python" },
+            { 2, "Cobra" },
+            { 123, "Naja Naja" }
+            // Add more id-snakeName mappings as needed
+        };
+
+        // var user = userTask.Result;
+
+        var snakeName = snakeNames.TryGetValue(image.PredictedSerpentType, out var name) ? name : "Unknown Snake";
+
+        // var user = _context.UserDetail.FindAsync(image.UploadedUserId).Result;
+
+        var imageDto = ScannedImage.ToScannedImageDto(image, user?.FirstName ?? "USER", user?.LastName ?? "NOT FOUND", snakeName);
+
+        return imageDto;
     }
 }

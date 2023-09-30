@@ -151,7 +151,9 @@ public class QuizController : ControllerBase
         var quizDetail = QuizDetail.QuizDetailDtoToQuizDetail(quizDetailDto);
         _context.QuizDetail.Add(quizDetail);
         await _context.SaveChangesAsync();
-        return CreatedAtAction("QuizDEtails", new { id = quizDetail.QuizDetailId }, quizDetail);
+
+        return Ok();
+        // return CreatedAtAction("QuizDetails", new { id = quizDetail.QuizDetailId }, quizDetail);
     }
 
     // edit quiz details
@@ -217,7 +219,8 @@ public class QuizController : ControllerBase
         var question = Question.QuestionDtoToQuestion(questionDto);
         _context.Question.Add(question);
         await _context.SaveChangesAsync();
-        return CreatedAtAction("QuestionDetails", new { id = question.QuestionId }, question);
+        return Ok();
+        // return CreatedAtAction("QuestionDetails", new { id = question.QuestionId }, question);
     }
 
     // delete a question
