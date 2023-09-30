@@ -53,7 +53,8 @@ namespace VenomVerseApi.Models
                 catcher.ApprovedPersonIdThree, 
                 catcher.ApprovedDateThree, 
                 catcher.JoinedDate,
-                catcher.ApprovedFlag
+                catcher.ApprovedFlag,
+                userDetail
                 );
                 return newReq;
         }

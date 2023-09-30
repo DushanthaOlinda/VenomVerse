@@ -10,6 +10,9 @@ public class ReportDto
     public long? ComAdminId {get; set; }
     public string? Response {get; set; }   
 
+    public string? UserFirstName { get; set; } = null;
+    public string? UserLastName { get; set; } = null;
+
     public ReportDto(long communityPostReportId, long communityPostId, long userId, string description, long? comAdminId, string? response)
     {
         CommunityPostReportId = communityPostReportId;

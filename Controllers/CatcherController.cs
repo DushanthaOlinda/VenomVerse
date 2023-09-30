@@ -104,6 +104,7 @@ public class CatcherController : ControllerBase
     [HttpGet("ViewRequestsToBecomeCatcher")]
     public async Task<ActionResult<List<CatcherReqDto>>> GetAllCatcherRequests()
     {
+        //pass user account
         if (_context.Catcher == null)
         {
             return NotFound();
@@ -123,6 +124,21 @@ public class CatcherController : ControllerBase
             return NotFound();
         }
     }
+
+    // details of a single to be catcher request
+    [HttpGet("ViewToBecatcherRequest/{reqid}")]
+    public async Task<ActionResult<CatcherReqDto>> GetToBeCatcherRequestDetails(long reqid)
+    {
+        if ( _context.Catcher == null ) return NotFound();
+
+        var catcherReq = await _context.Catcher.FindAsync(reqid);
+        if ( catcherReq==null ) return NoContent();
+
+        var user = await _context.UserDetail.FindAsync(catcherReq.ReqCatcher);
+
+        return Catcher.ToCatcherReqDto(catcherReq, user);
+    }
+    
 
     // approve or decline catcher requests
     [HttpGet("RespondRequestsToBecomeCatcher")]
@@ -206,32 +222,6 @@ public class CatcherController : ControllerBase
     }
 
 
-
-    // view service notifications which allocated for the relevant catcher
-    [HttpGet("GetServiceReqList/{uid}")]
-    public async Task<ActionResult<List<ServiceDto>>> GetServiceRequests(long uid)
-    {
-        //UserDto, reqest details
-
-        // check if request services available
-        if (_context.RequestService == null)
-        {
-            return NotFound();
-        }
-
-        // then get a list of request services where accept flag is false
-        var serviceList = await _context.RequestService.Where(service => service.AcceptFlag == false && service.CatcherId==uid).ToListAsync();
-
-        // then map above list to serviceDto
-        return serviceList.Select(service =>
-        {
-            // find image relevant to scanned image id in request service class 
-            var image = _context.ScannedImage.Find(service.ScannedImage);
-            return image == null ? RequestService.ToServiceDto(service) : RequestService.ToServiceDto(service, image);
-        } ).ToList();
-        
-    }
-    
     // approve or decline service 
     [HttpPut("ServiceReqResponse/{serviceReqId}")]
     public async Task<ActionResult<ServiceDto>> AcceptRejectService(long catcherId, long serviceReqId, bool response)
@@ -273,6 +263,59 @@ public class CatcherController : ControllerBase
         }
         return NoContent();
     }
+    
+    
+    // view accepted requests by the catcher himself
+    [HttpGet("AllRequests/{uid}")]
+    public async Task<ActionResult<IEnumerable<ServiceDto>>> GetAllServiceRequestsForCatcher(long uid)
+    {
+        if ( _context.RequestService == null ) return NotFound();
+
+        var reqServices = _context.RequestService.Where(req => req.CatcherId == uid && req.CompleteFlag==false).ToListAsync();
+
+        var allRequests = await _context.RequestService.Where(rs => rs.CatcherId == uid && rs.CompleteFlag == false).Select(x => RequestService.ToServiceDto(
+            x,
+            _context.UserDetail.Where(user => user.UserDetailId == x.ReqUserId).FirstOrDefault(),
+            _context.ScannedImage.Where(si => si.ScannedImageId == x.ScannedImage).FirstOrDefault(),
+            _context.Serpent.Where(s => s.SerpentId == x.SelectedSerpent).FirstOrDefault()
+            // pass  serpent too
+        )).ToListAsync();
+        return allRequests;
+    } 
+
+    // view relevant request by clicking the card with user details
+    [HttpGet("ViewRequest/{reqid}")]
+    public async Task<ActionResult<ServiceDto>> GetServiceRequestDetails(long reqid)
+    {
+        if ( _context.RequestService == null ) return NotFound();
+
+        var requestDetails = await _context.RequestService.FindAsync(reqid);
+        if ( requestDetails==null ) return NoContent();
+        var user = await _context.UserDetail.FindAsync(requestDetails.ReqUserId);
+        var scannedImg = await _context.ScannedImage.FindAsync(requestDetails.ScannedImage);
+        var serpent = await _context.Serpent.FindAsync(requestDetails.SelectedSerpent);
+
+        return RequestService.ToServiceDto(requestDetails, user, scannedImg, serpent);
+    }
+
+
+    // view all ratings of his services
+    [HttpGet("AllRequestsCompleted/{uid}")]
+    public async Task<ActionResult<IEnumerable<ServiceDto>>> GetAllCompletedServiceRequestsForCatcher(long uid)
+    {
+        if ( _context.RequestService == null ) return NotFound();
+
+        var reqServices = _context.RequestService.Where(req => req.CatcherId == uid && req.CompleteFlag==true).ToListAsync();
+
+        var allRequests = await _context.RequestService.Where(rs => rs.CatcherId == uid && rs.CompleteFlag == false).Select(x => RequestService.ToServiceDto(
+            x,
+            _context.UserDetail.Where(user => user.UserDetailId == x.ReqUserId).FirstOrDefault(),
+            _context.ScannedImage.Where(si => si.ScannedImageId == x.ScannedImage).FirstOrDefault(),
+            _context.Serpent.Where(s => s.SerpentId == x.SelectedSerpent).FirstOrDefault()
+            // pass  serpent too
+        )).ToListAsync();
+        return allRequests;
+    } 
 
 
     // complete service
@@ -394,57 +437,6 @@ public class CatcherController : ControllerBase
     }
     
 
-    // view accepted requests by the catcher himself
-    [HttpGet("AllRequests/{uid}")]
-    public async Task<ActionResult<IEnumerable<ServiceDto>>> GetAllServiceRequestsForCatcher(long uid)
-    {
-        if ( _context.RequestService == null ) return NotFound();
-
-        var reqServices = _context.RequestService.Where(req => req.CatcherId == uid && req.CompleteFlag==false).ToListAsync();
-
-        var allRequests = await _context.RequestService.Where(rs => rs.CatcherId == uid && rs.CompleteFlag == false).Select(x => RequestService.ToServiceDto(
-            x,
-            _context.UserDetail.Where(user => user.UserDetailId == x.ReqUserId).FirstOrDefault(),
-            _context.ScannedImage.Where(si => si.ScannedImageId == x.ScannedImage).FirstOrDefault(),
-            _context.Serpent.Where(s => s.SerpentId == x.SelectedSerpent).FirstOrDefault()
-            // pass  serpent too
-        )).ToListAsync();
-        return allRequests;
-    } 
-
-    // view relevant request by clicking the card with user details
-    [HttpGet("{reqid}")]
-    public async Task<ActionResult<ServiceDto>> GetServiceRequestDetails(long reqid)
-    {
-        if ( _context.RequestService == null ) return NotFound();
-
-        var requestDetails = await _context.RequestService.FindAsync(reqid);
-        if ( requestDetails==null ) return NoContent();
-        var user = await _context.UserDetail.FindAsync(requestDetails.ReqUserId);
-        var scannedImg = await _context.ScannedImage.FindAsync(requestDetails.ScannedImage);
-        var serpent = await _context.Serpent.FindAsync(requestDetails.SelectedSerpent);
-
-        return RequestService.ToServiceDto(requestDetails, user, scannedImg, serpent);
-    }
-
-
-    // view all ratings of his services
-    [HttpGet("AllRequestsCompleted/{uid}")]
-    public async Task<ActionResult<IEnumerable<ServiceDto>>> GetAllCompletedServiceRequestsForCatcher(long uid)
-    {
-        if ( _context.RequestService == null ) return NotFound();
-
-        var reqServices = _context.RequestService.Where(req => req.CatcherId == uid && req.CompleteFlag==true).ToListAsync();
-
-        var allRequests = await _context.RequestService.Where(rs => rs.CatcherId == uid && rs.CompleteFlag == false).Select(x => RequestService.ToServiceDto(
-            x,
-            _context.UserDetail.Where(user => user.UserDetailId == x.ReqUserId).FirstOrDefault(),
-            _context.ScannedImage.Where(si => si.ScannedImageId == x.ScannedImage).FirstOrDefault(),
-            _context.Serpent.Where(s => s.SerpentId == x.SelectedSerpent).FirstOrDefault()
-            // pass  serpent too
-        )).ToListAsync();
-        return allRequests;
-    } 
     
 
     private bool CatcherExists(long id)
@@ -459,6 +451,39 @@ public class CatcherController : ControllerBase
     
 
 }
+
+
+
+    // view service notifications which allocated for the relevant catcher
+    // [HttpGet("GetServiceReqList/{uid}")]
+    // public async Task<ActionResult<List<ServiceDto>>> GetServiceRequests(long uid)
+    // {
+    //     //UserDto, reqest details
+
+    //     // check if request services available
+    //     if (_context.RequestService == null)
+    //     {
+    //         return NotFound();
+    //     }
+
+    //     // then get a list of request services where accept flag is false
+    //     var serviceList = await _context.RequestService.Where(service => service.AcceptFlag == false && service.CatcherId==uid).ToListAsync();
+
+    //     // then map above list to serviceDto
+    //     return serviceList.Select(service =>
+    //     {
+    //         // find image relevant to scanned image id in request service class 
+    //         var image = _context.ScannedImage.Find(service.ScannedImage);
+    //         return image == null ? RequestService.ToServiceDto(service) : RequestService.ToServiceDto(service, image);
+    //     } ).ToList();
+        
+    // }
+
+
+
+
+
+    
 
 
 

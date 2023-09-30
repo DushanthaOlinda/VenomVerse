@@ -79,7 +79,7 @@ public class QuizController : ControllerBase
     }
 
     //Compare given answers and store - for 1 question
-    [HttpPost("SubmitAnswer/{uid}/{attempid}/{qstnid}")]
+    [HttpPut("SubmitAnswer/{uid}/{attempid}/{qstnid}")]
     public async Task<ActionResult> SubmitQuizAnswer(long uid, long attempid, long qstnid, QuizUserAnswerDto user_ans)
     {
         if ( _context.QuizUserAnswer == null ) return NotFound();
