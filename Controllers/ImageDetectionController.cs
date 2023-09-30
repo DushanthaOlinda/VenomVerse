@@ -33,7 +33,7 @@ public class ImageDetectionController : ControllerBase
 
         var image = new ScannedImage()      // CHECK THIS
         {
-            ScannedImageId = new Random().NextInt64(),
+            ScannedImageId = new Random(10000).NextInt64(),
             UploadedUserId = scannedImageDto.UploadedUserId,
             ScannedImageMedia = scannedImageDto.ScannedImageMedia,
             DateTime = scannedImageDto.DateTime,
