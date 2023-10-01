@@ -10,8 +10,6 @@ namespace VenomVerseApi.Models;
 public class CommunityPost{
     public CommunityPost()
     {}
-
-    
     public required long CommunityPostId { get; set; }
     public required long UserId { get; set; }//user->userId
     public required string Category { get; set; } = null!;      // dropdown
