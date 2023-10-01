@@ -19,7 +19,7 @@ public class SerpentDto
 
 
         //Constructor with instructions => retrive
-        public SerpentDto(long serpentId, string scientificName, string englishName, string sinhalaName, string[] serpentMedia, int venomous, string family, string subFamily, string genus, string? specialNote, string? specialNoteSinhala, string description, string descriptionSinhala, IEnumerable<Models.SerpentInstruction> serpentInstructions)
+        public SerpentDto(long serpentId, string scientificName, string englishName, string sinhalaName, string[] serpentMedia, int venomous, string family, string subFamily, string genus, string? specialNote, string? specialNoteSinhala, string description, string descriptionSinhala, List<SerpentInstructionDto> serpentInstructions)
         {
                 SerpentId = serpentId;
                 ScientificName = scientificName;
@@ -34,25 +34,26 @@ public class SerpentDto
                 SpecialNoteSinhala = specialNoteSinhala;
                 Description = description;
                 DescriptionSinhala = descriptionSinhala;
+                Instructions = serpentInstructions;
         }
 
         //Constructor without instructions => inserting a new serpent
-        public SerpentDto(long serpentId, string scientificName, string englishName, string sinhalaName, string[] serpentMedia, int venomous, string family, string subFamily, string genus, string? specialNote, string? specialNoteSinhala, string description, string descriptionSinhala, List<SerpentInstructionDto>? instructions)
-        {
-                SerpentId = serpentId;
-                ScientificName = scientificName;
-                EnglishName = englishName;
-                SinhalaName = sinhalaName;
-                SerpentMedia = serpentMedia;
-                Venomous = venomous;
-                Family = family;
-                SubFamily = subFamily;
-                Genus = genus;
-                SpecialNote = specialNote;
-                SpecialNoteSinhala = specialNoteSinhala;
-                Description = description;
-                DescriptionSinhala = descriptionSinhala;
-                Instructions = instructions;
-        }
+        // public SerpentDto(long serpentId, string scientificName, string englishName, string sinhalaName, string[] serpentMedia, int venomous, string family, string subFamily, string genus, string? specialNote, string? specialNoteSinhala, string description, string descriptionSinhala, List<SerpentInstructionDto>? instructions)
+        // {
+        //         SerpentId = serpentId;
+        //         ScientificName = scientificName;
+        //         EnglishName = englishName;
+        //         SinhalaName = sinhalaName;
+        //         SerpentMedia = serpentMedia;
+        //         Venomous = venomous;
+        //         Family = family;
+        //         SubFamily = subFamily;
+        //         Genus = genus;
+        //         SpecialNote = specialNote;
+        //         SpecialNoteSinhala = specialNoteSinhala;
+        //         Description = description;
+        //         DescriptionSinhala = descriptionSinhala;
+        //         Instructions = instructions;
+        // }
 
 }

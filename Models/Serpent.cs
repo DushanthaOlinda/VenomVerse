@@ -20,10 +20,29 @@ namespace VenomVerseApi.Models
         public required string Description { get; set; }
         public required string DescriptionSinhala { get; set; }
 
-        public static SerpentDto CreateSerpentDto( Serpent serpentDetail
-        , IEnumerable<SerpentInstruction> serpentInstructions 
-        ){
-                        var serpent = new SerpentDto( 
+        public Serpent()
+        {}
+
+        public Serpent(long serpentId, string scientificName, string englishName, string sinhalaName, string[] serpentMedia, int venomous, string family, string subFamily, string genus, string description, string descriptionSinhala, string? specialNote, string? specialNoteSinhala)
+        {
+                SerpentId = serpentId;
+                ScientificName = scientificName;
+                EnglishName = englishName;
+                SinhalaName = sinhalaName;
+                SerpentMedia = serpentMedia;
+                Venomous = venomous;
+                Family = family;
+                SubFamily = subFamily;
+                Genus = genus;
+                Description = description;
+                DescriptionSinhala = descriptionSinhala;
+        }
+        public static SerpentDto CreateSerpentDto( 
+                Serpent serpentDetail, 
+                IEnumerable<SerpentInstruction> serpentInstructions 
+        )
+        {
+                var serpent = new SerpentDto( 
                         serpentDetail.SerpentId,
                         serpentDetail.ScientificName,
                         serpentDetail.EnglishName,
@@ -37,7 +56,7 @@ namespace VenomVerseApi.Models
                         serpentDetail.SpecialNoteSinhala,
                         serpentDetail.Description,
                         serpentDetail.DescriptionSinhala,
-                        serpentInstructions
+                        serpentInstructions.Select(si => si.InstructionToInstructionDto()).ToList()
                 )
                 {
                         SerpentId = serpentDetail.SerpentId,
@@ -50,7 +69,8 @@ namespace VenomVerseApi.Models
                         SubFamily = serpentDetail.SubFamily,
                         Genus = serpentDetail.Genus,
                         Description = serpentDetail.Description,
-                        DescriptionSinhala = serpentDetail.DescriptionSinhala
+                        DescriptionSinhala = serpentDetail.DescriptionSinhala,
+                        Instructions = serpentInstructions.Select(si => si.InstructionToInstructionDto()).ToList()
                 };
                 return serpent;
         }
