@@ -54,8 +54,8 @@ public class QuizController : ControllerBase
     }
 
     // if attempted view reviews otherwise get attempted page
-    [HttpGet("GetQuestions/{aid}/{uid}/{qzid}")]
-    public async Task<ActionResult> GetQuizQuestions(long aid, long uid, long qzid)
+    [HttpGet("GetQuestions/{uid}/{qzid}")]
+    public async Task<ActionResult> GetQuizQuestions(long uid, long qzid)
     {
         if ( _context.Question == null ) return NotFound();
 
@@ -140,6 +140,13 @@ public class QuizController : ControllerBase
         }
 
         quiz_attempt.TotalMarks += total_marks;
+
+        // Add question answer record
+        _context.QuizUserAnswer.Add(ans_question);
+        // Update total marks of the attempt
+        _context.Entry(ans_question).State = EntityState.Modified;
+
+        await _context.SaveChangesAsync();
 
         return Ok();    // load next question
 
