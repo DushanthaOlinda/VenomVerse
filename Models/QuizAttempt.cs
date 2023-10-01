@@ -54,10 +54,10 @@ namespace VenomVerseApi.Models
             QuizDetailId = quizAttempt.QuizDetailId,
             SubmittedTime = quizAttempt.SubmittedTime,
             TotalMarks = quizAttempt.TotalMarks,
-            UserFirstName = userDetail.FirstName,
-            UserLastName = userDetail.LastName,
-            QuizTopicEng = quizDetails.QuizTopic,
-            QuizTopicSin = quizDetails.QuizTopicSinhala
+            // UserFirstName = userDetail.FirstName,
+            // UserLastName = userDetail.LastName,
+            // QuizTopicEng = quizDetails.QuizTopic,
+            // QuizTopicSin = quizDetails.QuizTopicSinhala
         };
         return quizAttemptDet;
     }

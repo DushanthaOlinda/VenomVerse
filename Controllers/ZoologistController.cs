@@ -87,7 +87,7 @@ public class ZoologistController : ControllerBase
 
     // publish research -> learn content controller
     [HttpPost]
-    public async Task<ActionResult<CommunityResearch>> PostCommunityResearch(ResearchDto research)
+    public async Task<ActionResult<CommunityResearch>?> PostCommunityResearch(ResearchDto research)
     {
         if (_context.CommunityResearch == null)
         {
@@ -98,8 +98,8 @@ public class ZoologistController : ControllerBase
         _context.CommunityResearch.Add(CommunityResearch.ResearchDtoToResearch(research));
 
         await _context.SaveChangesAsync();
-
-        return CreatedAtAction("GetCommunityResearch", new { id = research.CommunityResearchId }, research);
+        return null;
+        // return CreatedAtAction("GetCommunityResearch", new { id = research.CommunityResearchId }, research);
     }
 
 

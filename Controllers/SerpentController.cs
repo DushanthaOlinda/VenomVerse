@@ -24,7 +24,7 @@ public class SerpentController : ControllerBase
         // return await _context.Serpent.Select( x=>SerpentToSerpentDto(x)).ToListAsync();
         return await _context.Serpent.Select(x => Serpent.CreateSerpentDto(
             x,
-            _context.SerpentInstruction.Where(p => p.SerpentId == x.SerpentId).ToList()
+            _context.SerpentInstruction.Where(p => p.SerpentId == x.SerpentId).Select(si => si.InstructionToInstructionDto()).ToList().ToList()
         )).ToListAsync();
     }
 
@@ -35,7 +35,7 @@ public class SerpentController : ControllerBase
         if ( _context.Serpent == null ) return NotFound();
         var serpentDetail =  await _context.Serpent.FindAsync(id);
         if ( serpentDetail == null ) return NotFound();
-        var serpentInstructions = _context.SerpentInstruction.Where(p=> p.SerpentId == serpentDetail.SerpentId).ToList();
+        var serpentInstructions = _context.SerpentInstruction.Where(p=> p.SerpentId == serpentDetail.SerpentId).Select(si => si.InstructionToInstructionDto()).ToList();
         // return SerpentToSerpentDto(serpentDetail);
         return Serpent.CreateSerpentDto(serpentDetail, serpentInstructions);
     }
@@ -160,7 +160,8 @@ public class SerpentController : ControllerBase
         var serpent = EmergencyContact.EmergencyContactDtoToEmergencyContact(emergencyContactDto);
         _context.EmergencyContact.Add(serpent);
         await _context.SaveChangesAsync();
-        return CreatedAtAction( "GetEmergencyDetails", new { id = emergencyContactDto.EmergencyContactId}, emergencyContactDto );
+        return Ok();
+        // return CreatedAtAction( "GetEmergencyDetails", new { id = emergencyContactDto.EmergencyContactId}, emergencyContactDto );
     }
 
     // delete an emergency contact

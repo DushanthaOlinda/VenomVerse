@@ -19,7 +19,7 @@ public class ImageDetectionController : ControllerBase
 
     // save scanned image, prediction, accuracy
     [HttpPost("ScanImage")]
-    public async Task<ActionResult> ScanImage(ScannedImageDto scannedImageDto)
+    public async Task<ActionResult<ScannedImage>> ScanImage(ScannedImageDto scannedImageDto)
     {
         // return Ok("function inside");
         if (_context.ScannedImage == null)
@@ -27,11 +27,14 @@ public class ImageDetectionController : ControllerBase
             return NoContent();
         }
 
+        Console.WriteLine("Reach Here");
+
         var image = ScannedImage.ScannedImageDtoToScannedImage(scannedImageDto);
         _context.ScannedImage.Add(image);
 
         await _context.SaveChangesAsync();
-        return CreatedAtAction("GetCommunityPost", new { id = scannedImageDto.ScannedImageId }, scannedImageDto);
+        // return CreatedAtAction("GetCommunityPost", new { id = scannedImageDto.ScannedImageId }, scannedImageDto);
+        return image;
 
         // if (scannedImageDto.UploadedUserId == null)
         // {
@@ -51,6 +54,7 @@ public class ImageDetectionController : ControllerBase
 
         // };
         // return CreatedAtAction("GetCommunityPost", new { id = communityPost.PostId }, communityPost);
+        // return NoContent();
     }
 
     // view scanned images

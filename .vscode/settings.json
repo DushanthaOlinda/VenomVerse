@@ -1,3 +1,5 @@
 {
-    "dotnet.defaultSolution": "VenomVerseApi.sln"
+    "dotnet.defaultSolution": "VenomVerseApi.sln",
+    "appService.preDeployTask": "publish-release",
+    "appService.deploySubpath": "bin/Release/net7.0/publish"
 }
