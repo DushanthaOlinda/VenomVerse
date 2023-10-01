@@ -6,6 +6,8 @@ using VenomVerseApi.Migrations;
 namespace VenomVerseApi.Models
 {
     // [PrimaryKey(nameof(QuizDetailId), nameof(UserId), nameof(SubmittedTime))] 
+    [Index("UserId", IsUnique = false)]
+    [Index("QuizDetailId", IsUnique = false)]
     public class QuizAttempt {     // Like QuizAttemp
 
     // QuizDtail - QuizID, Topic, TopicSinhala
@@ -18,20 +20,29 @@ namespace VenomVerseApi.Models
     // public float? AttemptedMarks { get; set; }
     // public float? PassMark { get; set; }
 
+    public QuizAttempt(long quizAttemptID, long userId, long quizDetailId, float totalMarks)
+    {
+        QuizAttemptId = quizAttemptID;
+        QuizDetailId = quizDetailId;
+        UserId = userId;
+        TotalMarks = totalMarks;
+    }
+
+    public QuizAttempt()
+    {}
+
     public static QuizAttemptDto QuizAttemptToQuizAttemptDto( QuizAttempt quizAttempt)
     {
         var quizAttemptDet = new QuizAttemptDto( 
             quizAttempt.QuizAttemptId,
             quizAttempt.UserId,
             quizAttempt.QuizDetailId,
-            quizAttempt.SubmittedTime,
             quizAttempt.TotalMarks
         )
         {
             QuizAttemptId = quizAttempt.QuizAttemptId,
             UserId = quizAttempt.UserId,
             QuizDetailId = quizAttempt.QuizDetailId,
-            SubmittedTime = quizAttempt.SubmittedTime,
             TotalMarks = quizAttempt.TotalMarks
         };
         return quizAttemptDet;
@@ -69,7 +80,7 @@ namespace VenomVerseApi.Models
             UserId = quizAttemptDto.UserId,
             QuizDetailId = quizAttemptDto.QuizDetailId,
             SubmittedTime = quizAttemptDto.SubmittedTime,
-            // TotalMarks = quizAttemptDto.TotalMarks
+            TotalMarks = quizAttemptDto.TotalMarks
         };
 
 

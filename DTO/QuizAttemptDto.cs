@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using VenomVerseApi.Models;
 
 namespace VenomVerseApi.DTO;
@@ -21,13 +22,15 @@ public class QuizAttemptDto
     public string? QuizTopicSin { get; set; } = null;
     // public QuizDetail? QuizDetails { get; set; } = null;
     
-
-    public QuizAttemptDto( long quizAttemptID, long userId, long quizDetailId, DateTime submittedTime, float totalMarks)
+    [JsonConstructor]
+    public QuizAttemptDto()
+    {}
+    
+    public QuizAttemptDto( long quizAttemptID, long userId, long quizDetailId, float totalMarks)
     {
         QuizAttemptId = quizAttemptID;
         UserId = userId;
         QuizDetailId = quizDetailId;
-        SubmittedTime = submittedTime;
         TotalMarks =totalMarks;
         // TotalMarks = totalMarks;
         // PassMark = passMark;

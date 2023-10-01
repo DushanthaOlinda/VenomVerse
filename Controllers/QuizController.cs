@@ -39,17 +39,19 @@ public class QuizController : ControllerBase
         )).ToListAsync();
     }
 
-    //Attempt to a quiz
-    // [HttpPost("AttemptQuiz/{aid}/{uid}/{qzid}")]    // check whether priviously done or not
+    // Attempt to a quiz
+    [HttpPost("AttemptQuiz/{aid}/{uid}/{qzid}")]    // check whether priviously done or not
     // public async Task<ActionResult> AttemptQuiz(long aid, long uid, long qzid)
-    // {
-    //     if ( _context.QuizAttempt == null ) return NotFound();
+    public async Task<ActionResult> AttemptQuiz(QuizAttemptDto quizAttemptDto)
+    {
+        if ( _context.QuizAttempt == null ) return NotFound();
 
-    //     var quizAttemptDto = new QuizAttemptDto(aid, uid, qzid, DateTime.Now, 0 );
-    //     _context.QuizAttempt.Add(QuizAttempt.QuizAttemptDtoToQuizAttempt(quizAttemptDto));
-    //     await _context.SaveChangesAsync();
-    //     return Ok("User Attempt started");
-    // }
+        // var quizAttemptDto = new QuizAttemptDto(aid, uid, qzid, 0);
+        _context.QuizAttempt.Add(QuizAttempt.QuizAttemptDtoToQuizAttempt(quizAttemptDto));
+
+        await _context.SaveChangesAsync();
+        return Ok("User Attempt started");
+    }
 
     // if attempted view reviews otherwise get attempted page
     [HttpGet("GetQuestions/{aid}/{uid}/{qzid}")]
@@ -70,9 +72,9 @@ public class QuizController : ControllerBase
             }); 
         }
 
-        var quizAttemptDto = new QuizAttemptDto(aid, uid, qzid, DateTime.Now, 0 );
-        _context.QuizAttempt.Add(QuizAttempt.QuizAttemptDtoToQuizAttempt(quizAttemptDto));
-        await _context.SaveChangesAsync();
+        // var quizAttemptDto = new QuizAttemptDto(aid, uid, qzid, DateTime.Now, 0 );
+        // _context.QuizAttempt.Add(QuizAttempt.QuizAttemptDtoToQuizAttempt(quizAttemptDto));
+        // await _context.SaveChangesAsync();
         return Ok( new{
             question_details = questionDetails
         }); 
@@ -144,7 +146,7 @@ public class QuizController : ControllerBase
     }
 
     // add quiz details
-    [HttpPost("AddNewQuiz/{newquizdetail}")]
+    [HttpPost("AddNewQuiz")]
     public async Task<IActionResult> AddNewQuizDetail(QuizDetailDto quizDetailDto)
     {
         if ( _context.QuizDetail == null ) return NotFound();
