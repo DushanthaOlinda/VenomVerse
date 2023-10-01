@@ -25,7 +25,6 @@ public class SerpentDto
                 SpecialNoteSinhala = specialNoteSinhala;
                 Description = description;
                 DescriptionSinhala = descriptionSinhala;
-                Instructions = serpentInstructions;
         }
 
         [JsonConstructor]
