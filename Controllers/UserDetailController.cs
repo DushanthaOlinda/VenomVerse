@@ -122,9 +122,88 @@ public class UserDetailController : ControllerBase
 
 
     // request to become catcher
+    
+    [HttpPost("becameCatcher")]
+    public async Task<ActionResult<CatcherReqDto>> BecomeCatcher(CatcherReqDto catcherReqDto)
+    {
+        if (_context.UserDetail == null) return Problem("Entity set 'VenomVerseContext.UserDetails'  is null.");
+        var user = await _context.UserDetail.FindAsync(catcherReqDto.ReqCatcher);
+        
+        if(user == null) return Problem("User Not Found");
+
+        var userDetail = new Catcher
+        {
+            ReqId = catcherReqDto.ReqId,
+            ReqCatcher = catcherReqDto.ReqCatcher,
+            Availability = false,
+            RequestedDateTime = default,
+            CatcherEvidence = catcherReqDto.CatcherEvidence,
+            JoinedDate = null
+        };
+        
+        _context.Catcher.Add(userDetail);
+
+        try
+        {
+            await _context.SaveChangesAsync();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+        
+        return Ok("Catcher Request Added");
+        
+        // return CreatedAtAction("GetToBeCatcherRequestDetails", new { id = userDetail.UserDetailId }, userDetail);
+    }
+    
 
 
     // request to become zoologist
+    [HttpPost("becomeZoologist")]
+    public async Task<ActionResult<CatcherReqDto>> BecomeZoologist(RequestToBeZoologistEvidence zoologistEvidence)
+    {
+        if (_context.UserDetail == null) return Problem("Entity set 'VenomVerseContext.UserDetails'  is null.");
+        var user = await _context.UserDetail.FindAsync(zoologistEvidence.ZoologistId);
+        
+        if(user == null) return Problem("User Not Found");
+
+        var zoologist = new Zoologist
+        {
+            ZoologistId = zoologistEvidence.ZoologistId,
+            RequestedDateTime = default
+        };
+        
+        _context.Zoologist.Add(zoologist);
+
+        try
+        {
+            await _context.SaveChangesAsync();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+
+        _context.RequestToBeZoologistEvidence.Add(zoologistEvidence);
+
+        try
+        {
+            await _context.SaveChangesAsync();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+        
+        return Ok("Zoologist Request Added");
+        
+        // return CreatedAtAction("GetToBeCatcherRequestDetails", new { id = userDetail.UserDetailId }, userDetail);
+    }
+    
 
 
     // publish articles - check whether zoology privillege or expert privillage

@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using VenomVerseApi.DTO;
-using VenomVerseApi.Migrations;
 using VenomVerseApi.Models;
+using QuizAttempt = VenomVerseApi.Models.QuizAttempt;
 
 namespace VenomVerseApi.Controllers;
 
@@ -34,8 +34,8 @@ public class QuizController : ControllerBase
 
         return await _context.QuizAttempt.Select(qa => QuizAttempt.QuizAttemptToQuizAttemptDto(
             qa,
-            _context.UserDetail.Where(user => user.UserDetailId==qa.UserId).FirstOrDefault(),
-            _context.QuizDetail.Where(quizDetail => quizDetail.QuizDetailId==qa.QuizDetailId).FirstOrDefault()
+            _context.UserDetail.FirstOrDefault(user => user.UserDetailId==qa.UserId)!,
+            _context.QuizDetail.FirstOrDefault(quizDetail => quizDetail.QuizDetailId==qa.QuizDetailId)!
         )).ToListAsync();
     }
 
@@ -63,21 +63,21 @@ public class QuizController : ControllerBase
     
         var quizAttempt = await _context.QuizAttempt.Where(attempt => attempt.QuizDetailId == qzid && attempt.UserId == uid).FirstOrDefaultAsync();
 
-        if ( quizAttempt != null ){
-            var quizAnswers = await _context.QuizUserAnswer.Where(quizAnswer => quizAnswer.QuizAttemptId == quizAttempt.QuizAttemptId).Select(quizAnswer => QuizUserAnswer.QuizUserAnsToQuizUserAnsDto(quizAnswer)).ToListAsync();
-
-            return Ok( new{
-                quiz_answers = quizAnswers,
+        if (quizAttempt == null)
+            return Ok(new
+            {
                 question_details = questionDetails
-            }); 
-        }
+            });
+        var quizAnswers = await _context.QuizUserAnswer.Where(quizAnswer => quizAnswer.QuizAttemptId == quizAttempt.QuizAttemptId).Select(quizAnswer => QuizUserAnswer.QuizUserAnsToQuizUserAnsDto(quizAnswer)).ToListAsync();
+
+        return Ok( new{
+            quiz_answers = quizAnswers,
+            question_details = questionDetails
+        });
 
         // var quizAttemptDto = new QuizAttemptDto(aid, uid, qzid, DateTime.Now, 0 );
         // _context.QuizAttempt.Add(QuizAttempt.QuizAttemptDtoToQuizAttempt(quizAttemptDto));
         // await _context.SaveChangesAsync();
-        return Ok( new{
-            question_details = questionDetails
-        }); 
     }
 
     //Compare given answers and store - for 1 question
