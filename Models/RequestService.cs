@@ -1,42 +1,76 @@
 using System.ComponentModel.DataAnnotations.Schema;
+using VenomVerseApi.DTO;
 namespace VenomVerseApi.Models
-{
-    public struct ServiceFeedbackStruct {        //Try to way to map with ServiceFeedback
-        public long ServiceFeedbackId { get; set; }
-        public long ServiceId { get; set; }
-        public long UserId { get; set; }
-        public string? ServiceFeedback { get; set; }
-        public string[]? ServiceFeedbackMedia { get; set; }
-    }
-
-    public struct ServiceRatingStruct {        //Try to way to map with Service Rating
-        public required long UserId { get; set; }
-        public required float Rate { get; set; }
-        public string? RatingComment { get; set; }
-    }
-
-    public class RequestService {
+{    public class RequestService {
         public required long RequestServiceId { get; set; }
-        [ForeignKey("User")] public required long ReqUserId { get; set; }
-        [ForeignKey("Catcher")] public long? CatcherId { get; set; }
+        public required long ReqUserId { get; set; }//User->UserId
+        public long? CatcherId { get; set; }//Catcher->CatcherId
         public required DateTime DateTime { get; set; } = DateTime.Now;
         //public string? LiveLocation { get; set; } = null; 
 
-        public long? ScannedImageId { get; set; }             // '1', '2', '3', '4'
-        [ForeignKey("Serpent")] public long? SelectedSerpent { get; set; }
+        public long? ScannedImage { get; set; } //ScannedImage->ScannedImageId           
+        public long? SelectedSerpent { get; set; }//Serpent->SerpentId
 
         public bool AcceptFlag { get; set; } = false;
         public bool CompleteFlag { get; set; } = false;
         public bool FakeReqFlag { get; set; } = false;
 
-        public string[]? ServiceFeedback { get; set; }
-        public float? ServiceRating { get; set; } = null;
 
-        // Foreign Key References
-        public UserDetail User { get; set; } = null!;
-        public Catcher Catcher { get; set; } = null!;
-        public Serpent Serpent { get; set; } = null!;
-        [ForeignKey("ScannedImgId")]
-        public List<ScannedImage> ScannedImg { get; set; } = null!;
+        public int? Rate { get; set; }  // 1-5
+        public string? RatingComment { get; set; }
+
+
+        public string? ServiceFeedback { get; set; }
+        public string[]? ServiceFeedbackMedia { get; set; }
+        public string[]? CatcherMedia { get; set; }
+        public string? CatcherFeedback { get; set; }
+
+
+        public static ServiceDto ToServiceDto(RequestService service, ScannedImage? image)
+        {
+                
+                var serviceReq = new ServiceDto(
+                service.RequestServiceId, 
+                service.ReqUserId,
+                image!.ScannedImageMedia,
+                service.SelectedSerpent
+                );
+
+                return serviceReq;
+        }
+        
+        public static ServiceDto ToServiceDto(RequestService service)
+        {
+                var serviceReq = new ServiceDto(
+                service.RequestServiceId, 
+                service.ReqUserId,
+                null,
+                service.SelectedSerpent
+                );
+
+                return serviceReq;    
+        }
+
+        public static ServiceDto ToServiceDto(RequestService service, UserDetail user, ScannedImage scanImg, Serpent serpent)
+        {
+                var serviceReq = new ServiceDto(
+                service.RequestServiceId, 
+                service.ReqUserId,
+                null,
+                service.SelectedSerpent,
+                user,
+                scanImg,
+                serpent
+                );
+
+                return serviceReq;    
+        }
+    
+
+                // Foreign Key References
+                [ForeignKey("ReqUserId")] public UserDetail User { get; set; } = null!;
+                [ForeignKey("CatcherId")] public Catcher? Catcher { get; set; } = null!;
+                [ForeignKey("SelectedSerpent")] public Serpent Serpent { get; set; } = null!;
+                [ForeignKey("ScannedImage")] public ScannedImage ScannedImg { get; set; } = null!;
     }
 }

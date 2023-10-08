@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using VenomVerseApi.DTO;
 using VenomVerseApi.Models;
 
 namespace VenomVerseApi.Controllers
@@ -15,37 +16,60 @@ namespace VenomVerseApi.Controllers
             _context = context;
         }
 
-        // GET: api/CommunityPost
+        // show all posts of a perticular user
+
+        // view all community posts
+        // HIDDEN POSTS MUST BE HIDDEN
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<CommunityPost>>> GetCommunityPost()
+        public async Task<ActionResult<IEnumerable<PostDto>>> GetCommunityPost()
         {
-          if (_context.CommunityPost == null)
-          {
-              return NotFound();
-          }
-            return await _context.CommunityPost.ToListAsync();
-        }
-
-        // GET: api/CommunityPost/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<CommunityPost>> GetCommunityPost(long id)
-        {
-          if (_context.CommunityPost == null)
-          {
-              return NotFound();
-          }
-            var communityPost = await _context.CommunityPost.FindAsync(id);
-
-            if (communityPost == null)
+            if (_context.CommunityPost == null)
             {
                 return NotFound();
             }
-
-            return communityPost;
+            // return await _context.CommunityPost.ToListAsync();
+            return await _context.CommunityPost.Select(x => CommunityPost.CreatePostDto(
+                x,
+                _context.CommunityPostComment.Where(p => p.CommunityPostId == x.CommunityPostId).ToList(),
+                _context.CommunityPostReport.Where(p => p.CommunityPostId == x.CommunityPostId).ToList(),
+                _context.UserDetail.Where(u => u.UserDetailId==x.UserId).FirstOrDefault()
+                )
+            ).ToListAsync();
         }
 
-        // PUT: api/CommunityPost/5
+        // private async Task<ActionResult> getUserById(long id){
+        //     var user =  await _context.UserDetail.FindAsync(id);
+        //     return user.UserName;
+        // }
+
+        // view selected community posts
+        [HttpGet("{id}")]
+        public async Task<ActionResult<PostDto>> GetCommunityPost(long id)
+        {
+          if (_context.CommunityPost == null)
+          {
+              return NotFound();
+          }
+          var communityPost = await _context.CommunityPost.FindAsync(id);
+
+          if (communityPost == null)
+          {
+              return NotFound();
+          }
+          
+          var comments = _context.CommunityPostComment.Where(p => p.CommunityPostId == communityPost.CommunityPostId).ToList();
+          var reports = _context.CommunityPostReport.Where(p => p.CommunityPostId == communityPost.CommunityPostId).ToList();
+          var user = _context.UserDetail.Where(u => u.UserDetailId==communityPost.UserId).FirstOrDefault();
+
+          PostDto postDetails = CommunityPost.CreatePostDto(communityPost, comments, reports, user);
+
+          return postDetails;
+        }
+        
+        
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+
+        // edit communitypost
         [HttpPut("{id}")]
         public async Task<IActionResult> PutCommunityPost(long id, CommunityPost communityPost)
         {
@@ -75,22 +99,28 @@ namespace VenomVerseApi.Controllers
             return NoContent();
         }
 
-        // POST: api/CommunityPost
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+
+        // add new community post
         [HttpPost]
-        public async Task<ActionResult<CommunityPost>> PostCommunityPost(CommunityPost communityPost)
+        public async Task<ActionResult<CommunityPost>> PostCommunityPost(PostDto communityPost)
         {
           if (_context.CommunityPost == null)
           {
               return Problem("Entity set 'VenomVerseContext.CommunityPost'  is null.");
           }
-            _context.CommunityPost.Add(communityPost);
-            await _context.SaveChangesAsync();
+          
+          //   _context.CommunityPost.Add(PostDtoToPost(communityPost));
+          _context.CommunityPost.Add(CommunityPost.PostDtoToPost(communityPost));
 
-            return CreatedAtAction("GetCommunityPost", new { id = communityPost.CommunityPostId }, communityPost);
+          await _context.SaveChangesAsync();
+
+          return CreatedAtAction("GetCommunityPost", new { id = communityPost.PostId }, communityPost);
         }
 
-        // DELETE: api/CommunityPost/5
+        
+
+        // delete a community post
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCommunityPost(long id)
         {
@@ -109,6 +139,64 @@ namespace VenomVerseApi.Controllers
 
             return NoContent();
         }
+        
+        
+        // add a new comment to a community post
+        [HttpPost("AddComment/{id}")]
+        public async Task<ActionResult<CommunityPost>> PostCommunityPostComment(long id, PostCommentDto commentDto)
+        {
+            if (_context.CommunityPost == null)
+            {
+                return Problem("Entity set 'VenomVerseContext.CommunityPost'  is null.");
+            }
+
+            if (id != commentDto.PostId)
+            {
+                return Problem("Id Mismatch");
+            }
+
+            var communityPost = await _context.CommunityPost.FindAsync(id);
+            if (communityPost == null)
+            {
+                return NotFound();
+            }
+
+            var comment = new CommunityPostComment
+            {
+                CommunityPostCommentId = commentDto.CommentId,
+                CommunityPostId = commentDto.PostId,
+                UserId = commentDto.UserId,
+                DateTime = commentDto.DateTime,
+                Comment = commentDto.Comment
+            };
+
+            _context.CommunityPostComment.Add(comment);
+          
+            //   _context.CommunityPost.Add(PostDtoToPost(communityPost));
+            // _context.CommunityPost.Add(CommunityPost.PostDtoToPost(communityPost));
+
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction("GetCommunityPost", new { id = commentDto.PostId }, comment);
+        }
+
+
+        // delete a comment from community post
+
+
+        // report a community post - send a notification
+
+
+        // view own posts
+
+
+        // like/unlike a post
+
+
+        // hide a post
+
+
+        
 
         private bool CommunityPostExists(long id)
         {
@@ -116,3 +204,6 @@ namespace VenomVerseApi.Controllers
         }
     }
 }
+
+// for like use put method 
+// for comment create separate table records for this post id
