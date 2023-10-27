@@ -21,6 +21,8 @@ public class UserDetail{
     //public required string? LiveLocation { get; set; } = null;   
     public required string WorkingStatus { get; set; } = null!;         // student, officer
 
+    // public required string ProfileImage { get; set; } = null!; 
+    
     public long[]? SavedBook { get; set; }
     public long[]? SavedArticle { get; set; } 
     public long[]? SavedPost { get; set; }
@@ -49,6 +51,10 @@ public class UserDetail{
             Address = user.Address,
             ContactNo = user.ContactNo,
             WorkingStatus = user.WorkingStatus,
+            ExpertPrivilege = user.ExpertPrivilege,
+            ZoologistPrivilege = user.ZoologistPrivilege,
+            CatcherPrivilege = user.CatcherPrivilege,
+            CommunityAdminPrivilege = user.CommunityAdminPrivilege,
         };
 
     public static UserDetail UserDtoToUserDetail(UserDto userDto) =>

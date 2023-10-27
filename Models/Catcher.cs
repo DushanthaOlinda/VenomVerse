@@ -4,8 +4,9 @@ using VenomVerseApi.DTO;
 namespace VenomVerseApi.Models
 {    public class Catcher {
 
-        [Key]public required long ReqId { get; set; } 
-        public required long ReqCatcher { get; set; } 
+        public long ReqId { get; set; } 
+        [Key]
+        public required long ReqCatcher { get; set; }   //76576567567
         
         // public required long CatcherId { get; set; }
 

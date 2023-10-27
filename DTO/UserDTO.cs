@@ -18,4 +18,12 @@ public class UserDto
     //public required string? LiveLocation { get; set; } = null;   
     public string? WorkingStatus { get; set; }
     public string? AccountStatus { get; set; }
+    
+    public bool ExpertPrivilege { get; set; } = false;
+    
+    public bool ZoologistPrivilege { get; set; } = false;
+    
+    public bool CatcherPrivilege { get; set; } = false;
+    
+    public bool CommunityAdminPrivilege { get; set; } = false;    
 }

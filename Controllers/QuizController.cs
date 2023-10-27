@@ -81,6 +81,15 @@ public class QuizController : ControllerBase
     }
 
     //Compare given answers and store - for 1 question
+
+
+    [HttpPost("submitQuiz")]
+    public async Task<ActionResult> SubmitQuiz(long uid, long attemptId, QuizUserAnswerDto[] answers)
+    {
+        // TODO: Do something to handle this
+        return Ok();
+    }
+    
     [HttpPut("SubmitAnswer/{uid}/{attempid}/{qstnid}")]
     public async Task<ActionResult> SubmitQuizAnswer(long uid, long attempid, long qstnid, QuizUserAnswerDto user_ans)
     {

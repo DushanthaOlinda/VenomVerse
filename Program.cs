@@ -5,6 +5,7 @@ using VenomVerseApi;
 using VenomVerseApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
+var myAllowedOrigins ="_myAllowedOrigins";
 
 // Add services to the container.
 
@@ -23,6 +24,18 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).
         JwtBearerDefaults.AuthenticationScheme, 
         options => builder.Configuration.Bind("JwtSettings", options)
     );
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: myAllowedOrigins,
+        builderr =>
+        {
+            builderr.WithOrigins("http://localhost:5173",
+                                "https://localhost:5173",
+                                "http://localhost:3000")
+                                .AllowAnyHeader()
+                                .AllowAnyMethod();
+        });
+});
 
 builder.Services
     .AddIdentityCore<IdentityUser>(options =>
@@ -57,7 +70,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
-
+app.UseCors(myAllowedOrigins);
 
 
 // Migrate latest database changes during startup
