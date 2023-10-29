@@ -60,15 +60,15 @@ public class QuizController : ControllerBase
         if ( _context.Question == null ) return NotFound();
 
         var questionDetails = await _context.Question.Where(questionDetail => questionDetail.QuizDetailId == qzid ).Select(q => Question.QuestionToQuestionDto(q)).ToListAsync();
-    
         var quizAttempt = await _context.QuizAttempt.Where(attempt => attempt.QuizDetailId == qzid && attempt.UserId == uid).FirstOrDefaultAsync();
+        var quizAnswers = await _context.QuizUserAnswer.Where(quizAnswer => quizAnswer.QuizAttemptId == quizAttempt.QuizAttemptId).Select(quizAnswer => QuizUserAnswer.QuizUserAnsToQuizUserAnsDto(quizAnswer)).ToListAsync();
 
-        if (quizAttempt == null)
+        if (quizAnswers == null)
             return Ok(new
             {
                 question_details = questionDetails
             });
-        var quizAnswers = await _context.QuizUserAnswer.Where(quizAnswer => quizAnswer.QuizAttemptId == quizAttempt.QuizAttemptId).Select(quizAnswer => QuizUserAnswer.QuizUserAnsToQuizUserAnsDto(quizAnswer)).ToListAsync();
+            
 
         return Ok( new{
             quiz_answers = quizAnswers,
@@ -90,72 +90,80 @@ public class QuizController : ControllerBase
         return Ok();
     }
     
-    [HttpPut("SubmitAnswer/{uid}/{attempid}/{qstnid}")]
-    public async Task<ActionResult> SubmitQuizAnswer(long uid, long attempid, long qstnid, QuizUserAnswerDto user_ans)
+    [HttpPut("SubmitAnswer/{uid}/{attempid}")]
+    public async Task<ActionResult> SubmitQuizAnswer(long uid, long attempid, QuizUserAnswerDto[] user_ans)
     {
         if ( _context.QuizUserAnswer == null ) return NotFound();
 
         var quiz_attempt = await _context.QuizAttempt.FindAsync(attempid);
-        var db_question = await _context.Question.FindAsync(qstnid);
-        var ans_question = QuizUserAnswer.QuizUserAnsDtoToQuizUserAns(user_ans);
 
-        if ( quiz_attempt == null ) return NotFound();
-        if ( db_question == null ) return NotFound();
+        // START LOOP
 
-        float total_marks = 0;
+        for ( int i=0; i<10; i++ )
+        {
+            var ans_question = QuizUserAnswer.QuizUserAnsDtoToQuizUserAns(user_ans[i]);
+            var db_question = await _context.Question.FindAsync(user_ans[i].QuestionId);
 
-        if ( ans_question.Select01 == db_question.Correctness01 ){
-            ans_question.Correctness01 = true;
-            total_marks += 2;
-        } else {
-            ans_question.Correctness01 = false;
-            total_marks -= 2;
+            if ( quiz_attempt == null ) return NotFound();
+            if ( db_question == null ) return NotFound();
+
+            float total_marks = 0;
+
+            if ( ans_question.Select01 == db_question.Correctness01 ){
+                ans_question.Correctness01 = true;
+                total_marks += 2;
+            } else {
+                ans_question.Correctness01 = false;
+                total_marks -= 2;
+            }
+
+            if ( ans_question.Select02 == db_question.Correctness02 ){
+                ans_question.Correctness02 = true;
+                total_marks += 2;
+            } else {
+                ans_question.Correctness02 = false;
+                total_marks -= 2;
+            }
+
+            if ( ans_question.Select03 == db_question.Correctness03 ){
+                ans_question.Correctness03 = true;
+                total_marks += 2;
+            } else {
+                ans_question.Correctness03 = false;
+                total_marks -= 2;
+            }
+
+            if ( ans_question.Select04 == db_question.Correctness04 ){
+                ans_question.Correctness04 = true;
+                total_marks += 2;
+            } else {
+                ans_question.Correctness04 = false;
+                total_marks -= 2;
+            }
+
+            if ( ans_question.Select05 == db_question.Correctness05 ){
+                ans_question.Correctness05 = true;
+                total_marks += 2;
+            } else {
+                ans_question.Correctness05 = false;
+                total_marks -= 2;
+            }
+
+            if ( total_marks < 0 ){
+                total_marks = 0;
+            }
+
+
+            quiz_attempt.TotalMarks += total_marks;
+
+            // Add question answer record
+            _context.QuizUserAnswer.Add(ans_question);
+            // Update total marks of the attempt
+            _context.Entry(ans_question).State = EntityState.Modified;
+
+            await _context.SaveChangesAsync();
         }
-
-        if ( ans_question.Select02 == db_question.Correctness02 ){
-            ans_question.Correctness02 = true;
-            total_marks += 2;
-        } else {
-            ans_question.Correctness02 = false;
-            total_marks -= 2;
-        }
-
-        if ( ans_question.Select03 == db_question.Correctness03 ){
-            ans_question.Correctness03 = true;
-            total_marks += 2;
-        } else {
-            ans_question.Correctness03 = false;
-            total_marks -= 2;
-        }
-
-        if ( ans_question.Select04 == db_question.Correctness04 ){
-            ans_question.Correctness04 = true;
-            total_marks += 2;
-        } else {
-            ans_question.Correctness04 = false;
-            total_marks -= 2;
-        }
-
-        if ( ans_question.Select05 == db_question.Correctness05 ){
-            ans_question.Correctness05 = true;
-            total_marks += 2;
-        } else {
-            ans_question.Correctness05 = false;
-            total_marks -= 2;
-        }
-
-        if ( total_marks < 0 ){
-            total_marks = 0;
-        }
-
-        quiz_attempt.TotalMarks += total_marks;
-
-        // Add question answer record
-        _context.QuizUserAnswer.Add(ans_question);
-        // Update total marks of the attempt
-        _context.Entry(ans_question).State = EntityState.Modified;
-
-        await _context.SaveChangesAsync();
+        // END LOOP
 
         return Ok();    // load next question
 
