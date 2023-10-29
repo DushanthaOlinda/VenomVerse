@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using VenomVerseApi;
+using VenomVerseApi.Hubs;
 using VenomVerseApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,7 +12,7 @@ var myAllowedOrigins ="_myAllowedOrigins";
 
 builder.Services.AddControllers();
 
-
+builder.Services.AddSignalR();
 builder.Services.AddDbContext<VenomVerseContext>(
     o => o.UseNpgsql(builder.Configuration.GetConnectionString("Ef_Postgres_Db"))
     );
@@ -68,6 +69,8 @@ app.UseSwaggerUI();
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.MapHub<RequestHub>("/requestHub");
 
 app.MapControllers();
 app.UseCors(myAllowedOrigins);

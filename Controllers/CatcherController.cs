@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using VenomVerseApi.DTO;
+using VenomVerseApi.Hubs;
 using VenomVerseApi.Models;
 
 namespace VenomVerseApi.Controllers;
@@ -11,9 +13,12 @@ namespace VenomVerseApi.Controllers;
 public class CatcherController : ControllerBase
 {
     private readonly VenomVerseContext _context;
-    public CatcherController(VenomVerseContext context)
+    private readonly IHubContext<RequestHub> _hubContext;
+
+    public CatcherController(VenomVerseContext context, IHubContext<RequestHub> hubContext)
     {
         _context = context;
+        _hubContext = hubContext;
     }
     
     // change availability 
@@ -435,6 +440,39 @@ public class CatcherController : ControllerBase
         }
         return NoContent();
     }
+    
+    
+    // ================================================================= //
+    
+    // placing catcher request and their control done here
+    
+    
+    [HttpPost("requestCatcher")]
+    public async Task<IActionResult> RequestCatcher(string reqId)
+    {
+        // TODO: save catcher req
+        var image = reqId;
+        // Code to save the request in the database...
+
+        await _hubContext.Clients.All.SendAsync("ReceiveOrder", image);
+    
+        return Ok();
+    }
+
+    [HttpPut("acceptRequest/{id}")]
+    public async Task<IActionResult> AcceptRequest(string id)
+    {
+        // Code to update the order in the database...
+        
+        await _hubContext.Clients.User(id).SendAsync("OrderAccepted", id);
+
+        await _hubContext.Clients.All.SendAsync("OrderAccepted", id);
+    
+        return Ok();
+    }
+    
+    
+    // ================================================================= //
     
 
     

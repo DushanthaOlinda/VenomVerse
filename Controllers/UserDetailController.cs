@@ -210,7 +210,6 @@ public class UserDetailController : ControllerBase
     private static UserDetail UserDtoToUserDetail(UserDto userDto, UserDetail userDetail)
     {
         userDetail.UserDetailId = (long)userDto.UserId!;
-        // TODO: set this function
         // userDetail.FirstName = userDto.FirstName
         userDetail.UserName = userDto.UserName!;
         userDetail.LastName = userDto.LastName!;
