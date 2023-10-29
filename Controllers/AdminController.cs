@@ -21,6 +21,7 @@ public class AdminController : ControllerBase
     [HttpGet("Dashboard")]
     public async Task<ActionResult> Dashboard()
     {
+        // await _context.SaveChangesAsync();
         
         return Ok
         (
@@ -37,7 +38,7 @@ public class AdminController : ControllerBase
                 count_scanned_images = 104,
                 count_quiz_attempted = 30,
 
-                bar_new_registers = new List<int> [40,2,4,1],
+                bar_new_registers = new List<int> {40,2,4,1},
                 pie_scanned_images = new Dictionary< string, int > {
                     { "Rat snake", 1 },
                     { "Cobra", 15 },
