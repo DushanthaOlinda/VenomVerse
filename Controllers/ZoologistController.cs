@@ -38,6 +38,24 @@ public class ZoologistController : ControllerBase
         }
     }
 
+    // view selected pending article
+    [HttpGet("getArticle/{id}")]
+    public async Task<ActionResult<CommunityArticle>> GetPendingArticle(int id)
+    {
+        if (_context.CommunityArticle == null)
+        {
+            return NoContent();
+        }
+
+        var article = await _context.CommunityArticle.FindAsync(id);
+        if (article == null)
+        {
+            return NoContent();
+        }
+
+        return article;
+    }
+
     // approve or decline requested articles
     [HttpPut("ArticleReqResponse/{articleReqId}")]
     public async Task<ActionResult<ServiceDto>> AcceptRejectArticle(long zoologist_id, long article_id, bool response)

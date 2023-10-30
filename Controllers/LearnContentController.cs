@@ -134,6 +134,7 @@ namespace VenomVerseApi.Controllers
 
             return book;
         }
+        
         [HttpGet("getAllArticle")]
         public async Task<ActionResult<List<CommunityArticle>>> GetAllArticles()
         {
