@@ -116,6 +116,8 @@ namespace VenomVerseApi.Controllers
 
         // approve new book
         
+        // [HttpPost("approveBook/{id}")]
+        
         // view all,selected articles
 
         [HttpGet("getArticle/{id}")]

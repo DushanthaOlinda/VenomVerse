@@ -466,7 +466,7 @@ public class CatcherController : ControllerBase
         
         await _hubContext.Clients.User(id).SendAsync("OrderAccepted", id);
 
-        await _hubContext.Clients.All.SendAsync("OrderAccepted", id);
+        await _hubContext.Clients.All.SendAsync("SomeOneAccepted", id);
     
         return Ok();
     }

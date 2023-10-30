@@ -32,7 +32,9 @@ builder.Services.AddCors(options =>
         {
             builderr.WithOrigins("http://localhost:5173",
                                 "https://localhost:5173",
-                                "http://localhost:3000")
+                                "http://localhost:3000",
+                                "https://venom-verse-dashboard-pvf4kryeu-dushantha-olindas-projects.vercel.app/dashboard"
+                                )
                                 .AllowAnyHeader()
                                 .AllowAnyMethod();
         });

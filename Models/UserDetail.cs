@@ -21,7 +21,7 @@ public class UserDetail{
     //public required string? LiveLocation { get; set; } = null;   
     public required string WorkingStatus { get; set; } = null!;         // student, officer
 
-    // public required string ProfileImage { get; set; } = null!; 
+    public required string ProfileImage { get; set; } = "https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/Antu_im-user-online.svg/512px-Antu_im-user-online.svg.png"; 
     
     public long[]? SavedBook { get; set; }
     public long[]? SavedArticle { get; set; } 
@@ -55,6 +55,7 @@ public class UserDetail{
             ZoologistPrivilege = user.ZoologistPrivilege,
             CatcherPrivilege = user.CatcherPrivilege,
             CommunityAdminPrivilege = user.CommunityAdminPrivilege,
+            ProfileImage = user.ProfileImage
         };
 
     public static UserDetail UserDtoToUserDetail(UserDto userDto) =>
@@ -73,6 +74,7 @@ public class UserDetail{
             ContactNo = userDto.ContactNo!,
             WorkingStatus = userDto.WorkingStatus!,
             AccountStatus = userDto.AccountStatus!,
+            ProfileImage = userDto.ProfileImage,
         };
 
 

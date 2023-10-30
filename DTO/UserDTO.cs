@@ -25,5 +25,7 @@ public class UserDto
     
     public bool CatcherPrivilege { get; set; } = false;
     
-    public bool CommunityAdminPrivilege { get; set; } = false;    
+    public bool CommunityAdminPrivilege { get; set; } = false;  
+    
+    public string ProfileImage { get; set; } = "https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/Antu_im-user-online.svg/512px-Antu_im-user-online.svg.png";
 }

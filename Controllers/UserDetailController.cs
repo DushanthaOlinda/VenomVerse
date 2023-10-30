@@ -221,6 +221,7 @@ public class UserDetailController : ControllerBase
         userDetail.Address = userDto.Address ?? userDetail.Address;
         userDetail.ContactNo = userDto.ContactNo ?? userDetail.ContactNo;
         userDetail.WorkingStatus = userDto.WorkingStatus ?? userDetail.WorkingStatus;
+        userDetail.ProfileImage = userDto.ProfileImage;
         
         return userDetail;
     }
