@@ -5,7 +5,7 @@ namespace VenomVerseApi.Models
         public required long RequestServiceId { get; set; }
         public required long ReqUserId { get; set; }//User->UserId
         public long? CatcherId { get; set; }//Catcher->CatcherId
-        public required DateTime DateTime { get; set; } = DateTime.Now;
+        public DateTime DateTime { get; set; } = DateTime.Now;
         //public string? LiveLocation { get; set; } = null; 
 
         public long? ScannedImage { get; set; } //ScannedImage->ScannedImageId           
@@ -67,14 +67,13 @@ namespace VenomVerseApi.Models
         }
 
 
-        public RequestService ( long serviceReqId, long userId, long? scannedImageId, long? selectedSerpentId, long? catcherId )
+        private RequestService ( long requestServiceId, long reqUserId, long? scannedImage, long? selectedSerpent, long? catcherId )
         {
-                RequestServiceId = serviceReqId;
-                ReqUserId = userId;
-                ScannedImage = scannedImageId;
-                SelectedSerpent = selectedSerpentId;
+                RequestServiceId = requestServiceId;
+                ReqUserId = reqUserId;
+                ScannedImage = scannedImage;
+                SelectedSerpent = selectedSerpent;
                 CatcherId = catcherId;
-                DateTime = DateTime.Now;
         }
 
         public static RequestService ToService (ServiceDto serviceDto) =>
