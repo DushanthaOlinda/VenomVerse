@@ -437,7 +437,7 @@ public class CatcherController : ControllerBase
     }
 
 
-    // get all approved catchers
+    // get all approved catchers for admin reports
     [HttpGet("GetAllApprovedCatchers")]
     public async Task<ActionResult<List<CatcherReqDto>>> GetAllApprovedCatchers()
     {

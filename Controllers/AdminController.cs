@@ -21,16 +21,32 @@ public class AdminController : ControllerBase
     [HttpGet("Dashboard")]
     public async Task<ActionResult> Dashboard()
     {
-        var pending_posts = _context.CommunityPost.Where(p => p.PostStatus == (int)PostStatus.PendingApproval).ToList();
-        var approved_posts = _context.CommunityPost.Where(p => p.PostStatus == (int)PostStatus.Posted).ToList();
+        var pending_posts = await _context.CommunityPost.Where(p => p.PostStatus == (int)PostStatus.PendingApproval).ToListAsync();
+        var approved_posts = await _context.CommunityPost.Where(p => p.PostStatus == (int)PostStatus.Posted).ToListAsync();
 
-        var requested_services = _context.RequestService.Where(s => s.CompleteFlag==false).ToList();
-        var completed_services = _context.RequestService.Where(s => s.CompleteFlag==true).ToList();
+        var requested_services = await _context.RequestService.Where(s => s.CompleteFlag==false).ToListAsync();
+        var completed_services = await _context.RequestService.Where(s => s.CompleteFlag==true).ToListAsync();
 
-        var pending_catcher_req = _context.Catcher.Where(c => c.ApprovedFlag==false).ToList();
-        var pending_zoologist_req = _context.Zoologist.Where(z => z.ApprovedDate==null).ToList();
-        var scanned_images = _context.ScannedImage.ToList();
-        var quiz_attempted = _context.QuizAttempt.ToList();
+        var pending_catcher_req = await _context.Catcher.Where(c => c.ApprovedFlag==false).ToListAsync();
+        var pending_zoologist_req = await _context.Zoologist.Where(z => z.ApprovedDate==null).ToListAsync();
+        var scanned_images = await _context.ScannedImage.ToListAsync();
+        var quiz_attempted = await _context.QuizAttempt.ToListAsync();
+
+        var users =  await _context.UserDetail.ToListAsync();
+        var zoologists =  await _context.UserDetail.ToListAsync();
+        var catchers =  await _context.UserDetail.ToListAsync();
+        var com_admins =  await _context.UserDetail.ToListAsync();
+
+        var snake0 = await _context.ScannedImage.Where(sc => sc.PredictedSerpentType == 0).ToListAsync();
+        var snake1 = await _context.ScannedImage.Where(sc => sc.PredictedSerpentType == 1).ToListAsync();
+        var snake2 = await _context.ScannedImage.Where(sc => sc.PredictedSerpentType == 2).ToListAsync();
+        var snake3 = await _context.ScannedImage.Where(sc => sc.PredictedSerpentType == 3).ToListAsync();
+        var snake4 = await _context.ScannedImage.Where(sc => sc.PredictedSerpentType == 4).ToListAsync();
+        var snake5 = await _context.ScannedImage.Where(sc => sc.PredictedSerpentType == 5).ToListAsync();
+        var snake6 = await _context.ScannedImage.Where(sc => sc.PredictedSerpentType == 6).ToListAsync();
+        var snake7 = await _context.ScannedImage.Where(sc => sc.PredictedSerpentType == 7).ToListAsync();
+        var snake8 = await _context.ScannedImage.Where(sc => sc.PredictedSerpentType == 8).ToListAsync();
+        var snake9 = await _context.ScannedImage.Where(sc => sc.PredictedSerpentType == 9).ToListAsync();
         
         return Ok
         (
@@ -42,23 +58,23 @@ public class AdminController : ControllerBase
                 count_requested_services = requested_services.Count,
                 count_completed_services = completed_services.Count,
 
-                count_pending_catcher_req = 1,
-                count_pending_zoologist_req = 0,
-                count_scanned_images = 104,
-                count_quiz_attempted = 30,
+                count_pending_catcher_req = pending_catcher_req.Count,
+                count_pending_zoologist_req = pending_zoologist_req.Count,
+                count_scanned_images = scanned_images.Count,
+                count_quiz_attempted = quiz_attempted.Count,
 
-                bar_new_registers = new List<int> {40,2,4,1},
+                bar_new_registers = new List<int> { users.Count, zoologists.Count, catchers.Count, com_admins.Count },
                 pie_scanned_images = new Dictionary< string, int > {
-                    { "Rat snake", 1 },
-                    { "Cobra", 15 },
-                    { "Indian Python", 2 },
-                    { "Sand Boa", 3 },
-                    { "Hump Nosed Viper", 1 },
-                    { "Whip Snake", 1 },
-                    { "Sri Lankan Krait", 5 },
-                    { "Common Krait", 10 },
-                    { "Russell’s Viper", 9 },
-                    { "Saw-scaled Viper", 5 }
+                    { "Rat snake", snake0.Count },
+                    { "Cobra", snake1.Count },
+                    { "Indian Python", snake2.Count },
+                    { "Sand Boa", snake3.Count },
+                    { "Hump Nosed Viper", snake4.Count },
+                    { "Whip Snake.Count", snake5.Count },
+                    { "Sri Lankan Krait", snake6.Count },
+                    { "Common Krait", snake7.Count },
+                    { "Russell’s Viper", snake8.Count },
+                    { "Saw-scaled Viper", snake9.Count }
                 }
             }
         );

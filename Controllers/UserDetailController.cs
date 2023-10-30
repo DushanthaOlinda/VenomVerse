@@ -155,48 +155,48 @@ public class UserDetailController : ControllerBase
 
 
     // request to become zoologist
-    [HttpPost("becomeZoologist")]
-    public async Task<ActionResult<CatcherReqDto>> BecomeZoologist(RequestToBeZoologistEvidence zoologistEvidence)
-    {
-        if (_context.UserDetail == null) return Problem("Entity set 'VenomVerseContext.UserDetails'  is null.");
-        var user = await _context.UserDetail.FindAsync(zoologistEvidence.ZoologistId);
+    // [HttpPost("becomeZoologist")]
+    // public async Task<ActionResult<CatcherReqDto>> BecomeZoologist(RequestToBeZoologistEvidence zoologistEvidence)
+    // {
+    //     if (_context.UserDetail == null) return Problem("Entity set 'VenomVerseContext.UserDetails'  is null.");
+    //     var user = await _context.UserDetail.FindAsync(zoologistEvidence.ZoologistId);
 
-        if (user == null) return Problem("User Not Found");
+    //     if (user == null) return Problem("User Not Found");
 
-        var zoologist = new Zoologist
-        {
-            ZoologistId = zoologistEvidence.ZoologistId,
-            RequestedDateTime = default
-        };
+    //     var zoologist = new Zoologist
+    //     {
+    //         ZoologistId = zoologistEvidence.ZoologistId,
+    //         RequestedDateTime = default
+    //     };
 
-        _context.Zoologist.Add(zoologist);
+    //     _context.Zoologist.Add(zoologist);
 
-        try
-        {
-            await _context.SaveChangesAsync();
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-            throw;
-        }
+    //     try
+    //     {
+    //         await _context.SaveChangesAsync();
+    //     }
+    //     catch (Exception e)
+    //     {
+    //         Console.WriteLine(e);
+    //         throw;
+    //     }
 
-        _context.RequestToBeZoologistEvidence.Add(zoologistEvidence);
+    //     _context.RequestToBeZoologistEvidence.Add(zoologistEvidence);
 
-        try
-        {
-            await _context.SaveChangesAsync();
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-            throw;
-        }
+    //     try
+    //     {
+    //         await _context.SaveChangesAsync();
+    //     }
+    //     catch (Exception e)
+    //     {
+    //         Console.WriteLine(e);
+    //         throw;
+    //     }
 
-        return Ok("Zoologist Request Added");
+    //     return Ok("Zoologist Request Added");
 
-        // return CreatedAtAction("GetToBeCatcherRequestDetails", new { id = userDetail.UserDetailId }, userDetail);
-    }
+    //     // return CreatedAtAction("GetToBeCatcherRequestDetails", new { id = userDetail.UserDetailId }, userDetail);
+    // }
 
 
     // publish articles - check whether zoology privillege or expert privillage

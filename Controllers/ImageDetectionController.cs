@@ -77,15 +77,15 @@ public class ImageDetectionController : ControllerBase
 
     // create a new service request
     // SERVICE CAN BE WITH OR WITHOUT SCANNED IMAGE - DISCUSS THAT
-    // [HttpPost("CreateService/{sid}")]
-    // public async Task<IActionResult> AddNewQuestion(ServiceDto serviceDto)
-    // {
-    //     if ( _context.RequestService == null ) return NotFound();
-    //     var service = RequestService.ToService(serviceDto);
-    //     _context.RequestService.Add(service);
-    //     await _context.SaveChangesAsync();
-    //     return Ok("Request Created");
-    // }
+    [HttpPost("CreateService/{sid}")]
+    public async Task<IActionResult> CreateNewServiceRequest(ServiceDto serviceDto)
+    {
+        if ( _context.RequestService == null ) return NotFound();
+        var service = RequestService.ToService(serviceDto);
+        _context.RequestService.Add(service);
+        await _context.SaveChangesAsync();
+        return Ok("Request Created");
+    }
 
 
 // select the serpent type for scanned image

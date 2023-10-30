@@ -23,26 +23,54 @@ namespace VenomVerseApi.Models
         public long? ApprovedPersonId { get; set; }//ComAdmin->ComAdminId
         public DateOnly? ApprovedDate { get; set; }  
 
+        public required string Certificate { get; set; }
+        public required string DegreeName { get; set; }
+        public required string University { get; set; }
+        public required string GraduatedYear { get; set; }
+        public string? SpecialDetails { get; set; }
 
-        public static ZoologistRequestsDto ToZoologistRequestsDto(Zoologist zoologist, UserDetail userDetail,
-        RequestToBeZoologistEvidence evidence)
-    {
-        var zoologistReq = new ZoologistRequestsDto()
+
+        public static ZoologistRequestsDto ToZoologistRequestsDto(Zoologist zoologist, UserDetail user)
         {
-            FullName = userDetail.FirstName + " " + userDetail.LastName,
-            ZoologistId = zoologist.ZoologistId,
-            Description = zoologist.Description,
-            SpecialNote = zoologist.SpecialNote,
-            RequestedDateTime = zoologist.RequestedDateTime,
-            RequestToBeZoologistEvidenceId = evidence.RequestToBeZoologistEvidenceId,
-            DegreeName = evidence.DegreeName,
-            University = evidence.University,
-            GraduatedYear = evidence.GraduatedYear,
-            SpecialDetails = evidence.SpecialDetails
-        };
+                var zoologistReq = new ZoologistRequestsDto(
+                
+                        zoologist.ZoologistId,
+                // FullName = catcherId;
+                        zoologist.Description,
+                        zoologist.SpecialNote,
+                        zoologist.RequestedDateTime,
+                        zoologist.Status,
+                        zoologist.ApprovedPersonId,
+                        zoologist.ApprovedDate,
+                        // RequestToBeZoologistEvidenceId = requestToBeZoologistEvidenceId,
+                        zoologist.Certificate,
+                        zoologist.DegreeName,
+                        zoologist.University,
+                        zoologist.GraduatedYear,
+                        zoologist.SpecialDetails,
+                        user
+                );
+                return zoologistReq;
+        }
 
-        return zoologistReq;
-    }
+        public static Zoologist ToZoologist ( ZoologistRequestsDto zoologistDto )
+        {
+                return new Zoologist
+                {
+                        ZoologistId = zoologistDto.ZoologistId,
+                        Description = zoologistDto.Description,
+                        SpecialNote = zoologistDto.SpecialNote,
+                        RequestedDateTime = DateTime.Now,
+                        Status = zoologistDto.Status,
+                        ApprovedPersonId = zoologistDto.ApprovedPersonId,
+                        ApprovedDate = zoologistDto.ApprovedDate,
+                        Certificate = zoologistDto.Certificate,
+                        DegreeName = zoologistDto.DegreeName,
+                        University = zoologistDto.University,
+                        GraduatedYear = zoologistDto.GraduatedYear,
+                        SpecialDetails = zoologistDto.SpecialDetails,
+                };
+        }
 
                 // Foreign Key References
                 [ForeignKey("ZoologistId")] public UserDetail User { get; set; } = null!;
