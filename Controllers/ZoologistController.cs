@@ -1,3 +1,4 @@
+using System.Security.AccessControl;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using VenomVerseApi.DTO;
@@ -36,6 +37,24 @@ public class ZoologistController : ControllerBase
         {
             return NotFound();
         }
+    }
+
+    // view selected pending article
+    [HttpGet("getArticle/{id}")]
+    public async Task<ActionResult<CommunityArticle>> GetPendingArticle(int id)
+    {
+        if (_context.CommunityArticle == null)
+        {
+            return NoContent();
+        }
+
+        var article = await _context.CommunityArticle.FindAsync(id);
+        if (article == null)
+        {
+            return NoContent();
+        }
+
+        return article;
     }
 
     // approve or decline requested articles
@@ -105,11 +124,91 @@ public class ZoologistController : ControllerBase
 
     // HANDLE LEARNING MATERIALS
     
+    // view to be zoologist requests
+    [HttpGet("ViewRequestsToBecomeZoologist")]
+    public async Task<ActionResult<List<ZoologistRequestsDto>>> GetAllZoologistRequests()
+    {
+        //pass user account
+        if (_context.Zoologist == null)
+        {
+            return NotFound();
+        }
+        
+        var pendingZoologistList = await _context.Zoologist.Where(zr => zr.ApprovedDate == null).ToListAsync();
+        if (pendingZoologistList != null)
+        {
+            return pendingZoologistList.Select(x =>
+            {
+                var userDetails = _context.UserDetail.Find(x.ZoologistId);
+                return Zoologist.ToZoologistRequestsDto(x,userDetails);
+            }).ToList();
+        }
+        else
+        {
+            return NotFound();
+        }
+    }
+
+    // view selected to be zoologist requests
+    [HttpGet("ViewToBeZoologistRequest/{reqid}")]
+    public async Task<ActionResult<ZoologistRequestsDto>> GetToBeZoologistRequestDetails(long reqid)
+    {
+        if ( _context.Zoologist == null ) return NotFound();
+
+        var zoologistReq = await _context.Zoologist.FindAsync(reqid);
+        if ( zoologistReq==null ) return NoContent();
+
+        var user = await _context.UserDetail.FindAsync(zoologistReq.User);
+
+        return Zoologist.ToZoologistRequestsDto(zoologistReq, user);
+    }
 
 
+    // accept or decline
+    [HttpGet("RespondRequestsToBecomeZoologist")]
+    public async Task<ActionResult> RespondRequestsToBecomeZoologist(long zoologistId, long approvedUser, bool approveFlag)
+    // public async Task<ActionResult<List<ZoologistReqDto>>> ResponseRequestsToBecomeZoologist(request karapu Zoologist, approve karana Zoologist, approve krada ndda kyana eka true or false)
+    {
+        if (_context.Zoologist == null)
+        {
+            return NotFound();
+        }
+        if (_context.UserDetail == null)
+        {
+            return NotFound();
+        }
+        var approvingZoologist = await _context.Zoologist.Where(z => z.ZoologistId == zoologistId).OrderByDescending(zoologist => zoologist.ZoologistId).FirstOrDefaultAsync();
+        if ( approvingZoologist != null )
+        {
+            if ( approveFlag == true )
+            {
+                approvingZoologist.ApprovedPersonId = approvedUser;
+                approvingZoologist.ApprovedDate = new DateOnly();
+                approvingZoologist.Status = 1;
+            }
+            else
+            {
+                approvingZoologist.ApprovedPersonId = approvedUser;
+                approvingZoologist.ApprovedDate = new DateOnly();
+                approvingZoologist.Status = 0;
+            } 
+            _context.Entry(approvingZoologist).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
 
-    
-
+            var privillaging_user = await _context.UserDetail.FindAsync(zoologistId);
+            if ( privillaging_user != null )
+            {
+                privillaging_user.ZoologistPrivilege = true;
+                _context.Entry(privillaging_user).State = EntityState.Modified;
+                await _context.SaveChangesAsync();
+            }
+        }
+        else
+        {
+            return NotFound();
+        }
+        return NoContent(); 
+    }
     
 
 

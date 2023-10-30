@@ -16,8 +16,7 @@ public class ScanImageController : ControllerBase
         _context = context;
     }
 
-    // view all community posts
-    // HIDDEN POSTS MUST BE HIDDEN
+    // Get all scanned images
     [HttpGet]
     public async Task<ActionResult<List<ScannedImageDto>>> GetAllScannedImages()
     {

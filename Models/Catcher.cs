@@ -42,20 +42,20 @@ namespace VenomVerseApi.Models
                 // var userDetails = await _context.UserDetail.FindAsync(catcher.CatcherId);
                 // var fullName = userDetail!.FirstName + ' ' + userDetail.LastName;
                 var newReq = new CatcherReqDto(
-                catcher.ReqId,
-                catcher.ReqCatcher,
-                catcher.CatcherEvidence, 
-                catcher.Description, 
-                catcher.SpecialNote, 
-                catcher.ApprovedPersonIdOne, 
-                catcher.ApprovedDateOne, 
-                catcher.ApprovedPersonIdTwo, 
-                catcher.ApprovedDateTwo, 
-                catcher.ApprovedPersonIdThree, 
-                catcher.ApprovedDateThree, 
-                catcher.JoinedDate,
-                catcher.ApprovedFlag,
-                userDetail
+                        catcher.ReqId,
+                        catcher.ReqCatcher,
+                        catcher.CatcherEvidence, 
+                        catcher.Description, 
+                        catcher.SpecialNote, 
+                        catcher.ApprovedPersonIdOne, 
+                        catcher.ApprovedDateOne, 
+                        catcher.ApprovedPersonIdTwo, 
+                        catcher.ApprovedDateTwo, 
+                        catcher.ApprovedPersonIdThree, 
+                        catcher.ApprovedDateThree, 
+                        catcher.JoinedDate,
+                        catcher.ApprovedFlag,
+                        userDetail
                 );
                 return newReq;
         }

@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using VenomVerseApi.Models;
@@ -11,9 +12,11 @@ using VenomVerseApi.Models;
 namespace VenomVerseApi.Migrations
 {
     [DbContext(typeof(VenomVerseContext))]
-    partial class VenomVerseContextModelSnapshot : ModelSnapshot
+    [Migration("20231030071959_Zoologist Update")]
+    partial class ZoologistUpdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1355,10 +1358,6 @@ namespace VenomVerseApi.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("ProfileImage")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.Property<long[]>("PurchasedBook")
                         .HasColumnType("bigint[]");
 
@@ -1410,36 +1409,17 @@ namespace VenomVerseApi.Migrations
                     b.Property<long?>("ApprovedPersonId")
                         .HasColumnType("bigint");
 
-                    b.Property<string>("Certificate")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("DegreeName")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.Property<string>("Description")
-                        .HasColumnType("text");
-
-                    b.Property<string>("GraduatedYear")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<DateTime>("RequestedDateTime")
                         .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("SpecialDetails")
-                        .HasColumnType("text");
 
                     b.Property<string>("SpecialNote")
                         .HasColumnType("text");
 
                     b.Property<long>("Status")
                         .HasColumnType("bigint");
-
-                    b.Property<string>("University")
-                        .IsRequired()
-                        .HasColumnType("text");
 
                     b.HasKey("ZoologistId");
 
