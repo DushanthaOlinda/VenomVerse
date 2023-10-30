@@ -22,6 +22,18 @@ public class CatcherReqDto
         ApprovedFlag = approvedFlag;
         UserFirstName = user.FirstName;
         UserFirstName = user.LastName;
+        UserEmail = user.UserEmail;
+        Nic = user.Nic;
+        Dob = user.Dob;
+        District = user.District;
+        Address = user.Address;
+        ContactNo = user.ContactNo;
+        WorkingStatus = user.WorkingStatus;
+        ExpertPrivilege = user.ExpertPrivilege;
+        ZoologistPrivilege = user.ZoologistPrivilege;
+        CatcherPrivilege = user.CatcherPrivilege;
+        CommunityAdminPrivilege = user.CommunityAdminPrivilege;
+        AccountStatus = user.AccountStatus;
     }
 
     // dto constructor for insert
@@ -55,6 +67,19 @@ public class CatcherReqDto
     public DateOnly? JoinedDate { get; set; }
     public bool ApprovedFlag { get; set; }
 
+
     public string? UserFirstName { get; set; } = null;
     public string? UserLastName { get; set; } = null;
+    public string UserEmail { get; set; } = null!;
+    public string Nic { get; set; } = null!;
+    public DateOnly Dob { get; set; }  
+    public string District { get; set; } = null!;
+    public string Address { get; set; } = null!;
+    public string ContactNo { get; set; } = null!;
+    public string WorkingStatus { get; set; } = null!; 
+    public bool ExpertPrivilege { get; set; } = false;
+    public bool ZoologistPrivilege { get; set; } = false;
+    public bool CatcherPrivilege { get; set; } = false;
+    public bool CommunityAdminPrivilege { get; set; } = false;
+    public string AccountStatus { get; set; } = null!; 
 }

@@ -435,6 +435,32 @@ public class CatcherController : ControllerBase
         }
         return NoContent();
     }
+
+
+    // get all approved catchers
+    [HttpGet("GetAllApprovedCatchers")]
+    public async Task<ActionResult<List<CatcherReqDto>>> GetAllApprovedCatchers()
+    {
+        //pass user account
+        if (_context.Catcher == null)
+        {
+            return NotFound();
+        }
+        
+        var pendingCatcherList = await _context.Catcher.Where(catcher_req => catcher_req.ApprovedFlag == true).ToListAsync();
+        if (pendingCatcherList != null)
+        {
+            return pendingCatcherList.Select(x =>
+            {
+                var userDetails = _context.UserDetail.Find(x.ReqCatcher);
+                return Catcher.ToCatcherReqDto(x,userDetails);
+            }).ToList();
+        }
+        else
+        {
+            return NotFound();
+        }
+    }
     
     
 

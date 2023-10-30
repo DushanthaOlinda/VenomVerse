@@ -66,33 +66,34 @@ namespace VenomVerseApi.Models
                 return serviceReq;    
         }
 
-        public static RequestService ToService (ServiceDto serviceDto)
-        {
-                var serviceRequest = new RequestService(
-                        serviceDto.RequestServiceId,
-                        serviceDto.ReqUserId,
-                        serviceDto.ScannedImageId!,
-                        serviceDto.SelectedSerpent!,
-                        serviceDto.CatcherId!
-                )
-                {
-                        RequestServiceId = serviceDto.RequestServiceId,
-                        ReqUserId = serviceDto.ReqUserId,
-                        ScannedImage = serviceDto.ScannedImageId,
-                        SelectedSerpent = serviceDto.SelectedSerpent,
-                        DateTime = DateTime.Now
-                };
-                return serviceRequest;
-        }
+        // public static RequestService ToService (ServiceDto serviceDto)
+        // {
+        //         var serviceRequest = new RequestService(
+        //                 serviceDto.RequestServiceId,
+        //                 serviceDto.ReqUserId,
+        //                 serviceDto.ScannedImageId!,
+        //                 serviceDto.SelectedSerpent!,
+        //                 serviceDto.CatcherId!
+        //         )
+        //         {
+        //                 RequestServiceId = serviceDto.RequestServiceId,
+        //                 ReqUserId = serviceDto.ReqUserId,
+        //                 ScannedImage = serviceDto.ScannedImageId,
+        //                 SelectedSerpent = serviceDto.SelectedSerpent,
+        //                 CatcherId = serviceDto.CatcherId,
+        //                 DateTime = DateTime.Now
+        //         };
+        //         return serviceRequest;
+        // }
 
-        public RequestService ( long serviceReqId, long userId, long? scannedImageId, long? selectedSerpentId, long? catcherId )
-        {
-                RequestServiceId = serviceReqId;
-                ReqUserId = userId;
-                ScannedImage = scannedImageId;
-                SelectedSerpent = selectedSerpentId;
-                CatcherId = catcherId;
-        }
+        // public RequestService ( long serviceReqId, long userId, long? scannedImageId, long? selectedSerpentId, long? catcherId )
+        // {
+        //         RequestServiceId = serviceReqId;
+        //         ReqUserId = userId;
+        //         ScannedImage = scannedImageId;
+        //         SelectedSerpent = selectedSerpentId;
+        //         CatcherId = catcherId;
+        // }
     
 
                 // Foreign Key References
