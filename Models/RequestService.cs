@@ -54,16 +54,44 @@ namespace VenomVerseApi.Models
         public static ServiceDto ToServiceDto(RequestService service, UserDetail user, ScannedImage scanImg, Serpent serpent)
         {
                 var serviceReq = new ServiceDto(
-                service.RequestServiceId, 
-                service.ReqUserId,
-                null,
-                service.SelectedSerpent,
-                user,
-                scanImg,
-                serpent
+                        service.RequestServiceId, 
+                        service.ReqUserId,
+                        null,
+                        service.SelectedSerpent,
+                        user,
+                        scanImg,
+                        serpent
                 );
 
                 return serviceReq;    
+        }
+
+        public static RequestService ToService (ServiceDto serviceDto)
+        {
+            var serviceRequest = new RequestService(
+                    serviceDto.RequestServiceId,
+                    serviceDto.ReqUserId,
+                    serviceDto.ScannedImageId!,
+                    serviceDto.SelectedSerpent!,
+                    serviceDto.CatcherId!
+                )
+            {
+                RequestServiceId = serviceDto.RequestServiceId,
+                ReqUserId = serviceDto.ReqUserId,
+                ScannedImage = serviceDto.ScannedImageId,
+                SelectedSerpent = serviceDto.SelectedSerpent,
+                DateTime = DateTime.Now
+            };
+            return serviceRequest;
+        }
+
+        public RequestService ( long serviceReqId, long userId, long? scannedImageId, long? selectedSerpentId, long? catcherId )
+        {
+                RequestServiceId = serviceReqId;
+                ReqUserId = userId;
+                ScannedImage = scannedImageId;
+                SelectedSerpent = selectedSerpentId;
+                CatcherId = catcherId;
         }
     
 

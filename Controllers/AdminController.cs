@@ -17,21 +17,30 @@ public class AdminController : ControllerBase
     }
 
     
-    // view requested articles
+    // for dashboard page
     [HttpGet("Dashboard")]
     public async Task<ActionResult> Dashboard()
     {
-        // await _context.SaveChangesAsync();
+        var pending_posts = _context.CommunityPost.Where(p => p.PostStatus == (int)PostStatus.PendingApproval).ToList();
+        var approved_posts = _context.CommunityPost.Where(p => p.PostStatus == (int)PostStatus.Posted).ToList();
+
+        var requested_services = _context.RequestService.Where(s => s.CompleteFlag==false).ToList();
+        var completed_services = _context.RequestService.Where(s => s.CompleteFlag==true).ToList();
+
+        var pending_catcher_req = _context.Catcher.Where(c => c.ApprovedFlag==false).ToList();
+        var pending_zoologist_req = _context.Zoologist.Where(z => z.ApprovedDate==null).ToList();
+        var scanned_images = _context.ScannedImage.ToList();
+        var quiz_attempted = _context.QuizAttempt.ToList();
         
         return Ok
         (
             new
             {
-                count_pending_post = 2,
-                count_approved_post = 12,
+                count_pending_post = pending_posts.Count,
+                count_approved_post = approved_posts.Count,
 
-                count_requested_services = 25,
-                count_completed_services = 15,
+                count_requested_services = requested_services.Count,
+                count_completed_services = completed_services.Count,
 
                 count_pending_catcher_req = 1,
                 count_pending_zoologist_req = 0,

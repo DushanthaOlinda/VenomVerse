@@ -100,7 +100,7 @@ public class CatcherController : ControllerBase
     }
 
 
-    // view catcher requests
+    // view to be catcher requests
     [HttpGet("ViewRequestsToBecomeCatcher")]
     public async Task<ActionResult<List<CatcherReqDto>>> GetAllCatcherRequests()
     {
@@ -436,7 +436,6 @@ public class CatcherController : ControllerBase
         return NoContent();
     }
     
-
     
 
     private bool CatcherExists(long id)
