@@ -84,6 +84,24 @@ public class ImageDetectionController : ControllerBase
         var service = RequestService.ToService(serviceDto);
         _context.RequestService.Add(service);
         await _context.SaveChangesAsync();
+
+        // tappara 3 rauma karakenwa
+        // select catchers according to the district
+        var req_user = await _context.UserDetail.FindAsync(serviceDto.ReqUserId);
+
+        if ( req_user==null )
+        {
+            return NotFound();
+        }
+
+        var nearby_catchers = await _context.UserDetail.Where( u => u.CatcherPrivilege==true && u.District==req_user.District).ToListAsync();
+
+        // selected catcherslata call eka ywanna
+        // loop through the ' nearby_catchers ' and send the call
+
+
+        // when call is accepted or rejected,  they have seperate functions
+
         return Ok("Request Created");
     }
 
