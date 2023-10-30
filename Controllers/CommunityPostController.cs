@@ -28,13 +28,15 @@ namespace VenomVerseApi.Controllers
                 return NotFound();
             }
             // return await _context.CommunityPost.ToListAsync();
-            return await _context.CommunityPost.Select(x => CommunityPost.CreatePostDto(
+            var all_posts = await _context.CommunityPost.Select(x => CommunityPost.CreatePostDto(
                 x,
                 _context.CommunityPostComment.Where(p => p.CommunityPostId == x.CommunityPostId).ToList(),
                 _context.CommunityPostReport.Where(p => p.CommunityPostId == x.CommunityPostId).ToList(),
                 _context.UserDetail.Where(u => u.UserDetailId==x.UserId).FirstOrDefault()
                 )
             ).ToListAsync();
+
+            return all_posts.Where(p => p.PostStatus != (int)PostStatus.Hidden).ToList();
         }
 
         // private async Task<ActionResult> getUserById(long id){
@@ -178,6 +180,27 @@ namespace VenomVerseApi.Controllers
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetCommunityPost", new { id = commentDto.PostId }, comment);
+        }
+
+
+        // user individual posts
+        [HttpGet("IndividualPost/{uid}")]
+        public async Task<ActionResult<IEnumerable<PostDto>>> GetIndividualCommunityPost(long uid)
+        {
+            if (_context.CommunityPost == null)
+            {
+                return NotFound();
+            }
+            // return await _context.CommunityPost.ToListAsync();
+            var posts = await _context.CommunityPost.Select(x => CommunityPost.CreatePostDto(
+                x,
+                _context.CommunityPostComment.Where(p => p.CommunityPostId == x.CommunityPostId).ToList(),
+                _context.CommunityPostReport.Where(p => p.CommunityPostId == x.CommunityPostId).ToList(),
+                _context.UserDetail.Where(u => u.UserDetailId==x.UserId).FirstOrDefault()
+                )
+            ).ToListAsync();
+
+            return posts.Where(p => p.UserId == uid).ToList();
         }
 
 
