@@ -350,6 +350,7 @@ namespace VenomVerseApi.Controllers
             post.ApprovedAdmin = comAdminId;
             
             _context.Entry(post).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
             
             return Ok("Post Approved");
         }
