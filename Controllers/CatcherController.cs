@@ -338,7 +338,7 @@ public class CatcherController : ControllerBase
         var requestDetails = await _context.RequestService.FindAsync(reqid);
         if ( requestDetails==null ) return NoContent();
         var user = await _context.UserDetail.FindAsync(requestDetails.ReqUserId);
-        var scannedImg = await _context.ScannedImage.FindAsync(requestDetails.ScannedImage);
+        var scannedImg = await _context.ScannedImage.FindAsync(requestDetails.ScannedImage) ?? await _context.ScannedImage.FindAsync(Convert.ToInt64(1));
         var serpent = await _context.Serpent.FindAsync(requestDetails.SelectedSerpent);
 
         return RequestService.ToServiceDto(requestDetails, user, scannedImg, serpent);
@@ -351,13 +351,13 @@ public class CatcherController : ControllerBase
     {
         if ( _context.RequestService == null ) return NotFound();
 
-        var reqServices = _context.RequestService.Where(req => req.CatcherId == uid && req.CompleteFlag==true).ToListAsync();
+        var reqServices = await _context.RequestService.Where(req => req.CatcherId == uid && req.CompleteFlag==true).ToListAsync();
 
         var allRequests = await _context.RequestService.Where(rs => rs.CatcherId == uid && rs.CompleteFlag == false).Select(x => RequestService.ToServiceDto(
             x,
-            _context.UserDetail.Where(user => user.UserDetailId == x.ReqUserId).FirstOrDefault(),
-            _context.ScannedImage.Where(si => si.ScannedImageId == x.ScannedImage).FirstOrDefault(),
-            _context.Serpent.Where(s => s.SerpentId == x.SelectedSerpent).FirstOrDefault()
+            _context.UserDetail.FirstOrDefault(user => user.UserDetailId == x.ReqUserId),
+            _context.ScannedImage.FirstOrDefault(si => si.ScannedImageId == x.ScannedImage),
+            _context.Serpent.FirstOrDefault(s => s.SerpentId == x.SelectedSerpent)
             // pass  serpent too
         )).ToListAsync();
         return allRequests;
