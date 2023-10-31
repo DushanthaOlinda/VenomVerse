@@ -94,6 +94,7 @@ public class ImageDetectionController : ControllerBase
             return NotFound();
         }
 
+        // catchers on the same district of the requested user
         var nearby_catchers = await _context.UserDetail.Where( u => u.CatcherPrivilege==true && u.District==req_user.District).ToListAsync();
 
         // selected catcherslata call eka ywanna

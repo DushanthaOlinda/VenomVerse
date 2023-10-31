@@ -276,7 +276,7 @@ public class CatcherController : ControllerBase
     {
         if ( _context.RequestService == null ) return NotFound();
 
-        var reqServices = _context.RequestService.Where(req => req.CatcherId == uid && req.CompleteFlag==false).ToListAsync();
+        var reqServices = await _context.RequestService.Where(req => req.CatcherId == uid && req.CompleteFlag==false).ToListAsync();
 
         var allRequests = await _context.RequestService.Where(rs => rs.CatcherId == uid && rs.CompleteFlag == false).Select(x => RequestService.ToServiceDto(
             x,
@@ -287,6 +287,24 @@ public class CatcherController : ControllerBase
         )).ToListAsync();
         return allRequests;
     } 
+
+    // view all service requests which did not have assigned a catcher
+    [HttpGet("AllNotAssignedRequests")]
+    public async Task<ActionResult<IEnumerable<ServiceDto>>> AllNotAssignedRequests()
+    {
+        if ( _context.RequestService == null ) return NotFound();
+
+        var reqServices = await _context.RequestService.Where(req => req.CatcherId == null).ToListAsync();
+
+        var allRequests = await _context.RequestService.Where(req => req.CatcherId == null).Select(x => RequestService.ToServiceDto(
+            x,
+            null,
+            _context.ScannedImage.Where(si => si.ScannedImageId == x.ScannedImage).FirstOrDefault(),
+            _context.Serpent.Where(s => s.SerpentId == x.SelectedSerpent).FirstOrDefault()
+            // pass  serpent too
+        )).ToListAsync();
+        return allRequests;
+    }
 
     // view relevant request by clicking the card with user details
     [HttpGet("ViewRequest/{reqid}")]
