@@ -119,8 +119,7 @@ namespace VenomVerseApi.Controllers
         
         // [HttpPost("approveBook/{id}")]
         
-        // view all,selected articles
-
+        // view selected article
         [HttpGet("getArticle/{id}")]
         public async Task<ActionResult<CommunityArticle>> GetArticle(int id)
         {
@@ -138,8 +137,10 @@ namespace VenomVerseApi.Controllers
             return book;
         }
         
-        [HttpGet("getAllArticle")]
-        public async Task<ActionResult<List<CommunityArticle>>> GetAllArticles()
+//APPROVED
+        // all approved articles
+        [HttpGet("GetAllApprovedArticlesSelectedPerson")]
+        public async Task<ActionResult<List<CommunityArticle>>> GetAllApprovedArticles()
         {
             if (_context.CommunityArticle == null)
             {
@@ -152,11 +153,179 @@ namespace VenomVerseApi.Controllers
                 return NoContent();
             }
 
-            return books;
+            return books.Where(b => b.ArticleStatus==(int)ArticleStatus.Approved).ToList();
         }
 
+        // all approved articles of a selected person
+        [HttpGet("GetAllApprovedArticlesSelectedPerson/{uid}")]
+        public async Task<ActionResult<List<CommunityArticle>>> GetAllApprovedArticlesSelectedPerson(long uid)
+        {
+            if (_context.CommunityArticle == null)
+            {
+                return NoContent();
+            }
+
+            var books = await _context.CommunityArticle.ToListAsync();
+            if (books == null)
+            {
+                return NoContent();
+            }
+
+            return books.Where(b => b.UserId==uid && b.ArticleStatus==(int)ArticleStatus.Approved).ToList();
+        }
+
+// REJECTED
+        // all Rejected articles
+        [HttpGet("GetAllRejectedArticlesSelectedPerson")]
+        public async Task<ActionResult<List<CommunityArticle>>> GetAllRejectedArticles()
+        {
+            if (_context.CommunityArticle == null)
+            {
+                return NoContent();
+            }
+
+            var books = await _context.CommunityArticle.ToListAsync();
+            if (books == null)
+            {
+                return NoContent();
+            }
+
+            return books.Where(b => b.ArticleStatus==(int)ArticleStatus.Rejected).ToList();
+        }
+
+        // all Rejected articles of a selected person
+        [HttpGet("GetAllRejectedArticlesSelectedPerson/{uid}")]
+        public async Task<ActionResult<List<CommunityArticle>>> GetAllRejectedArticlesSelectedPerson(long uid)
+        {
+            if (_context.CommunityArticle == null)
+            {
+                return NoContent();
+            }
+
+            var books = await _context.CommunityArticle.ToListAsync();
+            if (books == null)
+            {
+                return NoContent();
+            }
+
+            return books.Where(b => b.UserId==uid && b.ArticleStatus==(int)ArticleStatus.Rejected).ToList();
+        }
+
+// PENDING APPROVAL
+        // all Pending articles
+        [HttpGet("GetAllPendingArticlesSelectedPerson")]
+        public async Task<ActionResult<List<CommunityArticle>>> GetAllPendingArticles()
+        {
+            if (_context.CommunityArticle == null)
+            {
+                return NoContent();
+            }
+
+            var books = await _context.CommunityArticle.ToListAsync();
+            if (books == null)
+            {
+                return NoContent();
+            }
+
+            return books.Where(b => b.ArticleStatus==(int)ArticleStatus.PendingApproval).ToList();
+        }
+
+        // all Pending articles of a selected person
+        [HttpGet("GetAllPendingArticlesSelectedPerson/{uid}")]
+        public async Task<ActionResult<List<CommunityArticle>>> GetAllPendingArticlesSelectedPerson(long uid)
+        {
+            if (_context.CommunityArticle == null)
+            {
+                return NoContent();
+            }
+
+            var books = await _context.CommunityArticle.ToListAsync();
+            if (books == null)
+            {
+                return NoContent();
+            }
+
+            return books.Where(b => b.UserId==uid && b.ArticleStatus==(int)ArticleStatus.PendingApproval).ToList();
+        }
+
+// HIDDEN
+        // all Hidden articles
+        [HttpGet("GetAllHiddenArticlesSelectedPerson")]
+        public async Task<ActionResult<List<CommunityArticle>>> GetAllHiddenArticles()
+        {
+            if (_context.CommunityArticle == null)
+            {
+                return NoContent();
+            }
+
+            var books = await _context.CommunityArticle.ToListAsync();
+            if (books == null)
+            {
+                return NoContent();
+            }
+
+            return books.Where(b => b.ArticleStatus==(int)ArticleStatus.Hidden).ToList();
+        }
+
+        // all Hidden articles of a selected person
+        [HttpGet("GetAllHiddenArticlesSelectedPerson/{uid}")]
+        public async Task<ActionResult<List<CommunityArticle>>> GetAllHiddenArticlesSelectedPerson(long uid)
+        {
+            if (_context.CommunityArticle == null)
+            {
+                return NoContent();
+            }
+
+            var books = await _context.CommunityArticle.ToListAsync();
+            if (books == null)
+            {
+                return NoContent();
+            }
+
+            return books.Where(b => b.UserId==uid && b.ArticleStatus==(int)ArticleStatus.Hidden).ToList();
+        }
+
+// REPORTED
+        // all Reported articles
+        [HttpGet("GetAllReportedArticlesSelectedPerson")]
+        public async Task<ActionResult<List<CommunityArticle>>> GetAllReportedArticles()
+        {
+            if (_context.CommunityArticle == null)
+            {
+                return NoContent();
+            }
+
+            var books = await _context.CommunityArticle.ToListAsync();
+            if (books == null)
+            {
+                return NoContent();
+            }
+
+            return books.Where(b => b.ArticleStatus==(int)ArticleStatus.Reported).ToList();
+        }
+
+        // all Reported articles of a selected person
+        [HttpGet("GetAllReportedArticlesSelectedPerson/{uid}")]
+        public async Task<ActionResult<List<CommunityArticle>>> GetAllReportedArticlesSelectedPerson(long uid)
+        {
+            if (_context.CommunityArticle == null)
+            {
+                return NoContent();
+            }
+
+            var books = await _context.CommunityArticle.ToListAsync();
+            if (books == null)
+            {
+                return NoContent();
+            }
+
+            return books.Where(b => b.UserId==uid && b.ArticleStatus==(int)ArticleStatus.Reported).ToList();
+        }
+
+
+
         [HttpPut("ApproveArticle/{id}")]
-        public async Task<IActionResult> ApproveArticle(long id, long zoologistId)
+        public async Task<IActionResult> ApproveArticle(long id, long zoologistId, bool action)
         {
             if (_context.CommunityArticle == null)
             {
@@ -170,9 +339,19 @@ namespace VenomVerseApi.Controllers
                 return NotFound();
             }
 
+            if ( action==true )
+            {
+                article.ArticleStatus = (int)ArticleStatus.Approved;
+            }
+            else
+            {
+                article.ArticleStatus = (int)ArticleStatus.Rejected;
+            }
+
             article.ApprovedUserId = zoologistId;
             
             _context.Entry(article).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
             
             return Ok("Article Approved");
         }
