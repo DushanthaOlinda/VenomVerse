@@ -1,11 +1,16 @@
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 using VenomVerseApi.DTO;
 namespace VenomVerseApi.Models
-{    public class RequestService {
+{    
+        [Index("ReqUserId", IsUnique = false)]
+        [Index("SelectedSerpent", IsUnique = false)]
+
+        public class RequestService {
         public required long RequestServiceId { get; set; }
         public required long ReqUserId { get; set; }//User->UserId
         public long? CatcherId { get; set; }//Catcher->CatcherId
-        public DateTime DateTime { get; set; } = DateTime.Now;
+        public DateTime DateTime { get; set; } = DateTime.UtcNow;
         //public string? LiveLocation { get; set; } = null; 
 
         public long? ScannedImage { get; set; } //ScannedImage->ScannedImageId           
@@ -59,9 +64,8 @@ namespace VenomVerseApi.Models
                         null,
                         service.SelectedSerpent,
                         user,
-                        scanImg,
-                        serpent
-                );
+                        scanImg
+                        );
 
                 return serviceReq;    
         }
