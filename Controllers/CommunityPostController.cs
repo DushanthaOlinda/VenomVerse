@@ -204,6 +204,30 @@ namespace VenomVerseApi.Controllers
         }
 
 
+        // approve community post
+        [HttpPut("ApproveCommunityPost/{id}")]
+        public async Task<IActionResult> ApproveCommunityPost(long id, long comAdminId)
+        {
+            if (_context.CommunityPost == null)
+            {
+                return NotFound();
+            }
+            
+            var post = await _context.CommunityPost.FindAsync(id);
+            
+            if (post == null)
+            {
+                return NotFound();
+            }
+
+            post.ApprovedAdmin = comAdminId;
+            
+            _context.Entry(post).State = EntityState.Modified;
+            
+            return Ok("Post Approved");
+        }
+
+
         // delete a comment from community post
 
 
@@ -214,9 +238,76 @@ namespace VenomVerseApi.Controllers
 
 
         // like/unlike a post
+        [HttpPut("LikeUnlikePost/{id}")]
+        public async Task<IActionResult> LikeUnlikePost(long postId, long userId, bool like_status)
+        {
+            if (_context.CommunityPost == null)
+            {
+                return NotFound();
+            }
+            
+            var post = await _context.CommunityPost.FindAsync(postId);
+            
+            if (post == null)
+            {
+                return NotFound();
+            }
+
+            if ( like_status==true )
+            {
+                if ( !post.React.ToList().Contains(userId) ){
+                    post.React.ToList().Add(userId);
+                }
+            }
+            else
+            {
+                if ( post.React.ToList().Contains(userId) ){
+                    post.React.ToList().Remove(userId);
+                }
+            }
+
+            _context.Entry(post).State = EntityState.Modified;
+            
+            return Ok("Post Approved");
+        }
 
 
-        // hide a post
+        // hide/unhide a post
+        [HttpPut("HideUnhidePost/{id}")]
+        public async Task<IActionResult> HideUnhidePost(long postId, long userId, bool hideStatus)
+        {
+            if (_context.CommunityPost == null)
+            {
+                return NotFound();
+            }
+            
+            var post = await _context.CommunityPost.FindAsync(postId);
+            
+            if (post == null)
+            {
+                return NotFound();
+            }
+
+            if ( post.UserId == userId )
+            {
+                if ( hideStatus == true )
+                {
+                    post.PostStatus = (int)PostStatus.Hidden;
+                }
+                else
+                {
+                    post.PostStatus = (int)PostStatus.Posted;
+                }
+
+                _context.Entry(post).State = EntityState.Modified;
+                return Ok("Post Approved");
+            }
+            else
+            {
+                return BadRequest();
+            }
+
+        }
 
 
         

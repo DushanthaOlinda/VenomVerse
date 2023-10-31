@@ -115,6 +115,7 @@ namespace VenomVerseApi.Controllers
 
 
         // approve new book
+        // [HttpPut("ApproveBook/{id}")]
         
         // [HttpPost("approveBook/{id}")]
         
@@ -152,6 +153,28 @@ namespace VenomVerseApi.Controllers
             }
 
             return books;
+        }
+
+        [HttpPut("ApproveArticle/{id}")]
+        public async Task<IActionResult> ApproveArticle(long id, long zoologistId)
+        {
+            if (_context.CommunityArticle == null)
+            {
+                return NotFound();
+            }
+            
+            var article = await _context.CommunityArticle.FindAsync(id);
+            
+            if (article == null)
+            {
+                return NotFound();
+            }
+
+            article.ApprovedUserId = zoologistId;
+            
+            _context.Entry(article).State = EntityState.Modified;
+            
+            return Ok("Article Approved");
         }
         
         // view all,selected videos

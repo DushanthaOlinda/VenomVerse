@@ -143,6 +143,29 @@ public class CatcherController : ControllerBase
 
         return Catcher.ToCatcherReqDto(catcherReq, user);
     }
+
+
+    // details of a single to be catcher request with quiz
+    [HttpGet("ViewToBecatcherRequestWithPost/{reqid}")]
+    public async Task<ActionResult> GetToBeCatcherRequestDetailsWithPost(long reqid)
+    {
+        if ( _context.Catcher == null ) return NotFound();
+
+        var catcherReq = await _context.Catcher.FindAsync(reqid);
+        if ( catcherReq==null ) return NoContent();
+
+        var user = await _context.UserDetail.FindAsync(catcherReq.ReqCatcher);
+        var quiz = await _context.QuizAttempt.Where(q => q.UserId == catcherReq.ReqCatcher).ToListAsync();
+
+        return Ok
+        (
+            new
+            {
+                catcherDetails = Catcher.ToCatcherReqDto(catcherReq, user),
+                quizDetails = quiz
+            }
+        );
+    }
     
 
     // approve or decline catcher requests
@@ -287,6 +310,24 @@ public class CatcherController : ControllerBase
         )).ToListAsync();
         return allRequests;
     } 
+
+    // view all service requests which did not have assigned a catcher
+    [HttpGet("AllNotAssignedRequests")]
+    public async Task<ActionResult<IEnumerable<ServiceDto>>> AllNotAssignedRequests()
+    {
+        if ( _context.RequestService == null ) return NotFound();
+
+        var reqServices = await _context.RequestService.Where(req => req.CatcherId == null).ToListAsync();
+
+        var allRequests = await _context.RequestService.Where(req => req.CatcherId == null).Select(x => RequestService.ToServiceDto(
+            x,
+            null,
+            _context.ScannedImage.Where(si => si.ScannedImageId == x.ScannedImage).FirstOrDefault(),
+            _context.Serpent.Where(s => s.SerpentId == x.SelectedSerpent).FirstOrDefault()
+            // pass  serpent too
+        )).ToListAsync();
+        return allRequests;
+    }
 
     // view relevant request by clicking the card with user details
     [HttpGet("ViewRequest/{reqid}")]
