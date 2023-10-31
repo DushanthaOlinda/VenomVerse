@@ -154,6 +154,27 @@ public class UserDetailController : ControllerBase
     }
 
 
+    // details of users with posts
+    [HttpGet("ViewUsersWithPost")]
+    public async Task<ActionResult> ViewUsersWithPost(long reqid)
+    {
+        if ( _context.UserDetail == null ) return NotFound();
+        if ( _context.CommunityPost == null ) return NotFound();
+
+        var user_details = await _context.UserDetail.ToListAsync();
+        var user_posts = await _context.CommunityPost.ToListAsync();
+
+        return Ok
+        (
+            new
+            {
+                userDetails = user_details,
+                userPosts = user_posts
+            }
+        );
+    }
+
+
     // request to become zoologist
     // [HttpPost("becomeZoologist")]
     // public async Task<ActionResult<CatcherReqDto>> BecomeZoologist(RequestToBeZoologistEvidence zoologistEvidence)
