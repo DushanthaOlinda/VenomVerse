@@ -325,7 +325,7 @@ namespace VenomVerseApi.Controllers
 
         // approve community post
         [HttpPut("ApproveCommunityPost/{id}")]
-        public async Task<IActionResult> ApproveCommunityPost(long id, long comAdminId)
+        public async Task<IActionResult> ApproveCommunityPost(long id, long comAdminId, bool action)
         {
             if (_context.CommunityPost == null)
             {
@@ -339,9 +339,18 @@ namespace VenomVerseApi.Controllers
                 return NotFound();
             }
 
+            if ( action==true )
+            {
+                post.PostStatus = (int)PostStatus.Posted;
+            }
+            else
+            {
+                post.PostStatus = (int)PostStatus.Rejected;
+            }
             post.ApprovedAdmin = comAdminId;
             
             _context.Entry(post).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
             
             return Ok("Post Approved");
         }
