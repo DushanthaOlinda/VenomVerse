@@ -21,7 +21,7 @@ public class CatcherReqDto
         JoinedDate = joinedDate;
         ApprovedFlag = approvedFlag;
         UserFirstName = user.FirstName;
-        UserFirstName = user.LastName;
+        UserLastName = user.LastName;
         UserEmail = user.UserEmail;
         Nic = user.Nic;
         Dob = user.Dob;
