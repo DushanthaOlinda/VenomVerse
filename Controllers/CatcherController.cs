@@ -353,7 +353,7 @@ public class CatcherController : ControllerBase
 
         var reqServices = await _context.RequestService.Where(req => req.CatcherId == uid && req.CompleteFlag==true).ToListAsync();
 
-        var allRequests = await _context.RequestService.Where(rs => rs.CatcherId == uid && rs.CompleteFlag == false).Select(x => RequestService.ToServiceDto(
+        var allRequests = await _context.RequestService.Where(rs => rs.CatcherId == uid && rs.CompleteFlag == true).Select(x => RequestService.ToServiceDto(
             x,
             _context.UserDetail.FirstOrDefault(user => user.UserDetailId == x.ReqUserId),
             _context.ScannedImage.FirstOrDefault(si => si.ScannedImageId == x.ScannedImage) ?? _context.ScannedImage.FirstOrDefault(si => si.ScannedImageId == 1),

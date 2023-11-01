@@ -81,4 +81,224 @@ public class AdminController : ControllerBase
     }
 
 
+    // activate/deactivate user account
+    [HttpPut("ChangeStatusUser/{uid}")]
+    public async Task<IActionResult> ChangeStatusUser(long uid, bool activeStatus)
+    {
+        if ( _context.UserDetail == null )
+        {
+            return NotFound();
+        }
+
+        var updating_user = await _context.UserDetail.FindAsync(uid);
+
+        if ( updating_user==null )
+        {
+            return NotFound();
+        }
+
+        if ( activeStatus == true )
+        {
+            updating_user.AccountStatus = "Active";
+        }
+        else
+        {
+            updating_user.AccountStatus = "Deactive";
+        }
+
+        _context.Entry(updating_user).State = EntityState.Modified;
+        await _context.SaveChangesAsync();
+
+        return Ok("StatusModified");
+    }
+
+
+    // provide/remove catcher privillege
+    [HttpPut("CatcherPrivillege/{uid}")]
+    public async Task<IActionResult> CatcherPrivillege(long uid, bool activeStatus)
+    {
+        if ( _context.UserDetail == null )
+        {
+            return NotFound();
+        }
+
+        if ( _context.Catcher == null )
+        {
+            return NotFound();
+        }
+
+        var updating_user = await _context.UserDetail.FindAsync(uid);
+
+        if ( updating_user==null )
+        {
+            return NotFound();
+        }
+
+        if ( activeStatus == true )
+        {
+            updating_user.CatcherPrivilege = true;
+            _context.Entry(updating_user).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+            // _context.Entry(updating_user).State = EntityState.Modified;
+            // await _context.SaveChangesAsync();
+
+            // check whether catcher exists
+            var existing_catcher = await _context.Catcher.FindAsync(uid);
+
+            // if does not exist enter detils as catcher
+            if ( existing_catcher == null )
+            {
+
+                var catcherEntry = new Catcher
+                {
+                    ReqId = updating_user.UserDetailId,
+                    ReqCatcher = updating_user.UserDetailId,
+                    Availability=true,
+                    ChargingFee=0,
+                    RequestedDateTime=DateTime.Now,
+                    CatcherEvidence=null,
+                    Description=null,
+                    SpecialNote=null,
+                    ApprovedPersonIdOne=null, ApprovedDateOne=null, ApprovedStatusOne=false,
+                    ApprovedPersonIdTwo=null, ApprovedDateTwo=null, ApprovedStatusTwo=false,
+                    ApprovedPersonIdThree=null, ApprovedDateThree=null, ApprovedStatusThree=false,
+                    JoinedDate=DateOnly.FromDateTime(DateTime.Now),
+                    ApprovedFlag=true
+                };
+                _context.Catcher.Add(catcherEntry);
+                await _context.SaveChangesAsync();
+            }
+        }
+        else
+        {
+            updating_user.CatcherPrivilege = false;
+            _context.Entry(updating_user).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+        }
+
+        return Ok("StatusModified");
+    }
+
+
+    // provide/remove zoologist privillege
+    [HttpPut("ZoologistPrivillege/{uid}")]
+    public async Task<IActionResult> ZoologistPrivillege(long uid, bool activeStatus, long sysid)
+    {
+        if ( _context.UserDetail == null )
+        {
+            return NotFound();
+        }
+
+        if ( _context.Zoologist == null )
+        {
+            return NotFound();
+        }
+
+        var updating_user = await _context.UserDetail.FindAsync(uid);
+
+        if ( updating_user==null )
+        {
+            return NotFound();
+        }
+
+        if ( activeStatus == true )
+        {
+            updating_user.ZoologistPrivilege = true;
+            _context.Entry(updating_user).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+            // _context.Entry(updating_user).State = EntityState.Modified;
+            // await _context.SaveChangesAsync();
+
+            // check whether catcher exists
+            var existing_zoologist = await _context.Zoologist.FindAsync(uid);
+
+            // if does not exist enter detils as catcher
+            if ( existing_zoologist == null )
+            {
+
+                var zoologistEntry = new Zoologist
+                {
+                    ZoologistId = updating_user.UserDetailId,
+                    Description = null,
+                    SpecialNote=null,
+                    RequestedDateTime=DateTime.Now,
+                    Status=1,
+                    ApprovedPersonId=sysid,
+                    ApprovedDate=DateOnly.FromDateTime(DateTime.Now),
+                    Certificate="https://firebasestorage.googleapis.com/v0/b/venomverse-ba46f.appspot.com/o/ScannedImages%2F2023-10-31%2014%3A59%3A33.805464Z.png?alt=media&token=282a65c1-66f7-42ad-ab1b-367fd0604265",
+                    DegreeName="Assigned by the Admin Panel",
+                    University="Assigned by the Admin Panel",
+                    GraduatedYear="Assigned by the Admin Panel",
+                    SpecialDetails="Assigned by the Admin Panel"
+                };
+                _context.Zoologist.Add(zoologistEntry);
+                await _context.SaveChangesAsync();
+            }
+        }
+        else
+        {
+            updating_user.ZoologistPrivilege = false;
+            _context.Entry(updating_user).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+        }
+
+        return Ok("StatusModified");
+    }
+
+
+    // provide/remove com admin privillege
+    [HttpPut("ComAdminPrivillege/{uid}")]
+    public async Task<IActionResult> ComAdminPrivillege(long uid, bool activeStatus)
+    {
+        if ( _context.UserDetail == null )
+        {
+            return NotFound();
+        }
+
+        if ( _context.CommunityAdmin == null )
+        {
+            return NotFound();
+        }
+
+        var updating_user = await _context.UserDetail.FindAsync(uid);
+
+        if ( updating_user==null )
+        {
+            return NotFound();
+        }
+
+        if ( activeStatus == true )
+        {
+            updating_user.CommunityAdminPrivilege = true;
+            _context.Entry(updating_user).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+            // _context.Entry(updating_user).State = EntityState.Modified;
+            // await _context.SaveChangesAsync();
+
+            // check whether catcher exists
+            var existing_com_admin = await _context.CommunityAdmin.FindAsync(uid);
+
+            // if does not exist enter detils as catcher
+            if ( existing_com_admin == null )
+            {
+
+                var comAdminEntry = new CommunityAdmin
+                {
+                    CommunityAdminId = updating_user.UserDetailId,
+                    JoinedDate=DateOnly.FromDateTime(DateTime.Now)
+                };
+                _context.CommunityAdmin.Add(comAdminEntry);
+                await _context.SaveChangesAsync();
+            }
+        }
+        else
+        {
+            updating_user.CommunityAdminPrivilege = false;
+            _context.Entry(updating_user).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+        }
+
+        return Ok("StatusModified");
+    }
+
 }
