@@ -21,6 +21,8 @@ public class ServiceDto
 
     public string? ReqUserFirstName { get; set; } = null;
     public string? ReqUserLastName { get; set; } = null;
+    public string? ReqUserContact { get; set; } = null;
+    public string? ReqUserAddress { get; set; } = null;
 
     public string? CatcherFirstName { get; set; } = null;
     public string? CatcherLastName { get; set; } = null;
@@ -53,6 +55,8 @@ public class ServiceDto
         DateTime = DateTime.UtcNow;
         ReqUserFirstName = user.FirstName;
         ReqUserLastName = user.LastName;
+        ReqUserContact = user.ContactNo;
+        ReqUserAddress = user.Address;
         ScanImgUrl = scanImg.ScannedImageMedia;
     }
 

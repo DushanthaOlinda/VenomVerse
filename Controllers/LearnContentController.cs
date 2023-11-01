@@ -48,10 +48,11 @@ namespace VenomVerseApi.Controllers
 
             return book.ToBookDto();
         }
-        
+
+
         // add new book
         [HttpPost("AddBook")]
-        public async Task<ActionResult> AddBook(long zoologistId, CommunityBookDto communityBookDto)
+        public async Task<ActionResult> AddArticle(long zoologistId, CommunityBookDto communityBookDto)
         {
             if (_context.CommunityBook == null)
             {
@@ -109,6 +110,58 @@ namespace VenomVerseApi.Controllers
             }
             
             return CreatedAtAction( "GetBook", new { BookId = newBook.CommunityBookId}, communityBookDto);
+
+        }
+
+
+        // add new article 
+        [HttpPost("AddBook")]
+        public async Task<ActionResult> AddBook(long zoologistId, CommunityArticle communityArticleDto)
+        {
+            if (_context.CommunityArticle == null)
+            {
+                return NoContent();
+            }
+
+            try
+            {
+                var zoologist = await _context.Zoologist.FindAsync(zoologistId);
+                if (zoologist == null)
+                {
+                    throw new ApplicationException("Could not find zoologist With this Id");
+                }
+            }
+            catch (ApplicationException ex)
+            {
+                var errorResponse = new CustomError
+                {
+                    ErrorCode = "500",
+                    ErrorMessage = ex.Message
+                };
+                return StatusCode(500, errorResponse);
+            }
+
+            var newArticle = new CommunityArticle
+            {
+                CommunityArticleId = communityArticleDto.CommunityArticleId,
+                UserId = communityArticleDto.UserId,
+                Category = communityArticleDto.Category,
+                Description = communityArticleDto.Description,
+                Content = communityArticleDto.Content,
+                DateTime = communityArticleDto.DateTime,
+                Media = communityArticleDto.Media,
+                Author = communityArticleDto.Author,
+                ArticleStatus = communityArticleDto.ArticleStatus,
+                ApprovedUserId = communityArticleDto.ApprovedUserId,
+                React = communityArticleDto.React,
+                ArticleCopyright = communityArticleDto.ArticleCopyright
+            };
+
+            _context.CommunityArticle.Add(newArticle);
+                
+            await _context.SaveChangesAsync();
+            
+            return CreatedAtAction( "GetBook", new { BookId = newArticle.CommunityArticleId}, newArticle);
 
         }
 
@@ -440,4 +493,5 @@ namespace VenomVerseApi.Controllers
         
         
     }
+
 }
