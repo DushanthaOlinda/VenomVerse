@@ -5,6 +5,8 @@ namespace VenomVerseApi.Models
 {    
         [Index("ReqUserId", IsUnique = false)]
         [Index("SelectedSerpent", IsUnique = false)]
+        [Index("CatcherId", IsUnique = false)]
+        [Index("ScannedImage", IsUnique = false)]
 
         public class RequestService {
         public required long RequestServiceId { get; set; }
