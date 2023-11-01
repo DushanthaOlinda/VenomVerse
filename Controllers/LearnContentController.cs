@@ -51,7 +51,7 @@ namespace VenomVerseApi.Controllers
 
 
         // add new book
-        [HttpPost("AddBook")]
+        [HttpPost("AddArticle")]
         public async Task<ActionResult> AddArticle(long zoologistId, CommunityBookDto communityBookDto)
         {
             if (_context.CommunityBook == null)
