@@ -56,7 +56,7 @@ public class ServiceDto
         ReqUserFirstName = user.FirstName;
         ReqUserLastName = user.LastName;
         ReqUserContact = user.ContactNo;
-        ReqUserAddress = user.Address~;
+        ReqUserAddress = user.Address;
         ScanImgUrl = scanImg.ScannedImageMedia;
     }
 
