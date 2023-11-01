@@ -1,5 +1,9 @@
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
+
 namespace VenomVerseApi.Models;
+
+[Index("ApprovedUserId", IsUnique = false)]
 
 public class CommunityArticle{
     public required long CommunityArticleId { get; set; }

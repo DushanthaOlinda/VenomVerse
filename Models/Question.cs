@@ -49,7 +49,7 @@ namespace VenomVerseApi.Models
         public static QuestionDto QuestionToQuestionDto( Question question)
         {
                 var questiondet = new QuestionDto( 
-                question.QuizDetailId,
+                question.QuestionId,
                 question.QuizDetailId,
                 question.QuestionString,
                 question.QuestionStringSinhala,
@@ -74,7 +74,7 @@ namespace VenomVerseApi.Models
                 question.Correctness05
             )
             {
-                QuestionId = question.QuizDetailId,
+                QuestionId = question.QuestionId,
                 QuizDetailId = question.QuizDetailId,
                 QuestionString = question.QuestionString,
                 QuestionStringSinhala = question.QuestionStringSinhala,
@@ -104,7 +104,7 @@ namespace VenomVerseApi.Models
         public static Question QuestionDtoToQuestion (QuestionDto questionDto) =>
         new()
         {
-            QuestionId = questionDto.QuizDetailId,
+            QuestionId = questionDto.QuestionId,
             QuizDetailId = questionDto.QuizDetailId,
             QuestionString = questionDto.QuestionString,
             QuestionStringSinhala = questionDto.QuestionStringSinhala,

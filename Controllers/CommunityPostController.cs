@@ -18,8 +18,7 @@ namespace VenomVerseApi.Controllers
 
         // show all posts of a perticular user
 
-        // view all community posts
-        // HIDDEN POSTS MUST BE HIDDEN
+        // view all approved community posts
         [HttpGet]
         public async Task<ActionResult<IEnumerable<PostDto>>> GetCommunityPost()
         {
@@ -28,13 +27,135 @@ namespace VenomVerseApi.Controllers
                 return NotFound();
             }
             // return await _context.CommunityPost.ToListAsync();
-            return await _context.CommunityPost.Select(x => CommunityPost.CreatePostDto(
+            var all_posts = await _context.CommunityPost.Select(x => CommunityPost.CreatePostDto(
                 x,
                 _context.CommunityPostComment.Where(p => p.CommunityPostId == x.CommunityPostId).ToList(),
                 _context.CommunityPostReport.Where(p => p.CommunityPostId == x.CommunityPostId).ToList(),
                 _context.UserDetail.Where(u => u.UserDetailId==x.UserId).FirstOrDefault()
                 )
             ).ToListAsync();
+
+            return all_posts.Where(p => p.PostStatus == (int)PostStatus.Posted).ToList();
+        }
+
+        // view all approved community posts of a selected user
+        [HttpGet("{uid}")]
+        public async Task<ActionResult<IEnumerable<PostDto>>> GetCommunityPostSelectedUser(long userId)
+        {
+            if (_context.CommunityPost == null)
+            {
+                return NotFound();
+            }
+            // return await _context.CommunityPost.ToListAsync();
+            var all_posts = await _context.CommunityPost.Select(x => CommunityPost.CreatePostDto(
+                x,
+                _context.CommunityPostComment.Where(p => p.CommunityPostId == x.CommunityPostId).ToList(),
+                _context.CommunityPostReport.Where(p => p.CommunityPostId == x.CommunityPostId).ToList(),
+                _context.UserDetail.Where(u => u.UserDetailId==x.UserId).FirstOrDefault()
+                )
+            ).ToListAsync();
+
+            return all_posts.Where(p => p.UserId==userId && p.PostStatus == (int)PostStatus.Posted).ToList();
+        }
+
+        // view all pending approval posts
+        [HttpGet("NotApproved")]
+        public async Task<ActionResult<IEnumerable<PostDto>>> GetCommunityPostNotApproved()
+        {
+            if (_context.CommunityPost == null)
+            {
+                return NotFound();
+            }
+            // return await _context.CommunityPost.ToListAsync();
+            var all_posts = await _context.CommunityPost.Select(x => CommunityPost.CreatePostDto(
+                x,
+                _context.CommunityPostComment.Where(p => p.CommunityPostId == x.CommunityPostId).ToList(),
+                _context.CommunityPostReport.Where(p => p.CommunityPostId == x.CommunityPostId).ToList(),
+                _context.UserDetail.Where(u => u.UserDetailId==x.UserId).FirstOrDefault()
+                )
+            ).ToListAsync();
+
+            return all_posts.Where(p => p.PostStatus == (int)PostStatus.PendingApproval).ToList();
+        }
+
+        // view all pending approval posts of a selected user
+        [HttpGet("NotApproved/{uid}")]
+        public async Task<ActionResult<IEnumerable<PostDto>>> GetCommunityPostNotApproved(long userId)
+        {
+            if (_context.CommunityPost == null)
+            {
+                return NotFound();
+            }
+            // return await _context.CommunityPost.ToListAsync();
+            var all_posts = await _context.CommunityPost.Select(x => CommunityPost.CreatePostDto(
+                x,
+                _context.CommunityPostComment.Where(p => p.CommunityPostId == x.CommunityPostId).ToList(),
+                _context.CommunityPostReport.Where(p => p.CommunityPostId == x.CommunityPostId).ToList(),
+                _context.UserDetail.Where(u => u.UserDetailId==x.UserId).FirstOrDefault()
+                )
+            ).ToListAsync();
+
+            return all_posts.Where(p => p.UserId==userId && p.PostStatus == (int)PostStatus.PendingApproval).ToList();
+        }
+
+        // view all hidden posts of a selected user
+        [HttpGet("Hidden/{uid}")]
+        public async Task<ActionResult<IEnumerable<PostDto>>> GetCommunityPostHidden(long userId)
+        {
+            if (_context.CommunityPost == null)
+            {
+                return NotFound();
+            }
+            // return await _context.CommunityPost.ToListAsync();
+            var all_posts = await _context.CommunityPost.Select(x => CommunityPost.CreatePostDto(
+                x,
+                _context.CommunityPostComment.Where(p => p.CommunityPostId == x.CommunityPostId).ToList(),
+                _context.CommunityPostReport.Where(p => p.CommunityPostId == x.CommunityPostId).ToList(),
+                _context.UserDetail.Where(u => u.UserDetailId==x.UserId).FirstOrDefault()
+                )
+            ).ToListAsync();
+
+            return all_posts.Where(p => p.UserId==userId && p.PostStatus == (int)PostStatus.Hidden).ToList();
+        }
+
+        // view all reported approval posts
+        [HttpGet("Reported")]
+        public async Task<ActionResult<IEnumerable<PostDto>>> GetCommunityPostReported()
+        {
+            if (_context.CommunityPost == null)
+            {
+                return NotFound();
+            }
+            // return await _context.CommunityPost.ToListAsync();
+            var all_posts = await _context.CommunityPost.Select(x => CommunityPost.CreatePostDto(
+                x,
+                _context.CommunityPostComment.Where(p => p.CommunityPostId == x.CommunityPostId).ToList(),
+                _context.CommunityPostReport.Where(p => p.CommunityPostId == x.CommunityPostId).ToList(),
+                _context.UserDetail.Where(u => u.UserDetailId==x.UserId).FirstOrDefault()
+                )
+            ).ToListAsync();
+
+            return all_posts.Where(p => p.PostStatus == (int)PostStatus.Reported).ToList();
+        }
+
+        // view all reported approval posts of a selected user
+        [HttpGet("Reported/{uid}")]
+        public async Task<ActionResult<IEnumerable<PostDto>>> GetCommunityPostReportedOfSelecteduser( long userId)
+        {
+            if (_context.CommunityPost == null)
+            {
+                return NotFound();
+            }
+            // return await _context.CommunityPost.ToListAsync();
+            var all_posts = await _context.CommunityPost.Select(x => CommunityPost.CreatePostDto(
+                x,
+                _context.CommunityPostComment.Where(p => p.CommunityPostId == x.CommunityPostId).ToList(),
+                _context.CommunityPostReport.Where(p => p.CommunityPostId == x.CommunityPostId).ToList(),
+                _context.UserDetail.Where(u => u.UserDetailId==x.UserId).FirstOrDefault()
+                )
+            ).ToListAsync();
+
+            return all_posts.Where(p => p.UserId==userId && p.PostStatus == (int)PostStatus.Reported).ToList();
         }
 
         // private async Task<ActionResult> getUserById(long id){
@@ -181,6 +302,60 @@ namespace VenomVerseApi.Controllers
         }
 
 
+        // user individual posts
+        [HttpGet("IndividualPost/{uid}")]
+        public async Task<ActionResult<IEnumerable<PostDto>>> GetIndividualCommunityPost(long uid)
+        {
+            if (_context.CommunityPost == null)
+            {
+                return NotFound();
+            }
+            // return await _context.CommunityPost.ToListAsync();
+            var posts = await _context.CommunityPost.Select(x => CommunityPost.CreatePostDto(
+                x,
+                _context.CommunityPostComment.Where(p => p.CommunityPostId == x.CommunityPostId).ToList(),
+                _context.CommunityPostReport.Where(p => p.CommunityPostId == x.CommunityPostId).ToList(),
+                _context.UserDetail.Where(u => u.UserDetailId==x.UserId).FirstOrDefault()
+                )
+            ).ToListAsync();
+
+            return posts.Where(p => p.UserId == uid).ToList();
+        }
+
+
+        // approve community post
+        [HttpPut("ApproveCommunityPost/{id}")]
+        public async Task<IActionResult> ApproveCommunityPost(long id, long comAdminId, bool action)
+        {
+            if (_context.CommunityPost == null)
+            {
+                return NotFound();
+            }
+            
+            var post = await _context.CommunityPost.FindAsync(id);
+            
+            if (post == null)
+            {
+                return NotFound();
+            }
+
+            if ( action==true )
+            {
+                post.PostStatus = (int)PostStatus.Posted;
+            }
+            else
+            {
+                post.PostStatus = (int)PostStatus.Rejected;
+            }
+            post.ApprovedAdmin = comAdminId;
+            
+            _context.Entry(post).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+            
+            return Ok("Post Approved");
+        }
+
+
         // delete a comment from community post
 
 
@@ -191,9 +366,76 @@ namespace VenomVerseApi.Controllers
 
 
         // like/unlike a post
+        [HttpPut("LikeUnlikePost/{id}")]
+        public async Task<IActionResult> LikeUnlikePost(long postId, long userId, bool like_status)
+        {
+            if (_context.CommunityPost == null)
+            {
+                return NotFound();
+            }
+            
+            var post = await _context.CommunityPost.FindAsync(postId);
+            
+            if (post == null)
+            {
+                return NotFound();
+            }
+
+            if ( like_status==true )
+            {
+                if ( !post.React.ToList().Contains(userId) ){
+                    post.React.ToList().Add(userId);
+                }
+            }
+            else
+            {
+                if ( post.React.ToList().Contains(userId) ){
+                    post.React.ToList().Remove(userId);
+                }
+            }
+
+            _context.Entry(post).State = EntityState.Modified;
+            
+            return Ok("Post Approved");
+        }
 
 
-        // hide a post
+        // hide/unhide a post
+        [HttpPut("HideUnhidePost/{id}")]
+        public async Task<IActionResult> HideUnhidePost(long postId, long userId, bool hideStatus)
+        {
+            if (_context.CommunityPost == null)
+            {
+                return NotFound();
+            }
+            
+            var post = await _context.CommunityPost.FindAsync(postId);
+            
+            if (post == null)
+            {
+                return NotFound();
+            }
+
+            if ( post.UserId == userId )
+            {
+                if ( hideStatus == true )
+                {
+                    post.PostStatus = (int)PostStatus.Hidden;
+                }
+                else
+                {
+                    post.PostStatus = (int)PostStatus.Posted;
+                }
+
+                _context.Entry(post).State = EntityState.Modified;
+                return Ok("Post Approved");
+            }
+            else
+            {
+                return BadRequest();
+            }
+
+        }
 
 
         

@@ -19,52 +19,52 @@ public class CommunityAdminController : ControllerBase
     
     // view zoology requests
 
-    [HttpGet("ToBeZoologistRequests")]
-    public async Task<ActionResult<IEnumerable<ZoologistRequestsDto>>> GetZoologistRequests()
-    {
-        if (_context.Zoologist == null)
-        {
-            return NoContent();
-        }
+    // [HttpGet("ToBeZoologistRequests")]
+    // public async Task<ActionResult<IEnumerable<ZoologistRequestsDto>>> GetZoologistRequests()
+    // {
+    //     if (_context.Zoologist == null)
+    //     {
+    //         return NoContent();
+    //     }
 
-        var pendingList = await _context.Zoologist.Where(zoologist => zoologist.Status == 1).ToListAsync();
+    //     var pendingList = await _context.Zoologist.Where(zoologist => zoologist.Status == 1).ToListAsync();
 
-        var results = new List<ZoologistRequestsDto>();
+    //     var results = new List<ZoologistRequestsDto>();
 
-        foreach (var zoologist in pendingList)
-        {
-            try
-            {
-                var evidence = await _context.RequestToBeZoologistEvidence
-                    .FirstOrDefaultAsync(zoologistEvidence => zoologistEvidence.ZoologistId == zoologist.ZoologistId);
+    //     foreach (var zoologist in pendingList)
+    //     {
+    //         try
+    //         {
+    //             var evidence = await _context.RequestToBeZoologistEvidence
+    //                 .FirstOrDefaultAsync(zoologistEvidence => zoologistEvidence.ZoologistId == zoologist.ZoologistId);
 
-                var userDetail = await _context.UserDetail.FindAsync(zoologist.ZoologistId);
+    //             var userDetail = await _context.UserDetail.FindAsync(zoologist.ZoologistId);
 
-                if (evidence == null)
-                {
-                    throw new ApplicationException("No evidence Found");
-                }
+    //             if (evidence == null)
+    //             {
+    //                 throw new ApplicationException("No evidence Found");
+    //             }
 
-                if (userDetail == null)
-                {
-                    throw new ApplicationException("No relevant user Account found");
-                }
+    //             if (userDetail == null)
+    //             {
+    //                 throw new ApplicationException("No relevant user Account found");
+    //             }
 
-                results.Add(Zoologist.ToZoologistRequestsDto(zoologist, userDetail, evidence));
-            }
-            catch (ApplicationException ex)
-            {
-                var errorResponse = new CustomError
-                {
-                    ErrorCode = "500",
-                    ErrorMessage = ex.Message
-                };
-                return StatusCode(500, errorResponse);
-            }
-        }
+    //             results.Add(Zoologist.ToZoologistRequestsDto(zoologist, userDetail, evidence));
+    //         }
+    //         catch (ApplicationException ex)
+    //         {
+    //             var errorResponse = new CustomError
+    //             {
+    //                 ErrorCode = "500",
+    //                 ErrorMessage = ex.Message
+    //             };
+    //             return StatusCode(500, errorResponse);
+    //         }
+    //     }
 
-        return results;
-    }
+    //     return results;
+    // }
     
 
     // approve or decline zoology requests

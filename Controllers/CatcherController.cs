@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using VenomVerseApi.DTO;
+using VenomVerseApi.Hubs;
 using VenomVerseApi.Models;
 
 namespace VenomVerseApi.Controllers;
@@ -11,9 +13,12 @@ namespace VenomVerseApi.Controllers;
 public class CatcherController : ControllerBase
 {
     private readonly VenomVerseContext _context;
-    public CatcherController(VenomVerseContext context)
+    private readonly IHubContext<RequestHub> _hubContext;
+
+    public CatcherController(VenomVerseContext context, IHubContext<RequestHub> hubContext)
     {
         _context = context;
+        _hubContext = hubContext;
     }
     
     // change availability 
@@ -100,7 +105,7 @@ public class CatcherController : ControllerBase
     }
 
 
-    // view catcher requests
+    // view to be catcher requests
     [HttpGet("ViewRequestsToBecomeCatcher")]
     public async Task<ActionResult<List<CatcherReqDto>>> GetAllCatcherRequests()
     {
@@ -137,6 +142,29 @@ public class CatcherController : ControllerBase
         var user = await _context.UserDetail.FindAsync(catcherReq.ReqCatcher);
 
         return Catcher.ToCatcherReqDto(catcherReq, user);
+    }
+
+
+    // details of a single to be catcher request with quiz
+    [HttpGet("ViewToBecatcherRequestWithPost/{reqid}")]
+    public async Task<ActionResult> GetToBeCatcherRequestDetailsWithPost(long reqid)
+    {
+        if ( _context.Catcher == null ) return NotFound();
+
+        var catcherReq = await _context.Catcher.FindAsync(reqid);
+        if ( catcherReq==null ) return NoContent();
+
+        var user = await _context.UserDetail.FindAsync(catcherReq.ReqCatcher);
+        var quiz = await _context.QuizAttempt.Where(q => q.UserId == catcherReq.ReqCatcher).ToListAsync();
+
+        return Ok
+        (
+            new
+            {
+                catcherDetails = Catcher.ToCatcherReqDto(catcherReq, user),
+                quizDetails = quiz
+            }
+        );
     }
     
 
@@ -271,17 +299,35 @@ public class CatcherController : ControllerBase
     {
         if ( _context.RequestService == null ) return NotFound();
 
-        var reqServices = _context.RequestService.Where(req => req.CatcherId == uid && req.CompleteFlag==false).ToListAsync();
+        var reqServices = await _context.RequestService.Where(req => req.CatcherId == uid && req.CompleteFlag==false).ToListAsync();
 
         var allRequests = await _context.RequestService.Where(rs => rs.CatcherId == uid && rs.CompleteFlag == false).Select(x => RequestService.ToServiceDto(
             x,
             _context.UserDetail.Where(user => user.UserDetailId == x.ReqUserId).FirstOrDefault(),
-            _context.ScannedImage.Where(si => si.ScannedImageId == x.ScannedImage).FirstOrDefault(),
+            _context.ScannedImage.Where(si => si.ScannedImageId == x.ScannedImage).FirstOrDefault() ?? _context.ScannedImage.Where(si => si.ScannedImageId == 1).FirstOrDefault(),
             _context.Serpent.Where(s => s.SerpentId == x.SelectedSerpent).FirstOrDefault()
             // pass  serpent too
         )).ToListAsync();
         return allRequests;
     } 
+
+    // view all service requests which did not have assigned a catcher
+    [HttpGet("AllNotAssignedRequests")]
+    public async Task<ActionResult<IEnumerable<ServiceDto>>> AllNotAssignedRequests()
+    {
+        if ( _context.RequestService == null ) return NotFound();
+
+        var reqServices = await _context.RequestService.Where(req => req.CatcherId == null).ToListAsync();
+
+        var allRequests = await _context.RequestService.Where(req => req.CatcherId == null).Select(x => RequestService.ToServiceDto(
+            x,
+            null,
+            _context.ScannedImage.Where(si => si.ScannedImageId == x.ScannedImage).FirstOrDefault(),
+            _context.Serpent.Where(s => s.SerpentId == x.SelectedSerpent).FirstOrDefault()
+            // pass  serpent too
+        )).ToListAsync();
+        return allRequests;
+    }
 
     // view relevant request by clicking the card with user details
     [HttpGet("ViewRequest/{reqid}")]
@@ -292,7 +338,7 @@ public class CatcherController : ControllerBase
         var requestDetails = await _context.RequestService.FindAsync(reqid);
         if ( requestDetails==null ) return NoContent();
         var user = await _context.UserDetail.FindAsync(requestDetails.ReqUserId);
-        var scannedImg = await _context.ScannedImage.FindAsync(requestDetails.ScannedImage);
+        var scannedImg = await _context.ScannedImage.FindAsync(requestDetails.ScannedImage) ?? await _context.ScannedImage.FindAsync(Convert.ToInt64(1));
         var serpent = await _context.Serpent.FindAsync(requestDetails.SelectedSerpent);
 
         return RequestService.ToServiceDto(requestDetails, user, scannedImg, serpent);
@@ -305,13 +351,13 @@ public class CatcherController : ControllerBase
     {
         if ( _context.RequestService == null ) return NotFound();
 
-        var reqServices = _context.RequestService.Where(req => req.CatcherId == uid && req.CompleteFlag==true).ToListAsync();
+        var reqServices = await _context.RequestService.Where(req => req.CatcherId == uid && req.CompleteFlag==true).ToListAsync();
 
-        var allRequests = await _context.RequestService.Where(rs => rs.CatcherId == uid && rs.CompleteFlag == false).Select(x => RequestService.ToServiceDto(
+        var allRequests = await _context.RequestService.Where(rs => rs.CatcherId == uid && rs.CompleteFlag == true).Select(x => RequestService.ToServiceDto(
             x,
-            _context.UserDetail.Where(user => user.UserDetailId == x.ReqUserId).FirstOrDefault(),
-            _context.ScannedImage.Where(si => si.ScannedImageId == x.ScannedImage).FirstOrDefault(),
-            _context.Serpent.Where(s => s.SerpentId == x.SelectedSerpent).FirstOrDefault()
+            _context.UserDetail.FirstOrDefault(user => user.UserDetailId == x.ReqUserId),
+            _context.ScannedImage.FirstOrDefault(si => si.ScannedImageId == x.ScannedImage) ?? _context.ScannedImage.FirstOrDefault(si => si.ScannedImageId == 1),
+            _context.Serpent.FirstOrDefault(s => s.SerpentId == x.SelectedSerpent)
             // pass  serpent too
         )).ToListAsync();
         return allRequests;
@@ -435,6 +481,62 @@ public class CatcherController : ControllerBase
         }
         return NoContent();
     }
+
+
+    // get all approved catchers for admin reports
+    [HttpGet("GetAllApprovedCatchers")]
+    public async Task<ActionResult<List<CatcherReqDto>>> GetAllApprovedCatchers()
+    {
+        //pass user account
+        if (_context.Catcher == null)
+        {
+            return NotFound();
+        }
+        
+        var pendingCatcherList = await _context.Catcher.Where(catcher_req => catcher_req.ApprovedFlag == true).ToListAsync();
+        if (pendingCatcherList != null)
+        {
+            return pendingCatcherList.Select(x =>
+            {
+                var userDetails = _context.UserDetail.Find(x.ReqCatcher);
+                return Catcher.ToCatcherReqDto(x,userDetails);
+            }).ToList();
+        }
+        else
+        {
+            return NotFound();
+        }
+    }
+    
+    // placing catcher request and their control done here
+    
+    
+    [HttpPost("requestCatcher")]
+    public async Task<IActionResult> RequestCatcher(string reqId)
+    {
+        // TODO: save catcher req
+        var image = reqId;
+        // Code to save the request in the database...
+
+        await _hubContext.Clients.All.SendAsync("ReceiveOrder", image);
+    
+        return Ok();
+    }
+
+    [HttpPut("acceptRequest/{id}")]
+    public async Task<IActionResult> AcceptRequest(string id)
+    {
+        // Code to update the order in the database...
+        
+        await _hubContext.Clients.User(id).SendAsync("OrderAccepted", id);
+
+        await _hubContext.Clients.All.SendAsync("SomeOneAccepted", id);
+    
+        return Ok();
+    }
+    
+    
+    // ================================================================= //
     
 
     
