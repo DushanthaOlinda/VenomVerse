@@ -4,8 +4,9 @@ using VenomVerseApi.DTO;
 namespace VenomVerseApi.Models
 {    public class Catcher {
 
-        [Key]public required long ReqId { get; set; } 
-        public required long ReqCatcher { get; set; } 
+        public long ReqId { get; set; } 
+        [Key]
+        public required long ReqCatcher { get; set; }   //76576567567
         
         // public required long CatcherId { get; set; }
 
@@ -41,20 +42,20 @@ namespace VenomVerseApi.Models
                 // var userDetails = await _context.UserDetail.FindAsync(catcher.CatcherId);
                 // var fullName = userDetail!.FirstName + ' ' + userDetail.LastName;
                 var newReq = new CatcherReqDto(
-                catcher.ReqId,
-                catcher.ReqCatcher,
-                catcher.CatcherEvidence, 
-                catcher.Description, 
-                catcher.SpecialNote, 
-                catcher.ApprovedPersonIdOne, 
-                catcher.ApprovedDateOne, 
-                catcher.ApprovedPersonIdTwo, 
-                catcher.ApprovedDateTwo, 
-                catcher.ApprovedPersonIdThree, 
-                catcher.ApprovedDateThree, 
-                catcher.JoinedDate,
-                catcher.ApprovedFlag,
-                userDetail
+                        catcher.ReqId,
+                        catcher.ReqCatcher,
+                        catcher.CatcherEvidence, 
+                        catcher.Description, 
+                        catcher.SpecialNote, 
+                        catcher.ApprovedPersonIdOne, 
+                        catcher.ApprovedDateOne, 
+                        catcher.ApprovedPersonIdTwo, 
+                        catcher.ApprovedDateTwo, 
+                        catcher.ApprovedPersonIdThree, 
+                        catcher.ApprovedDateThree, 
+                        catcher.JoinedDate,
+                        catcher.ApprovedFlag,
+                        userDetail
                 );
                 return newReq;
         }

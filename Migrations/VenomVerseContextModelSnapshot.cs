@@ -244,11 +244,8 @@ namespace VenomVerseApi.Migrations
 
             modelBuilder.Entity("VenomVerseApi.Models.Catcher", b =>
                 {
-                    b.Property<long>("ReqId")
-                        .ValueGeneratedOnAdd()
+                    b.Property<long>("ReqCatcher")
                         .HasColumnType("bigint");
-
-                    NpgsqlPropertyBuilderExtensions.UseSerialColumn(b.Property<long>("ReqId"));
 
                     b.Property<DateOnly?>("ApprovedDateOne")
                         .HasColumnType("date");
@@ -296,7 +293,7 @@ namespace VenomVerseApi.Migrations
                     b.Property<DateOnly?>("JoinedDate")
                         .HasColumnType("date");
 
-                    b.Property<long>("ReqCatcher")
+                    b.Property<long>("ReqId")
                         .HasColumnType("bigint");
 
                     b.Property<DateTime>("RequestedDateTime")
@@ -305,16 +302,13 @@ namespace VenomVerseApi.Migrations
                     b.Property<string>("SpecialNote")
                         .HasColumnType("text");
 
-                    b.HasKey("ReqId");
+                    b.HasKey("ReqCatcher");
 
                     b.HasIndex("ApprovedPersonIdOne");
 
                     b.HasIndex("ApprovedPersonIdThree");
 
                     b.HasIndex("ApprovedPersonIdTwo");
-
-                    b.HasIndex("ReqCatcher")
-                        .IsUnique();
 
                     b.ToTable("Catcher");
                 });
@@ -412,8 +406,7 @@ namespace VenomVerseApi.Migrations
 
                     b.HasKey("CommunityArticleId");
 
-                    b.HasIndex("ApprovedUserId")
-                        .IsUnique();
+                    b.HasIndex("ApprovedUserId");
 
                     b.HasIndex("UserId")
                         .IsUnique();
@@ -991,17 +984,13 @@ namespace VenomVerseApi.Migrations
 
                     b.HasKey("RequestServiceId");
 
-                    b.HasIndex("CatcherId")
-                        .IsUnique();
+                    b.HasIndex("CatcherId");
 
-                    b.HasIndex("ReqUserId")
-                        .IsUnique();
+                    b.HasIndex("ReqUserId");
 
-                    b.HasIndex("ScannedImage")
-                        .IsUnique();
+                    b.HasIndex("ScannedImage");
 
-                    b.HasIndex("SelectedSerpent")
-                        .IsUnique();
+                    b.HasIndex("SelectedSerpent");
 
                     b.ToTable("RequestService");
                 });
@@ -1362,6 +1351,10 @@ namespace VenomVerseApi.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<string>("ProfileImage")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<long[]>("PurchasedBook")
                         .HasColumnType("bigint[]");
 
@@ -1413,17 +1406,36 @@ namespace VenomVerseApi.Migrations
                     b.Property<long?>("ApprovedPersonId")
                         .HasColumnType("bigint");
 
+                    b.Property<string>("Certificate")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("DegreeName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("Description")
+                        .HasColumnType("text");
+
+                    b.Property<string>("GraduatedYear")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<DateTime>("RequestedDateTime")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("SpecialDetails")
+                        .HasColumnType("text");
 
                     b.Property<string>("SpecialNote")
                         .HasColumnType("text");
 
                     b.Property<long>("Status")
                         .HasColumnType("bigint");
+
+                    b.Property<string>("University")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.HasKey("ZoologistId");
 

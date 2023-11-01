@@ -76,7 +76,7 @@ namespace VenomVerseApi.Models
     public static QuizAttempt QuizAttemptDtoToQuizAttempt (QuizAttemptDto quizAttemptDto) =>
         new()
         {
-            QuizAttemptId = quizAttemptDto.QuizDetailId,
+            QuizAttemptId = quizAttemptDto.QuizAttemptId,
             UserId = quizAttemptDto.UserId,
             QuizDetailId = quizAttemptDto.QuizDetailId,
             SubmittedTime = quizAttemptDto.SubmittedTime,

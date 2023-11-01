@@ -1,3 +1,4 @@
+using Newtonsoft.Json;
 using VenomVerseApi.Models;
 
 namespace VenomVerseApi.DTO;
@@ -20,36 +21,43 @@ public class ServiceDto
 
     public string? ReqUserFirstName { get; set; } = null;
     public string? ReqUserLastName { get; set; } = null;
+    public string? ReqUserContact { get; set; } = null;
+    public string? ReqUserAddress { get; set; } = null;
 
     public string? CatcherFirstName { get; set; } = null;
     public string? CatcherLastName { get; set; } = null;
 
     public string? ScanImgUrl { get; set; } = null;
     
-    public Serpent? SerpentDetails { get; set; } = null;
-
     
     //when a service request is created
+
+    public ServiceDto()
+    {
+        DateTime = DateTime.UtcNow;
+    }
     public ServiceDto(long requestServiceId, long reqUserId, string? scannedImageLink, long? selectedSerpent)
     {
         RequestServiceId = requestServiceId;
         ReqUserId = reqUserId;
         ScannedImageLink = scannedImageLink;
         SelectedSerpent = selectedSerpent;
-        DateTime = new DateTime();
+        DateTime = DateTime.UtcNow;
     }
 
-    public ServiceDto(long requestServiceId, long reqUserId, string? scannedImageLink, long? selectedSerpent, UserDetail user, ScannedImage scanImg, Serpent serpent)
+    [JsonConstructor]
+    public ServiceDto(long requestServiceId, long reqUserId, string? scannedImageLink, long? selectedSerpent, UserDetail user, ScannedImage scanImg)
     {
         RequestServiceId = requestServiceId;
         ReqUserId = reqUserId;
         ScannedImageLink = scannedImageLink;
         SelectedSerpent = selectedSerpent;
-        DateTime = new DateTime();
+        DateTime = DateTime.UtcNow;
         ReqUserFirstName = user.FirstName;
         ReqUserLastName = user.LastName;
+        ReqUserContact = user.ContactNo;
+        ReqUserAddress = user.Address;
         ScanImgUrl = scanImg.ScannedImageMedia;
-        SerpentDetails = serpent;       // Serpent DTO can be retrived
     }
 
 }

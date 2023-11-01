@@ -18,4 +18,14 @@ public class UserDto
     //public required string? LiveLocation { get; set; } = null;   
     public string? WorkingStatus { get; set; }
     public string? AccountStatus { get; set; }
+    
+    public bool ExpertPrivilege { get; set; } = false;
+    
+    public bool ZoologistPrivilege { get; set; } = false;
+    
+    public bool CatcherPrivilege { get; set; } = false;
+    
+    public bool CommunityAdminPrivilege { get; set; } = false;  
+    
+    public string ProfileImage { get; set; } = "https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/Antu_im-user-online.svg/512px-Antu_im-user-online.svg.png";
 }

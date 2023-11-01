@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using VenomVerseApi;
+using VenomVerseApi.Hubs;
 using VenomVerseApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,7 +12,7 @@ var myAllowedOrigins ="_myAllowedOrigins";
 
 builder.Services.AddControllers();
 
-
+builder.Services.AddSignalR();
 builder.Services.AddDbContext<VenomVerseContext>(
     o => o.UseNpgsql(builder.Configuration.GetConnectionString("Ef_Postgres_Db"))
     );
@@ -27,11 +28,13 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).
 builder.Services.AddCors(options =>
 {
     options.AddPolicy(name: myAllowedOrigins,
-        builder =>
+        builderr =>
         {
-            builder.WithOrigins("http://localhost:5173",
+            builderr.WithOrigins("http://localhost:5173",
                                 "https://localhost:5173",
-                                "http://localhost:3000")
+                                "http://localhost:3000",
+                                "https://venom-verse-dashboard-pvf4kryeu-dushantha-olindas-projects.vercel.app/dashboard"
+                                )
                                 .AllowAnyHeader()
                                 .AllowAnyMethod();
         });
@@ -68,6 +71,8 @@ app.UseSwaggerUI();
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.MapHub<RequestHub>("/requestHub");
 
 app.MapControllers();
 app.UseCors(myAllowedOrigins);

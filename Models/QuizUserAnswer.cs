@@ -66,19 +66,19 @@ namespace VenomVerseApi.Models
         new()
         {
             QuizUserAnswerId = quizuserAnsDto.QuizUserAnswerId,
-                QuizAttemptId = quizuserAnsDto.QuizAttemptId,
-                // SubmittedTime = quizuserAnsDto.SubmittedTime,
-                QuestionId = quizuserAnsDto.QuestionId,
-                Select01 = quizuserAnsDto.Select01!,
-                Correctness01 = quizuserAnsDto.Correctness01,
-                Select02 = quizuserAnsDto.Select02,
-                Correctness02 = quizuserAnsDto.Correctness02,
-                Select03 = quizuserAnsDto.Select03,
-                Correctness03 = quizuserAnsDto.Correctness03,
-                Select04 = quizuserAnsDto.Select04,
-                Correctness04 = quizuserAnsDto.Correctness04,
-                Select05 = quizuserAnsDto.Select05,
-                Correctness05 = quizuserAnsDto.Correctness05
+            QuizAttemptId = quizuserAnsDto.QuizAttemptId,
+            // SubmittedTime = quizuserAnsDto.SubmittedTime,
+            QuestionId = quizuserAnsDto.QuestionId,
+            Select01 = quizuserAnsDto.Select01!,
+            Correctness01 = quizuserAnsDto.Correctness01,
+            Select02 = quizuserAnsDto.Select02,
+            Correctness02 = quizuserAnsDto.Correctness02,
+            Select03 = quizuserAnsDto.Select03,
+            Correctness03 = quizuserAnsDto.Correctness03,
+            Select04 = quizuserAnsDto.Select04,
+            Correctness04 = quizuserAnsDto.Correctness04,
+            Select05 = quizuserAnsDto.Select05,
+            Correctness05 = quizuserAnsDto.Correctness05
         };
 
 

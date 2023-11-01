@@ -16,8 +16,7 @@ public class ScanImageController : ControllerBase
         _context = context;
     }
 
-    // view all community posts
-    // HIDDEN POSTS MUST BE HIDDEN
+    // Get all scanned images
     [HttpGet]
     public async Task<ActionResult<List<ScannedImageDto>>> GetAllScannedImages()
     {
@@ -114,9 +113,15 @@ public class ScanImageController : ControllerBase
     {
         var snakeNames = new Dictionary<long, string>
         {
-            { 1, "Python" },
-            { 2, "Cobra" },
-            { 123, "Naja Naja" }
+            { 1, "Cobra"},
+            { 2, "Indian Python"}, 
+            { 3, "Sand Boa" },
+            { 4, "Hump Nosed Viper" },
+            { 5, "Whip Snake" },
+            { 6, "Sri Lankan Krait" },
+            { 7, "Common Krait" },
+            { 8, "Russell's Viper" },
+            { 9, "Saw-scaled Viper" }
             // Add more id-snakeName mappings as needed
         };
 

@@ -1,11 +1,18 @@
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 using VenomVerseApi.DTO;
 namespace VenomVerseApi.Models
-{    public class RequestService {
+{    
+        [Index("ReqUserId", IsUnique = false)]
+        [Index("SelectedSerpent", IsUnique = false)]
+        [Index("CatcherId", IsUnique = false)]
+        [Index("ScannedImage", IsUnique = false)]
+
+        public class RequestService {
         public required long RequestServiceId { get; set; }
         public required long ReqUserId { get; set; }//User->UserId
         public long? CatcherId { get; set; }//Catcher->CatcherId
-        public required DateTime DateTime { get; set; } = DateTime.Now;
+        public DateTime DateTime { get; set; } = DateTime.UtcNow;
         //public string? LiveLocation { get; set; } = null; 
 
         public long? ScannedImage { get; set; } //ScannedImage->ScannedImageId           
@@ -54,17 +61,44 @@ namespace VenomVerseApi.Models
         public static ServiceDto ToServiceDto(RequestService service, UserDetail user, ScannedImage scanImg, Serpent serpent)
         {
                 var serviceReq = new ServiceDto(
-                service.RequestServiceId, 
-                service.ReqUserId,
-                null,
-                service.SelectedSerpent,
-                user,
-                scanImg,
-                serpent
-                );
+                        service.RequestServiceId, 
+                        service.ReqUserId,
+                        null,
+                        service.SelectedSerpent,
+                        user,
+                        scanImg
+                        );
 
                 return serviceReq;    
         }
+
+
+        private RequestService ( long requestServiceId, long reqUserId, long? scannedImage, long? selectedSerpent, long? catcherId )
+        {
+                RequestServiceId = requestServiceId;
+                ReqUserId = reqUserId;
+                ScannedImage = scannedImage;
+                SelectedSerpent = selectedSerpent;
+                CatcherId = catcherId;
+        }
+
+        public static RequestService ToService (ServiceDto serviceDto) =>
+        new(
+                serviceDto.RequestServiceId,
+                serviceDto.ReqUserId,
+                serviceDto.ScannedImageId,
+                serviceDto.SelectedSerpent,
+                serviceDto.CatcherId
+        )
+        {
+                RequestServiceId = serviceDto.RequestServiceId,
+                ReqUserId = serviceDto.ReqUserId,
+                ScannedImage = serviceDto.ScannedImageId,
+                SelectedSerpent = serviceDto.SelectedSerpent,
+                CatcherId = serviceDto.CatcherId
+        };
+
+
     
 
                 // Foreign Key References

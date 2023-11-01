@@ -64,13 +64,14 @@ public class CommunityPost{
     public static CommunityPost PostDtoToPost(PostDto communityPostDto)
         {
             var communityPost = new CommunityPost(
-                communityPostDto.PostId,
-                communityPostDto.UserId,
-                communityPostDto.Category,
-                communityPostDto.Description,
-                communityPostDto.Media,
-                communityPostDto.React,
-                communityPostDto.PostStatus)
+                    communityPostDto.PostId,
+                    communityPostDto.UserId,
+                    communityPostDto.Category,
+                    communityPostDto.Description,
+                    communityPostDto.Media,
+                    communityPostDto.React,
+                    communityPostDto.PostStatus
+                )
             {
                 CommunityPostId = communityPostDto.PostId,
                 UserId = communityPostDto.UserId,

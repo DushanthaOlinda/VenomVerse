@@ -9,7 +9,7 @@ namespace VenomVerseApi.Controllers;
 [Route("[controller]")]
 public class UserDetailController : ControllerBase
 {
-    private readonly VenomVerseContext _context;        // behaves like the variable for the database
+    private readonly VenomVerseContext _context; // behaves like the variable for the database
 
     public UserDetailController(VenomVerseContext context)
     {
@@ -18,7 +18,7 @@ public class UserDetailController : ControllerBase
 
     // GET: UserDetail  => Get details of all users
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<UserDto>>> GetAllUsers()    
+    public async Task<ActionResult<IEnumerable<UserDto>>> GetAllUsers()
     {
         if (_context.UserDetail == null) return NotFound(); // If the table named 'UserDetail' does not exist
         // return await _context.UserDetail.ToListAsync();
@@ -27,7 +27,7 @@ public class UserDetailController : ControllerBase
 
     // GET: UserDetail/{id}  => Get details of a selected user
     [HttpGet("{id}")]
-    public async Task<ActionResult<UserDto>> GetUserDetail(long id)         
+    public async Task<ActionResult<UserDto>> GetUserDetail(long id)
     {
         Console.Out.WriteLine(id);
         if (_context.UserDetail == null) return NotFound();
@@ -48,7 +48,7 @@ public class UserDetailController : ControllerBase
 
         var userDetail = await _context.UserDetail.FindAsync(id);
 
-        
+
         if (userDetail == null)
         {
             return NotFound();
@@ -57,22 +57,17 @@ public class UserDetailController : ControllerBase
         {
             userDetail = UserDtoToUserDetail(userDto, userDetail);
         }
-        
-        _context.Entry(userDetail).State = EntityState.Modified;
-        try 
-        {
-            await _context.SaveChangesAsync();
-        }
-        catch (DbUpdateConcurrencyException)
-        {
-            if (!UserDetailsExists(id))
-            {
-                return NotFound();
-            }
 
-            throw;
+        _context.Entry(userDetail).State = EntityState.Modified;
+        await _context.SaveChangesAsync();
+        if (!UserDetailsExists(id))
+        {
+            return NotFound();
         }
-        return NoContent();
+
+        return CreatedAtAction("GetUserDetail", new { id = userDetail.UserDetailId }, userDetail);
+
+        // return NoContent();
     }
 
     // POST: UserDetail  => Add new user details
@@ -103,11 +98,11 @@ public class UserDetailController : ControllerBase
     }
 
     // Check whether the relevant user exists in the database
-    private bool UserDetailsExists(long id)     
+    private bool UserDetailsExists(long id)
     {
         return (_context.UserDetail?.Any(e => e.UserDetailId == id)).GetValueOrDefault();
     }
-    
+
 
     // view user profiles - including posts, feedbacks, ratings
 
@@ -122,14 +117,14 @@ public class UserDetailController : ControllerBase
 
 
     // request to become catcher
-    
+
     [HttpPost("becameCatcher")]
     public async Task<ActionResult<CatcherReqDto>> BecomeCatcher(CatcherReqDto catcherReqDto)
     {
         if (_context.UserDetail == null) return Problem("Entity set 'VenomVerseContext.UserDetails'  is null.");
         var user = await _context.UserDetail.FindAsync(catcherReqDto.ReqCatcher);
-        
-        if(user == null) return Problem("User Not Found");
+
+        if (user == null) return Problem("User Not Found");
 
         var userDetail = new Catcher
         {
@@ -140,7 +135,7 @@ public class UserDetailController : ControllerBase
             CatcherEvidence = catcherReqDto.CatcherEvidence,
             JoinedDate = null
         };
-        
+
         _context.Catcher.Add(userDetail);
 
         try
@@ -152,73 +147,103 @@ public class UserDetailController : ControllerBase
             Console.WriteLine(e);
             throw;
         }
-        
+
         return Ok("Catcher Request Added");
-        
+
         // return CreatedAtAction("GetToBeCatcherRequestDetails", new { id = userDetail.UserDetailId }, userDetail);
     }
-    
+
+
+    // details of users with posts
+    [HttpGet("ViewUsersWithPost")]
+    public async Task<ActionResult> ViewUsersWithPost(long reqid)
+    {
+        if ( _context.UserDetail == null ) return NotFound();
+        if ( _context.CommunityPost == null ) return NotFound();
+
+        var user_details = await _context.UserDetail.ToListAsync();
+        var user_posts = await _context.CommunityPost.ToListAsync();
+
+        return Ok
+        (
+            new
+            {
+                userDetails = user_details,
+                userPosts = user_posts
+            }
+        );
+    }
 
 
     // request to become zoologist
-    [HttpPost("becomeZoologist")]
-    public async Task<ActionResult<CatcherReqDto>> BecomeZoologist(RequestToBeZoologistEvidence zoologistEvidence)
-    {
-        if (_context.UserDetail == null) return Problem("Entity set 'VenomVerseContext.UserDetails'  is null.");
-        var user = await _context.UserDetail.FindAsync(zoologistEvidence.ZoologistId);
-        
-        if(user == null) return Problem("User Not Found");
+    // [HttpPost("becomeZoologist")]
+    // public async Task<ActionResult<CatcherReqDto>> BecomeZoologist(RequestToBeZoologistEvidence zoologistEvidence)
+    // {
+    //     if (_context.UserDetail == null) return Problem("Entity set 'VenomVerseContext.UserDetails'  is null.");
+    //     var user = await _context.UserDetail.FindAsync(zoologistEvidence.ZoologistId);
 
-        var zoologist = new Zoologist
-        {
-            ZoologistId = zoologistEvidence.ZoologistId,
-            RequestedDateTime = default
-        };
-        
-        _context.Zoologist.Add(zoologist);
+    //     if (user == null) return Problem("User Not Found");
 
-        try
-        {
-            await _context.SaveChangesAsync();
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-            throw;
-        }
+    //     var zoologist = new Zoologist
+    //     {
+    //         ZoologistId = zoologistEvidence.ZoologistId,
+    //         RequestedDateTime = default
+    //     };
 
-        _context.RequestToBeZoologistEvidence.Add(zoologistEvidence);
+    //     _context.Zoologist.Add(zoologist);
 
-        try
-        {
-            await _context.SaveChangesAsync();
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-            throw;
-        }
-        
-        return Ok("Zoologist Request Added");
-        
-        // return CreatedAtAction("GetToBeCatcherRequestDetails", new { id = userDetail.UserDetailId }, userDetail);
-    }
-    
+    //     try
+    //     {
+    //         await _context.SaveChangesAsync();
+    //     }
+    //     catch (Exception e)
+    //     {
+    //         Console.WriteLine(e);
+    //         throw;
+    //     }
+
+    //     _context.RequestToBeZoologistEvidence.Add(zoologistEvidence);
+
+    //     try
+    //     {
+    //         await _context.SaveChangesAsync();
+    //     }
+    //     catch (Exception e)
+    //     {
+    //         Console.WriteLine(e);
+    //         throw;
+    //     }
+
+    //     return Ok("Zoologist Request Added");
+
+    //     // return CreatedAtAction("GetToBeCatcherRequestDetails", new { id = userDetail.UserDetailId }, userDetail);
+    // }
 
 
     // publish articles - check whether zoology privillege or expert privillage
-    
+
 
     // ============================================================================
     // ============================ DTO CONVERSION ================================
     // ============================================================================
 
-    
+
     private static UserDetail UserDtoToUserDetail(UserDto userDto, UserDetail userDetail)
     {
-        userDetail.UserDetailId = (long)userDto.UserId!;  
+        userDetail.UserDetailId = (long)userDto.UserId!;
         // userDetail.FirstName = userDto.FirstName
+        userDetail.UserName = userDto.UserName!;
+        userDetail.LastName = userDto.LastName!;
+        userDetail.UserEmail = userDto.UserEmail!;
+        userDetail.CurrentMarks = userDto.CurrentMarks ?? userDetail.CurrentMarks;
+        userDetail.Nic = userDto.Nic!;
+        userDetail.Dob = userDto.Dob ?? userDetail.Dob;
+        userDetail.District = userDto.District ?? userDetail.District;
+        userDetail.Address = userDto.Address ?? userDetail.Address;
+        userDetail.ContactNo = userDto.ContactNo ?? userDetail.ContactNo;
+        userDetail.WorkingStatus = userDto.WorkingStatus ?? userDetail.WorkingStatus;
+        userDetail.ProfileImage = userDto.ProfileImage;
+        
         return userDetail;
     }
-
 }
