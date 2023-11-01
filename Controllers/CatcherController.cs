@@ -169,7 +169,7 @@ public class CatcherController : ControllerBase
     
 
     // approve or decline catcher requests
-    [HttpGet("RespondRequestsToBecomeCatcher")]
+    [HttpPut("RespondRequestsToBecomeCatcher")]
     public async Task<ActionResult> RespondRequestsToBecomeCatcher(long catcherId, long approvedUser, bool approveFlag)
     // public async Task<ActionResult<List<CatcherReqDto>>> ResponseRequestsToBecomeCatcher(request karapu catcher, approve karana catcher, approve krada ndda kyana eka true or false)
     {

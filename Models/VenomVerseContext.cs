@@ -18,6 +18,7 @@ public class VenomVerseContext : IdentityUserContext<IdentityUser>
 
     // Define Models to connect with the database 
 
+    public DbSet<ApplicationFeedback> ApplicationFeedback { get; set; } = default!;
     public DbSet<Catcher> Catcher { get; set; } = default!;
     public DbSet<CatcherRating> CatcherRating { get; set; } = default!;
     public DbSet<CommunityAdmin> CommunityAdmin { get; set; } = default!;
