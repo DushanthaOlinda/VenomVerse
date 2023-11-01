@@ -356,7 +356,7 @@ public class CatcherController : ControllerBase
         var allRequests = await _context.RequestService.Where(rs => rs.CatcherId == uid && rs.CompleteFlag == false).Select(x => RequestService.ToServiceDto(
             x,
             _context.UserDetail.FirstOrDefault(user => user.UserDetailId == x.ReqUserId),
-            _context.ScannedImage.FirstOrDefault(si => si.ScannedImageId == x.ScannedImage),
+            _context.ScannedImage.FirstOrDefault(si => si.ScannedImageId == x.ScannedImage) ?? _context.ScannedImage.FirstOrDefault(si => si.ScannedImageId == 1),
             _context.Serpent.FirstOrDefault(s => s.SerpentId == x.SelectedSerpent)
             // pass  serpent too
         )).ToListAsync();
