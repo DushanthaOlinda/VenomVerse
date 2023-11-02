@@ -16,7 +16,7 @@ namespace VenomVerseApi.Models
         public ApplicationFeedback() { }
 
         // public int ApplicationFeedbackId { get; set; }
-        [Key] public int UserId { get; set; }
+        [Key] public long UserId { get; set; }
         public string? FirstName { get; set; }
         public string? LastName { get; set; }
         public float Rating { get; set; }

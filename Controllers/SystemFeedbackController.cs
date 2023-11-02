@@ -17,7 +17,7 @@ public class SystemFeedbackController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult> AddRating(int userId, float ratingCount, string ratingFeedback)
+    public async Task<ActionResult> AddRating(long userId, float ratingCount, string ratingFeedback)
     {
         if (_context.ApplicationFeedback == null)
         {
