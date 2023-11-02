@@ -17,23 +17,33 @@ public class SystemFeedbackController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult> AddRating( long userId, float ratingCount, string ratingFeedback )
+    public async Task<ActionResult> AddRating(int userId, float ratingCount, string ratingFeedback)
     {
-        if ( _context.ApplicationFeedback == null )
+        if (_context.ApplicationFeedback == null)
         {
             return NotFound();
         }
+        
         var user = await _context.UserDetail.FindAsync(userId);
-        if ( user == null )
+        if (user == null)
         {
             return NotFound();
         }
 
-        var newFeedback = new ApplicationFeedback( userId, user.FirstName, user.LastName, ratingCount, ratingFeedback );
+        var newFeedback = new ApplicationFeedback
+        {
+            UserId = userId,
+            FirstName = user.FirstName,
+            LastName = user.LastName,
+            Rating = ratingCount,
+            Feedback = ratingFeedback
+        };
+
         _context.ApplicationFeedback.Add(newFeedback);
         await _context.SaveChangesAsync();
         return Ok("Feedback Added Successfully");
     }
+
 
     [HttpGet]
     public async Task<ActionResult<List<ApplicationFeedback>>> GetRating()
