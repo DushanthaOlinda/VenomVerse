@@ -4,13 +4,13 @@ namespace VenomVerseApi.Models
 {
     public class ApplicationFeedback {
 
-        public ApplicationFeedback(long userId, string firstName, string lastName, float ratingCount, string ratingFeedback)
+        public ApplicationFeedback(long userId, string firstName, string lastName, float rating, string feedback)
         {
             UserId = userId;
             FirstName = firstName;
             LastName = lastName;
-            Rating = ratingCount;
-            Feedback = ratingFeedback;
+            Rating = rating;
+            Feedback = feedback;
         }
 
         public long ApplicationFeedbackId { get; set; }
